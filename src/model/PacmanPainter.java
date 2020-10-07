@@ -19,14 +19,15 @@ public class PacmanPainter implements GamePainter {
 	 */
 	protected static final int WIDTH = 100;
 	protected static final int HEIGHT = 100;
-
+	private PacmanGame pacmanGame;
 	/**
 	 * appelle constructeur parent
 	 * 
 	 * @param game
 	 *            le jeutest a afficher
 	 */
-	public PacmanPainter() {
+	public PacmanPainter(PacmanGame pacmanGame) {
+		this.pacmanGame=pacmanGame;
 	}
 
 	/**
@@ -36,7 +37,9 @@ public class PacmanPainter implements GamePainter {
 	public void draw(BufferedImage im) {
 		Graphics2D crayon = (Graphics2D) im.getGraphics();
 		crayon.setColor(Color.blue);
-		crayon.fillOval(0,0,10,10);
+		crayon.fillOval(pacmanGame.getX(),pacmanGame.getY(),10,10);
+		crayon.setColor(Color.GRAY);
+		crayon.fillRect(50,50,20,20);
 	}
 
 	@Override

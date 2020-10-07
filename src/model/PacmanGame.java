@@ -15,7 +15,25 @@ import engine.Game;
  * 
  */
 public class PacmanGame implements Game {
+private int x;
 
+	public int getX() {
+		return x;
+	}
+
+	public void setX(int x) {
+		this.x = x;
+	}
+
+	public int getY() {
+		return y;
+	}
+
+	public void setY(int y) {
+		this.y = y;
+	}
+
+	private int y;
 	/**
 	 * constructeur avec fichier source pour le help
 	 * 
@@ -32,6 +50,8 @@ public class PacmanGame implements Game {
 		} catch (IOException e) {
 			System.out.println("Help not available");
 		}
+		x=0;
+		y=0;
 	}
 
 	/**
@@ -42,6 +62,18 @@ public class PacmanGame implements Game {
 	@Override
 	public void evolve(Cmd commande) {
 		System.out.println("Execute "+commande);
+		if (commande==Cmd.LEFT){
+			x--;
+		}
+		if (commande==Cmd.UP){
+			y--;
+		}
+		if (commande==Cmd.RIGHT){
+			x++;
+		}
+		if (commande==Cmd.DOWN){
+			y++;
+		}
 	}
 
 	/**
