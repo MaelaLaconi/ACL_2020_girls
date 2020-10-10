@@ -61,17 +61,21 @@ private int x;
 	 */
 	@Override
 	public void evolve(Cmd commande) {
-		System.out.println("Execute "+commande);
-		if (commande==Cmd.LEFT){
+		//System.out.println("Execute "+commande);
+		if (commande==Cmd.LEFT && x>=0){
 			x--;
+			System.out.println("Pacman("+x+","+y+")");
 		}
-		if (commande==Cmd.UP){
+		if (commande==Cmd.UP && y>=0){
 			y--;
+			System.out.println("Pacman("+x+","+y+")");
 		}
-		if (commande==Cmd.RIGHT){
+		if (commande==Cmd.RIGHT ){
 			x++;
+			System.out.println("Pacman("+x+","+y+")");
 		}
-		if (commande==Cmd.DOWN){
+		if (commande==Cmd.DOWN ){
+			System.out.println("Pacman("+x+","+y+")");
 			y++;
 		}
 	}
