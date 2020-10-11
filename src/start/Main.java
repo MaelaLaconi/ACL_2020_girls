@@ -16,19 +16,20 @@ public class Main {
 	public static void main(String[] args) throws InterruptedException {
 
 		Scanner sc=new Scanner(System.in);
-
-		System.out.println("Ecrire Command(L/R/U/D/S)");
-		String cmd=sc.next();
-
+		String cmd ;
 
 		// creation du jeu particulier et de son afficheur
 		PacmanGame game = new PacmanGame("helpFilePacman.txt");
+
+
+		/*
+			//PARTIE GARPHIQUE
 		PacmanPainter painter = new PacmanPainter(game);
 		PacmanController controller = new PacmanController();
 
 		// classe qui lance le moteur de jeu generique
 		GameEngineGraphical engine = new GameEngineGraphical(game, painter, controller,cmd);
-
+		*/
 		while (!game.isFinished()){
 			System.out.println("Ecrire Command(L/R/U/D/S)");
 			cmd=sc.next();
