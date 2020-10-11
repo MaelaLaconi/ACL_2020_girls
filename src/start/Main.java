@@ -28,7 +28,29 @@ public class Main {
 
 		// classe qui lance le moteur de jeu generique
 		GameEngineGraphical engine = new GameEngineGraphical(game, painter, controller,cmd);
-		engine.run();
+
+		while (!game.isFinished()){
+			System.out.println("Ecrire Command(L/R/U/D/S)");
+			cmd=sc.next();
+			if (cmd.equals("L")|| cmd.equals("l")){
+				System.out.println("on va a gauche");
+				game.evolve(Cmd.LEFT);
+			}
+			if (cmd.equals("R")|| cmd.equals("r")){
+				System.out.println("on va a droite");
+				game.evolve(Cmd.RIGHT);
+			}
+			if (cmd.equals("U")|| cmd.equals("u")){
+				System.out.println("on va en haut");
+				game.evolve(Cmd.UP);
+			}
+			if (cmd.equals("D")|| cmd.equals("d")){
+				System.out.println("on va en bas");
+				game.evolve(Cmd.DOWN);
+			}
+		}
+
+			//engine.run();
 	}
 
 }

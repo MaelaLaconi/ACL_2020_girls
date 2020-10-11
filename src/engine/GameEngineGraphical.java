@@ -79,4 +79,7 @@ public class GameEngineGraphical {
 		}
 	}
 
+	public void setCommande(String commande) {
+		this.commande = commande;
+	}
 }
