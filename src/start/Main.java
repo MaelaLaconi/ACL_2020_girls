@@ -34,18 +34,24 @@ public class Main {
 			System.out.println("Ecrire Command(L/R/U/D/S)");
 			cmd=sc.next();
 			if (cmd.equals("L")|| cmd.equals("l")){
+				System.out.println("On va a gauche");
 				game.evolve(Cmd.LEFT);
 			}
 			if (cmd.equals("R")|| cmd.equals("r")){
+				System.out.println("On va a droite");
 				game.evolve(Cmd.RIGHT);
+
 			}
 			if (cmd.equals("U")|| cmd.equals("u")){
+				System.out.println("On va en haut");
 				game.evolve(Cmd.UP);
 			}
 			if (cmd.equals("D")|| cmd.equals("d")){
+				System.out.println("On va en bas");
 				game.evolve(Cmd.DOWN);
 			}
 			if (cmd.equals("S")|| cmd.equals("s")){
+				System.out.println("On fait rien");
 				game.evolve(Cmd.STAY);
 			}
 		}
