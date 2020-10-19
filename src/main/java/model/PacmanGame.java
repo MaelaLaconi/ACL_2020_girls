@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import engine.Cmd;
+import engine.DrawingPanel;
 import engine.Game;
 
 /**
@@ -67,19 +68,21 @@ private HashMap<Integer, Integer> collision;
 	 */
 	@Override
 	public void evolve(Cmd commande) {
-		System.out.println("Execute "+commande);
-		if (commande==Cmd.LEFT){
+		if (commande==Cmd.LEFT && x>0) {
 			x--;
 		}
-		if (commande==Cmd.UP){
+		if (commande==Cmd.UP && y>0){
 			y--;
 		}
-		if (commande==Cmd.RIGHT){
+		if (commande==Cmd.RIGHT && x<PacmanPainter.WIDTH){
 			x++;
 		}
-		if (commande==Cmd.DOWN){
+		if (commande==Cmd.DOWN && y<PacmanPainter.HEIGHT ){
 			y++;
 		}
+
+		System.out.println("Pacman("+x+","+y+")");
+
 	}
 
 	/**
@@ -90,5 +93,7 @@ private HashMap<Integer, Integer> collision;
 		// le jeu n'est jamais fini
 		return false;
 	}
+
+
 
 }

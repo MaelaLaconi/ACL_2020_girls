@@ -27,6 +27,7 @@ public class GameEngineGraphical {
 	 * l'interface graphique
 	 */
 	private GraphicalInterface gui;
+	private String commande;
 
 	/**
 	 * construit un moteur
@@ -39,11 +40,12 @@ public class GameEngineGraphical {
 	 *            controlleur a utiliser
 	 *            
 	 */
-	public GameEngineGraphical(Game game, GamePainter gamePainter, GameController gameController) {
+	public GameEngineGraphical(Game game, GamePainter gamePainter, GameController gameController,String commande) {
 		// creation du game
 		this.game = game;
 		this.gamePainter = gamePainter;
 		this.gameController = gameController;
+		this.commande=commande;
 	}
 
 	/**
@@ -57,7 +59,17 @@ public class GameEngineGraphical {
 		// boucle de game
 		while (!this.game.isFinished()) {
 			// demande controle utilisateur
-			Cmd c = this.gameController.getCommand();
+			Cmd c =Cmd.LEFT;
+			if (this.commande.equals("U") || this.commande.equals("u")){
+				c=Cmd.UP;
+			}
+			if (this.commande.equals("R") || this.commande.equals("r") ){
+				c=Cmd.RIGHT;
+			}
+			if (this.commande.equals("D") || this.commande.equals("d") ){
+				c=Cmd.DOWN;
+			}
+
 			// fait evoluer le game
 			this.game.evolve(c);
 			// affiche le game
@@ -67,4 +79,7 @@ public class GameEngineGraphical {
 		}
 	}
 
+	public void setCommande(String commande) {
+		this.commande = commande;
+	}
 }
