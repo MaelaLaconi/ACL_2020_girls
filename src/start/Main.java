@@ -20,7 +20,7 @@ public class Main {
 
 		// creation du jeu particulier et de son afficheur
 		PacmanGame game = new PacmanGame("helpFilePacman.txt");
-
+		boolean currentGame =game.isFinished();
 
 		/*
 			//PARTIE GARPHIQUE
@@ -30,24 +30,28 @@ public class Main {
 		// classe qui lance le moteur de jeu generique
 		GameEngineGraphical engine = new GameEngineGraphical(game, painter, controller,cmd);
 		*/
-		while (!game.isFinished()){
+		while (!currentGame){
 			System.out.println("Ecrire Command(L/R/U/D/S)");
 			cmd=sc.next();
 			if (cmd.equals("L")|| cmd.equals("l")){
-				System.out.println("on va a gauche");
+				System.out.println("On va a gauche");
 				game.evolve(Cmd.LEFT);
 			}
 			if (cmd.equals("R")|| cmd.equals("r")){
-				System.out.println("on va a droite");
+				System.out.println("On va a droite");
 				game.evolve(Cmd.RIGHT);
 			}
 			if (cmd.equals("U")|| cmd.equals("u")){
-				System.out.println("on va en haut");
+				System.out.println("On va en haut");
 				game.evolve(Cmd.UP);
 			}
 			if (cmd.equals("D")|| cmd.equals("d")){
-				System.out.println("on va en bas");
+				System.out.println("On va en bas");
 				game.evolve(Cmd.DOWN);
+			}
+			if (cmd.equals("S")|| cmd.equals("s")){
+				System.out.println("On fait rien");
+				game.evolve(Cmd.STAY);
 			}
 		}
 

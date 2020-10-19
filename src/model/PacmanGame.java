@@ -61,23 +61,21 @@ private int x;
 	 */
 	@Override
 	public void evolve(Cmd commande) {
-		//System.out.println("Execute "+commande);
 		if (commande==Cmd.LEFT && x>0){
 			x--;
-			//System.out.println("Pacman("+x+","+y+")");
 		}
 		if (commande==Cmd.UP && y>0){
 			y--;
-			//System.out.println("Pacman("+x+","+y+")");
+
 		}
 		if (commande==Cmd.RIGHT ){
 			x++;
-			//System.out.println("Pacman("+x+","+y+")");
+
 		}
 		if (commande==Cmd.DOWN ){
 			y++;
-			//System.out.println("Pacman("+x+","+y+")");
 		}
+
 		System.out.println("Pacman("+x+","+y+")");
 
 	}
@@ -90,5 +88,7 @@ private int x;
 		// le jeu n'est jamais fini
 		return false;
 	}
+
+
 
 }
