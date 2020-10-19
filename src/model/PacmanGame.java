@@ -3,6 +3,8 @@ package model;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 import engine.Cmd;
 import engine.Game;
@@ -16,7 +18,7 @@ import engine.Game;
  */
 public class PacmanGame implements Game {
 private int x;
-
+private HashMap<Integer, Integer> collision;
 	public int getX() {
 		return x;
 	}
@@ -39,6 +41,7 @@ private int x;
 	 * 
 	 */
 	public PacmanGame(String source) {
+		collision=new HashMap<Integer, Integer>();
 		BufferedReader helpReader;
 		try {
 			helpReader = new BufferedReader(new FileReader(source));
@@ -50,8 +53,11 @@ private int x;
 		} catch (IOException e) {
 			System.out.println("Help not available");
 		}
-		x=0;
-		y=0;
+		x=5;
+		y=5;
+	}
+	public void ajouterCol(int x, int y){
+		collision.putIfAbsent(x,y);
 	}
 
 	/**
