@@ -5,6 +5,7 @@ import java.io.FileReader;
 import java.io.IOException;
 
 import engine.Cmd;
+import engine.DrawingPanel;
 import engine.Game;
 
 /**
@@ -62,18 +63,25 @@ private int x;
 	@Override
 	public void evolve(Cmd commande) {
 		if (commande==Cmd.LEFT && x>0){
+			System.out.println("On va a gauche");
 			x--;
 		}
 		if (commande==Cmd.UP && y>0){
+			System.out.println("On va en haut");
 			y--;
 
 		}
-		if (commande==Cmd.RIGHT ){
+		if (commande==Cmd.RIGHT && x<PacmanPainter.WIDTH){
+			System.out.println("On va a droite");
 			x++;
 
 		}
-		if (commande==Cmd.DOWN ){
+		if (commande==Cmd.DOWN && y<PacmanPainter.HEIGHT ){
+			System.out.println("On va en bas");
 			y++;
+		}
+		if(commande==Cmd.STAY){
+			System.out.println("On fait rien");
 		}
 
 		System.out.println("Pacman("+x+","+y+")");
