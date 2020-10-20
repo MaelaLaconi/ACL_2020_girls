@@ -4,6 +4,8 @@ Linda Battikh
 Nada Madad
 Maela Laconi
 
+Backlog :
+
 Les fonctionnalités réalisées dans ce sprint0 sont :
 Affichage dans le terminal Ecrire Command(L/R/U/D/S) et attendre que l'utilisateur rentre l'une de ces 5 lettres.
 La lettre 'L' correspond à faire bouger le Pacman à gauche.
