@@ -1,0 +1,79 @@
+package model.etat.monstres;
+
+import model.etat.Labyrinthe;
+
+import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.util.Random;
+
+/**
+ *
+ */
+
+public abstract class Monstre {
+    protected int width;
+    protected int height;
+    protected Point positions;
+    protected int speed;
+    protected BufferedImage bufferedImage;
+    private int step = 1;
+
+    public Monstre(Point point, int width, int height){
+        this.positions = point;
+        this.width = width;
+        this.height = height;
+    }
+
+    /**
+     *
+     * @param labyrinthe
+     * @param wallWidth
+     * @param wallHeight
+     */
+    public void move(Labyrinthe labyrinthe, int wallWidth, int wallHeight){
+        //A droite
+        if(step == 1) {
+            if(!labyrinthe.isWall(positions.x + speed + wallWidth/2, positions.y)){
+                positions.x += speed;
+            }
+            else {
+                Random rand = new Random();
+                step = rand.nextInt(4-1+1) + 1;
+            }
+        }
+        //A gauche
+        else if(step == 3) {
+            if(!labyrinthe.isWall(positions.x - speed + wallWidth/2, positions.y)){
+                positions.x -= speed;
+            }
+            else {
+                Random rand = new Random();
+                step = rand.nextInt(4-1+1) + 1;
+            }
+        }
+        //Haut
+        else if(step == 4) {
+            if(!labyrinthe.isWall(positions.x, positions.y - speed + wallHeight/2)){
+                positions.y -= speed;
+            }
+            else {
+                Random rand = new Random();
+                step = rand.nextInt(4-1+1) + 1;
+            }
+        }
+        //Bas
+        else if(step == 2) {
+            if(!labyrinthe.isWall(positions.x, positions.y + speed + wallHeight/2)){
+                positions.y += speed;
+            }
+            else {
+                Random rand = new Random();
+                step = rand.nextInt(4-1+1) + 1;
+            }
+        }
+    }
+    public void draw(BufferedImage im) throws IOException{
+    };
+
+}
