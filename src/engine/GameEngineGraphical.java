@@ -1,5 +1,8 @@
 package engine;
 
+import java.io.IOException;
+import java.sql.Time;
+
 /**
  * @author Horatiu Cirstea, Vincent Thomas
  *
@@ -27,7 +30,6 @@ public class GameEngineGraphical {
 	 * l'interface graphique
 	 */
 	private GraphicalInterface gui;
-	private String commande;
 
 	/**
 	 * construit un moteur
@@ -40,46 +42,36 @@ public class GameEngineGraphical {
 	 *            controlleur a utiliser
 	 *            
 	 */
-	public GameEngineGraphical(Game game, GamePainter gamePainter, GameController gameController,String commande) {
+	public GameEngineGraphical(Game game, GamePainter gamePainter, GameController gameController) {
 		// creation du game
 		this.game = game;
 		this.gamePainter = gamePainter;
 		this.gameController = gameController;
-		this.commande=commande;
 	}
 
 	/**
 	 * permet de lancer le game
 	 */
-	public void run() throws InterruptedException {
+	public void run() throws InterruptedException, IOException {
 
 		// creation de l'interface graphique
 		this.gui = new GraphicalInterface(this.gamePainter,this.gameController);
-
+		long fpsCap = System.currentTimeMillis();
 		// boucle de game
 		while (!this.game.isFinished()) {
-			// demande controle utilisateur
-			Cmd c =Cmd.LEFT;
-			if (this.commande.equals("U") || this.commande.equals("u")){
-				c=Cmd.UP;
+			// drawing of the screen every 0.016s = 16.6ms
+			if(System.currentTimeMillis() - fpsCap > (1000/60)) {
+				// demande controle utilisateur
+				Cmd c = this.gameController.getCommand();
+				// fait evoluer le game
+				this.game.evolve(c);
+				// affiche le game
+				this.gui.paint();
+				// rest fpscap timer
+				fpsCap = System.currentTimeMillis();
 			}
-			if (this.commande.equals("R") || this.commande.equals("r") ){
-				c=Cmd.RIGHT;
-			}
-			if (this.commande.equals("D") || this.commande.equals("d") ){
-				c=Cmd.DOWN;
-			}
-
-			// fait evoluer le game
-			this.game.evolve(c);
-			// affiche le game
-			this.gui.paint();
-			// met en attente
-			Thread.sleep(100);
 		}
+		System.exit(0);
 	}
 
-	public void setCommande(String commande) {
-		this.commande = commande;
-	}
 }
