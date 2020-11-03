@@ -21,5 +21,8 @@ public class NormalMonstre extends Monstre {
         crayon.drawImage(this.bufferedImage, positions.x-(width/2), positions.y-(height/2),width,height,null);
     }
 
-
+    @Override
+    public boolean monstreNormal() {
+        return true;
+    }
 }

@@ -13,6 +13,7 @@ import engine.Game;
 import model.etat.Hero;
 import model.etat.Labyrinthe;
 import model.etat.floor.MagicStep;
+import model.etat.monstres.Monstre;
 
 /**
  * @author Horatiu Cirstea, Vincent Thomas
@@ -163,6 +164,12 @@ public class PacmanGame implements Game {
 	 */
 	@Override
 	public boolean isFinished() {
+		//collision avec monstre normal -> on stp le jeu pour l'instant
+		if (lab.collisionMonstreNormal(hero.getPosition().x, hero.getPosition().y)) {
+				System.out.println("COLLISION AVEC MOOOOOOOOOOOONSTRE");
+				return true ;
+		}
+
 		if(lab.getFloor(hero.getPosition().x, hero.getPosition().y).tresor() || time == 0){
 			return true;
 		}else{

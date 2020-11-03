@@ -85,6 +85,26 @@ public class Labyrinthe {
         }
     }
 
+    public Monstre getMonstre(int x, int y) {
+        for (Monstre monstre: listMonstres) {
+            if(monstre.getPosition().x <= x && monstre.getPosition().x+monstre.getWidth() >= x
+                    && monstre.getPosition().y <= y && monstre.getPosition().y+monstre.getHeight() >= y){
+                return monstre;
+            }
+        }
+        return null;
+    }
+
+    public boolean collisionMonstreNormal(int x, int y){
+        Monstre monstre = getMonstre(x, y) ;
+        if (monstre == null || !monstre.monstreNormal()){
+            return false ;
+        }
+        else{
+            return true ;
+        }
+    }
+
     public int getWidth(){
         return colonne;
     }
