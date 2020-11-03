@@ -95,6 +95,16 @@ public class Labyrinthe {
         return null;
     }
 
+    public boolean collisionMonstreNormal(int x, int y){
+        Monstre monstre = getMonstre(x, y) ;
+        if (monstre == null || !monstre.monstreNormal()){
+            return false ;
+        }
+        else{
+            return true ;
+        }
+    }
+
     public int getWidth(){
         return colonne;
     }

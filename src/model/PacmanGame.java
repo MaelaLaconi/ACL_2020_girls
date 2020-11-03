@@ -164,12 +164,12 @@ public class PacmanGame implements Game {
 	 */
 	@Override
 	public boolean isFinished() {
-		//ajouter condition isMonster()
-		if (lab.getMonstre(hero.getPosition().x, hero.getPosition().y) != null) {
-			if (lab.getMonstre(hero.getPosition().x, hero.getPosition().y).monstreNormal()) {
+		//collision avec monstre normal -> on stp le jeu pour l'instant
+		if (lab.collisionMonstreNormal(hero.getPosition().x, hero.getPosition().y)) {
 				System.out.println("COLLISION AVEC MOOOOOOOOOOOONSTRE");
-			}
+				return true ;
 		}
+
 		if(lab.getFloor(hero.getPosition().x, hero.getPosition().y).tresor() || time == 0){
 			return true;
 		}else{
