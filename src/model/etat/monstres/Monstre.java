@@ -12,6 +12,11 @@ import java.util.Random;
  */
 
 public abstract class Monstre {
+    public static int HAUT = 4 ;
+    public static int BAS = 2 ;
+    public static int GAUCHE = 3 ;
+    public static int DROITE = 1 ;
+
     protected int width;
     protected int height;
     protected Point positions;
@@ -33,7 +38,7 @@ public abstract class Monstre {
      */
     public void move(Labyrinthe labyrinthe, int wallWidth, int wallHeight){
         //A droite
-        if(step == 1) {
+        if(step == DROITE) {
             if(!labyrinthe.isWall(positions.x + speed + wallWidth/2, positions.y)){
                 positions.x += speed;
             }
@@ -43,8 +48,8 @@ public abstract class Monstre {
             }
         }
         //A gauche
-        else if(step == 3) {
-            if(!labyrinthe.isWall(positions.x - speed + wallWidth/2, positions.y)){
+        else if(step == GAUCHE) {
+            if(!labyrinthe.isWall(positions.x - speed - wallWidth/2, positions.y)){
                 positions.x -= speed;
             }
             else {
@@ -53,8 +58,8 @@ public abstract class Monstre {
             }
         }
         //Haut
-        else if(step == 4) {
-            if(!labyrinthe.isWall(positions.x, positions.y - speed + wallHeight/2)){
+        else if(step == HAUT) {
+            if(!labyrinthe.isWall(positions.x, positions.y - speed - wallHeight/2)){
                 positions.y -= speed;
             }
             else {
@@ -63,7 +68,7 @@ public abstract class Monstre {
             }
         }
         //Bas
-        else if(step == 2) {
+        else if(step == BAS) {
             if(!labyrinthe.isWall(positions.x, positions.y + speed + wallHeight/2)){
                 positions.y += speed;
             }
