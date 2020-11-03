@@ -30,7 +30,7 @@ public class PacmanGame implements Game {
 	private int score;
 	private TimerTask decount;
 	private int sizeOfPolice = 35;
-	protected Font font = new Font("TimesRoman", Font.BOLD+Font.ITALIC, 35);
+	protected Font font = new Font("TimesRoman", Font.BOLD+Font.ITALIC, 30);
 
 	/**
 	 * constructeur avec fichier source pour le help
