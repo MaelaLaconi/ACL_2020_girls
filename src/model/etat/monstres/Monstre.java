@@ -79,6 +79,21 @@ public abstract class Monstre {
         }
     }
     public void draw(BufferedImage im) throws IOException{
-    };
+    }
 
+    public boolean monstreNormal(){
+        return false;
+    }
+
+    public Point getPosition() {
+        return positions;
+    }
+
+    public int getWidth() {
+        return width;
+    }
+
+    public int getHeight() {
+        return height;
+    }
 }
