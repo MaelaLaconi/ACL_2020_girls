@@ -12,12 +12,14 @@ public class Hero {
     private int width;
     private int height;
     private BufferedImage im;
+    private int time ;
 
     public Hero() throws IOException {
         position = new Point(0,0);
         width = 30;
         height = 30;
         im = ImageIO.read(new File("resources/images/hero.png"));
+        time = 60 ;
     }
 
     public void draw(BufferedImage im){
@@ -46,4 +48,20 @@ public class Hero {
         return height;
     }
 
+    public int getTime() {
+        return time;
+    }
+
+    public void setTime(int time) {
+        this.time = time;
+    }
+
+    public void addTime(){
+        System.out.println("dans add time");
+        time += 30 ;
+    }
+
+    public void countDown(){
+        time--;
+    }
 }
