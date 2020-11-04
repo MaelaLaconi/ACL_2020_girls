@@ -4,6 +4,7 @@ import engine.Cmd;
 import engine.Game;
 import model.etat.Hero;
 import model.etat.Labyrinthe;
+import model.etat.floor.Floor;
 import model.etat.floor.MagicStep;
 
 import javax.swing.*;
@@ -26,7 +27,6 @@ public class PacmanGame implements Game {
 	private Hero hero;
 	private Labyrinthe lab;
 	private int speed = 5;
-	private int time;
 	private int score;
 	private TimerTask decount;
 	private int sizeOfPolice = 35;
@@ -39,7 +39,6 @@ public class PacmanGame implements Game {
 	public PacmanGame(String source) throws IOException {
 		lab = new Labyrinthe();
 		hero = new Hero();
-		time = 60;
 		BufferedReader helpReader;
 		try {
 			helpReader = new BufferedReader(new FileReader(source));
@@ -101,7 +100,7 @@ public class PacmanGame implements Game {
 		infosBar.setFont(font);
 		infosBar.setBackground(Color.black);
 		infosBar.setColor(Color.black);
-		infosBar.drawString("Time: "+time, sizeOfPolice+ lab.WIDTH, (sizeOfPolice/2 + lab.HEIGHT)/2);
+		infosBar.drawString("Time: "+hero.getTime(), sizeOfPolice+ lab.WIDTH, (sizeOfPolice/2 + lab.HEIGHT)/2);
 		infosBar.drawString("Scores: "+score, lab.getWidth()-((sizeOfPolice+ lab.WIDTH)*2), (sizeOfPolice/2 + lab.HEIGHT)/2);
 		update();
 	}
@@ -162,6 +161,17 @@ public class PacmanGame implements Game {
 		JPanel panel = new JPanel();
 		JLabel label;
 
+		//si on est sur un magicalStep
+		Floor floor = lab.getFloor(hero.getPosition().x, hero.getPosition().y) ;
+		if(floor.isMagicalFloor() && floor.isActivate()){
+			hero.addTime();
+			try {
+				floor.desactivate();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+
 		//collision avec monstre normal -> on stp le jeu pour l'instant
 		if (lab.collisionMonstreNormal(hero.getPosition().x, hero.getPosition().y)) {
 			label = new JLabel("LE MOOOOOOOOOOOONSTRE VOUS A DEVORE");
@@ -179,7 +189,7 @@ public class PacmanGame implements Game {
 			}
 				return true ;
 		}
-		if(time == 0){
+		if(hero.getTime() == 0){
 			label = new JLabel("Temps écoulé");
 			panel.add(label);
 			frame.setContentPane(panel);
@@ -219,10 +229,12 @@ public class PacmanGame implements Game {
 		}
 
 
-	}
+
+
+		}
 
 	private void countDown(){
-		time--;
+		hero.countDown();
 	}
 	public Labyrinthe getLab() {
 		return lab;

@@ -47,4 +47,11 @@ public abstract class Floor {
     public boolean isMagicalFloor() {
         return false;
     }
+
+    public boolean isActivate() {
+        return false;
+    }
+
+    public void desactivate() throws IOException {}
+
 }

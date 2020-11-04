@@ -34,8 +34,10 @@ public class MagicStep extends Floor{
     /**
      *Function once the hero is on the magicstep
      */
-    private void desactivate() throws IOException {
+    @Override
+    public void desactivate() throws IOException {
         bufferedImage = ImageIO.read(new File("resources/images/magicStepIn.png"));
+        isActivate = false ;
     }
 
 
@@ -43,6 +45,8 @@ public class MagicStep extends Floor{
     public boolean isMagicalFloor() {
         return true;
     }
+
+    @Override
     public boolean isActivate() {
         return isActivate;
     }
