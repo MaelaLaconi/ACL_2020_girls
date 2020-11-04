@@ -47,6 +47,11 @@ public class MagicStep extends Floor{
         return false;
     }
     public boolean openDoor() {return false;}
+
+    public boolean isMagicalFloor() {
+        return false;
+    }
+
     public boolean isActivate() {
         return isActivate;
     }

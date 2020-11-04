@@ -28,6 +28,16 @@ public class NextStage extends Floor {
     public boolean openDoor() {
         return isOpen;
     }
+    public boolean isMagicalFloor() {
+        return false;
+    }
+    public boolean isActivate() {
+        return false;
+    }
+    public void desactivate() throws IOException {
+
+    }
+
     public boolean isAtDoor() {
         return true;
     }

@@ -49,4 +49,15 @@ public class Tresor extends Floor {
     public boolean openDoor() {
         return false;
     }
+
+    @Override
+    public boolean isMagicalFloor() {
+        return false;
+    }
+    public boolean isActivate() {
+        return false;
+    }
+    public void desactivate() throws IOException {
+
+    }
 }

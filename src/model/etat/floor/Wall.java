@@ -22,4 +22,14 @@ public class Wall extends Floor {
     public boolean openDoor() {
         return false;
     }
+    public boolean isMagicalFloor() {
+        return false;
+    }
+
+    public boolean isActivate() {
+        return false;
+    }
+    public void desactivate() throws IOException {
+
+    }
 }

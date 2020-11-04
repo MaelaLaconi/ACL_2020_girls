@@ -133,6 +133,8 @@ public class PacmanGame implements Game {
 			if (lab.getFloor(hero.getPosition().x, hero.getPosition().y).isMagicalStep()) {
 				MagicStep magicStep = (MagicStep) lab.getFloor(hero.getPosition().x, hero.getPosition().y);
 				if (!magicStep.isActivate()) {
+					//si on est sur un magicalStep on ajoute le temps
+					hero.addTime();
 					magicStep.activate(hero);
 				}
 			}
@@ -198,17 +200,6 @@ public class PacmanGame implements Game {
 		JFrame frame = new JFrame();
 		JPanel panel = new JPanel();
 		JLabel label;
-
-		//si on est sur un magicalStep
-		Floor floor = lab.getFloor(hero.getPosition().x, hero.getPosition().y) ;
-		if(floor.isMagicalFloor() && floor.isActivate()){
-			hero.addTime();
-			try {
-				floor.desactivate();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		}
 
 		//collision avec monstre normal -> on stp le jeu pour l'instant
 		if (lab.collisionMonstreNormal(hero.getPosition().x, hero.getPosition().y)) {

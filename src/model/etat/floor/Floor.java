@@ -58,4 +58,11 @@ public abstract class Floor {
     }
 
     public abstract boolean openDoor();
+
+    public abstract boolean isMagicalFloor();
+
+    public abstract boolean isActivate();
+
+
+    public abstract void desactivate() throws IOException;
 }
