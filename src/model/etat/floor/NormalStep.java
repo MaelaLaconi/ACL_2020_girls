@@ -14,4 +14,12 @@ public class NormalStep extends Floor {
         super(p, w, h);
         bufferedImage = ImageIO.read(new File("resources/images/floor.png"));
     }
+
+    @Override
+    public boolean isCollected() {
+        return false;
+    }
+    public boolean openDoor() {
+        return false;
+    }
 }

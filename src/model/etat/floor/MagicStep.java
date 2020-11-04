@@ -40,9 +40,13 @@ public class MagicStep extends Floor{
 
 
     @Override
-    public boolean isMagicalFloor() {
+    public boolean isMagicalStep() {
         return true;
     }
+    public boolean isCollected() {
+        return false;
+    }
+    public boolean openDoor() {return false;}
     public boolean isActivate() {
         return isActivate;
     }

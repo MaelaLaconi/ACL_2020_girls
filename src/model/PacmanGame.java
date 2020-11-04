@@ -5,11 +5,15 @@ import engine.Game;
 import model.etat.Hero;
 import model.etat.Labyrinthe;
 import model.etat.floor.MagicStep;
+import model.etat.floor.NextStage;
+import model.etat.floor.Tresor;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.Timer;
@@ -31,7 +35,7 @@ public class PacmanGame implements Game {
 	private TimerTask decount;
 	private int sizeOfPolice = 35;
 	protected Font font = new Font("TimesRoman", Font.BOLD+Font.ITALIC, 30);
-
+	private String source;
 	/**
 	 * constructeur avec fichier source pour le help
 	 * 
@@ -41,8 +45,10 @@ public class PacmanGame implements Game {
 		hero = new Hero();
 		time = 60;
 		BufferedReader helpReader;
+		this.source=source;
+
 		try {
-			helpReader = new BufferedReader(new FileReader(source));
+			helpReader = new BufferedReader(new FileReader(this.source));
 			String ligne;
 			while ((ligne = helpReader.readLine()) != null) {
 				lab.generate(ligne);
@@ -50,7 +56,7 @@ public class PacmanGame implements Game {
 			helpReader.close();
 		} catch (IOException e) {
 		}
-		hero.setPosition(new Point(lab.getWidth()/2, lab.getHeight()/2));
+		hero.setPosition(new Point(lab.getWidth()/3, lab.getHeight()/3));
 		score=0;
 		Timer timer = new Timer();
 		decount = new TimerTask() {
@@ -103,16 +109,48 @@ public class PacmanGame implements Game {
 		infosBar.setColor(Color.black);
 		infosBar.drawString("Time: "+time, sizeOfPolice+ lab.WIDTH, (sizeOfPolice/2 + lab.HEIGHT)/2);
 		infosBar.drawString("Scores: "+score, lab.getWidth()-((sizeOfPolice+ lab.WIDTH)*2), (sizeOfPolice/2 + lab.HEIGHT)/2);
+
 		update();
 	}
 
 	private void update() throws IOException {
-		if(lab.getFloor(hero.getPosition().x, hero.getPosition().y).isMagicalFloor()){
-			MagicStep magicStep = (MagicStep) lab.getFloor(hero.getPosition().x, hero.getPosition().y);
-			if(!magicStep.isActivate()){
-				magicStep.activate(hero);
+		if(lab.getFloor(hero.getPosition().x, hero.getPosition().y).isAtDoor()&& lab.getStage().openDoor() ){
+			this.source="resources/lab/lab1.txt";
+			this.hero.setPosition(new Point(this.hero.getPosition().x/2,this.hero.getPosition().y/2));
+			BufferedReader helpReader;
+			this.lab=new Labyrinthe();
+			try {
+				helpReader = new BufferedReader(new FileReader(this.source));
+				String ligne;
+				while ((ligne = helpReader.readLine()) != null) {
+					this.lab.generate(ligne);
+				}
+				helpReader.close();
+			} catch (IOException e) {
 			}
 		}
+
+		if(!this.lab.equals(null)){
+			if (lab.getFloor(hero.getPosition().x, hero.getPosition().y).isMagicalStep()) {
+				MagicStep magicStep = (MagicStep) lab.getFloor(hero.getPosition().x, hero.getPosition().y);
+				if (!magicStep.isActivate()) {
+					magicStep.activate(hero);
+				}
+			}
+
+			if (lab.getFloor(hero.getPosition().x, hero.getPosition().y).isTresor()) {
+				if (!this.lab.getStage().openDoor()) {
+					this.lab.getStage().setBufferedImage(ImageIO.read(new File("resources/images/dooropen.png")));
+					this.lab.getStage().setOpen(true);
+					Tresor tresor = (Tresor) lab.getFloor(hero.getPosition().x, hero.getPosition().y);
+					if (!tresor.isCollected()) {
+						tresor.collected(hero);
+					}
+				}
+			}
+		}
+
+
 	}
 
 	/***	 *
@@ -197,7 +235,7 @@ public class PacmanGame implements Game {
 			return true;
 		}
 
-		if(lab.getFloor(hero.getPosition().x, hero.getPosition().y).tresor()){
+		/*if(lab.getFloor(hero.getPosition().x, hero.getPosition().y).tresor()){
 			label = new JLabel("C'est gagné !");
 			panel.add(label);
 			frame.setContentPane(panel);
@@ -214,7 +252,9 @@ public class PacmanGame implements Game {
 
 			return true;
 
-		}else{
+		}
+		*/else{
+
 			return false;
 		}
 

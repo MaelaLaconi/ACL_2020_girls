@@ -40,11 +40,22 @@ public abstract class Floor {
         return position;
     }
 
-    public boolean tresor(){
+    public boolean isMagicalStep() {
         return false;
     }
 
-    public boolean isMagicalFloor() {
+    public abstract boolean isCollected();
+
+    public boolean isTresor(){
         return false;
     }
+   public void setBufferedImage(BufferedImage bufferedImage) {
+        this.bufferedImage = bufferedImage;
+    }
+
+    public boolean isAtDoor(){
+        return false;
+    }
+
+    public abstract boolean openDoor();
 }

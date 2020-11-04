@@ -17,6 +17,7 @@ import java.util.Collection;
 public class Labyrinthe {
     private Collection<Floor> listFloor;
     private Collection<Monstre> listMonstres;
+    private NextStage stage;
     private int ligne, colonne;
     public final int WIDTH = 50;
     public final int HEIGHT = 50;
@@ -48,6 +49,10 @@ public class Labyrinthe {
                     break;
                 case 't' :
                     listFloor.add(new Tresor(new Point(colonne, ligne), WIDTH, HEIGHT));
+                    break;
+                case 'c' :
+                    this.stage=new NextStage(new Point(colonne, ligne), WIDTH, HEIGHT);
+                    listFloor.add(stage);
                     break;
 
             }
@@ -103,6 +108,10 @@ public class Labyrinthe {
         else{
             return true ;
         }
+    }
+
+    public NextStage getStage() {
+        return stage;
     }
 
     public int getWidth(){
