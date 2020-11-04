@@ -145,6 +145,7 @@ public class PacmanGame implements Game {
 					this.lab.getStage().setOpen(true);
 					Tresor tresor = (Tresor) lab.getFloor(hero.getPosition().x, hero.getPosition().y);
 					if (!tresor.isCollected()) {
+						score=score+20;
 						tresor.collected(hero);
 					}
 				}
