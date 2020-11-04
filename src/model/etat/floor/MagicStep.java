@@ -34,7 +34,7 @@ public class MagicStep extends Floor{
     /**
      *Function once the hero is on the magicstep
      */
-    private void desactivate() throws IOException {
+    public void desactivate() throws IOException {
         bufferedImage = ImageIO.read(new File("resources/images/magicStepIn.png"));
     }
 
