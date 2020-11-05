@@ -50,6 +50,9 @@ public class Labyrinthe {
                 case 't' :
                     listFloor.add(new Tresor(new Point(colonne, ligne), WIDTH, HEIGHT));
                     break;
+                case 's' : //skull trapStep
+                    listFloor.add(new TrapStep(new Point(colonne, ligne), WIDTH, HEIGHT));
+                    break;
                 case 'c' :
                     this.stage=new NextStage(new Point(colonne, ligne), WIDTH, HEIGHT);
                     listFloor.add(stage);

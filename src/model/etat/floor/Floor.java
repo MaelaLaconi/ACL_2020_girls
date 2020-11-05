@@ -63,6 +63,6 @@ public abstract class Floor {
 
     public abstract boolean isActivate();
 
-
+   public boolean isTrapStep(){ return false ;}
     public abstract void desactivate() throws IOException;
 }

@@ -59,8 +59,11 @@ public class Hero {
     }
 
     public void addTime(){
-        System.out.println("dans add time");
         time += 30 ;
+    }
+
+    public void subTime(){
+        time -= 30 ;
     }
 
     public void countDown(){

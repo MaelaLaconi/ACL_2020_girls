@@ -2,13 +2,11 @@ package model;
 
 import engine.Cmd;
 import engine.Game;
+import model.etat.Degat;
 import model.etat.Hero;
 import model.etat.Labyrinthe;
 import model.etat.Pouvoir;
-import model.etat.floor.Floor;
-import model.etat.floor.MagicStep;
-import model.etat.floor.NextStage;
-import model.etat.floor.Tresor;
+import model.etat.floor.*;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -134,14 +132,10 @@ public class PacmanGame implements Game {
 		if(!this.lab.equals(null)){
 			if (lab.getFloor(hero.getPosition().x, hero.getPosition().y).isMagicalStep()) {
 				MagicStep magicStep = (MagicStep) lab.getFloor(hero.getPosition().x, hero.getPosition().y);
-				System.out.println("********************"+!magicStep.isActivate());
 				if (!magicStep.isActivate()) {
 					Pouvoir pouvoir = Pouvoir.randomPouvoir() ;
-					System.out.println(pouvoir);
-
 					switch (pouvoir){
 						case TEMPS:
-							//si on est sur un magicalStep on ajoute le temps
 							hero.addTime();
 							break;
 						case VIE:
@@ -156,7 +150,32 @@ public class PacmanGame implements Game {
 				}
 			}
 
-			if (lab.getFloor(hero.getPosition().x, hero.getPosition().y).isTresor()) {
+			if (lab.getFloor(hero.getPosition().x, hero.getPosition().y).isTrapStep()) {
+				TrapStep trapStep = (TrapStep) lab.getFloor(hero.getPosition().x, hero.getPosition().y);
+				if (!trapStep.isActivate()) {
+					Degat degat = Degat.randomDegat() ;
+					switch (degat){
+						case TEMPS:
+							System.out.println("TEEEEEEEEEEMPS");
+							hero.subTime();
+							break;
+						case VIE:
+							System.out.println("VIEEEEEEEEEEE");
+							//hero.subLife() ;
+							break;
+						case SCORE:
+							System.out.println("SCOOOOOOOOOOOOORE");
+							score -= 5 ;
+							break;
+					}
+					trapStep.activate();
+
+				}
+
+			}
+
+
+				if (lab.getFloor(hero.getPosition().x, hero.getPosition().y).isTresor()) {
 				if (!this.lab.getStage().openDoor()) {
 					this.lab.getStage().setBufferedImage(ImageIO.read(new File("resources/images/dooropen.png")));
 					this.lab.getStage().setOpen(true);
