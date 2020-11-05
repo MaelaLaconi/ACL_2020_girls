@@ -24,7 +24,7 @@ import java.util.TimerTask;
  *
  *         Version avec personnage qui peut se deplacer. A completer dans les
  *         versions suivantes.
- * 
+ *
  */
 public class PacmanGame implements Game {
 	private Hero hero;
@@ -37,7 +37,7 @@ public class PacmanGame implements Game {
 	private String source;
 	/**
 	 * constructeur avec fichier source pour le help
-	 * 
+	 *
 	 */
 	public PacmanGame(String source) throws IOException {
 		lab = new Labyrinthe();
@@ -69,7 +69,7 @@ public class PacmanGame implements Game {
 
 	/**
 	 * faire evoluer le jeu suite a une commande
-	 * 
+	 *
 	 * @param commande
 	 */
 	@Override
@@ -115,7 +115,8 @@ public class PacmanGame implements Game {
 		if(lab.getFloor(hero.getPosition().x, hero.getPosition().y).isAtDoor()&& lab.getStage().openDoor() ){
 			this.source="resources/lab/lab1.txt";
 			this.hero.setPosition(new Point(this.hero.getPosition().x/2,this.hero.getPosition().y/2));
-			hero.setSaiyen(false);  //on redeviens normal a chanque nouveau monde
+			hero.setSaiyen(false);  //on redeviens normal a chanque nouveau map
+			hero.setTime(hero.getTime()+20);// on lui rajoute 20sec à chaque nouvel map
 			BufferedReader helpReader;
 			this.lab=new Labyrinthe();
 			try {
@@ -133,15 +134,19 @@ public class PacmanGame implements Game {
 			if (lab.getFloor(hero.getPosition().x, hero.getPosition().y).isMagicalStep()) {
 				MagicStep magicStep = (MagicStep) lab.getFloor(hero.getPosition().x, hero.getPosition().y);
 				if (!magicStep.isActivate()) {
+
 					Pouvoir pouvoir = Pouvoir.randomPouvoir() ;
 					switch (pouvoir){
 						case TEMPS:
 							hero.addTime();
 							break;
+						case SUSPEND:
+							lab.suspendMonstre(5);
+							break;
 						case VIE:
 							//hero.addLife() ;
 							break;
-						case SAIYEN:
+						case SAIYAN:
 							hero.setSaiyen(true);
 							break;
 					}
@@ -175,7 +180,7 @@ public class PacmanGame implements Game {
 			}
 
 
-				if (lab.getFloor(hero.getPosition().x, hero.getPosition().y).isTresor()) {
+			if (lab.getFloor(hero.getPosition().x, hero.getPosition().y).isTresor()) {
 				if (!this.lab.getStage().openDoor()) {
 					this.lab.getStage().setBufferedImage(ImageIO.read(new File("resources/images/dooropen.png")));
 					this.lab.getStage().setOpen(true);
@@ -238,7 +243,7 @@ public class PacmanGame implements Game {
 		JPanel panel = new JPanel();
 		JLabel label;
 
-		//collision avec monstre normal -> on stp le jeu pour l'instant saud si le hero est en mode saiyen
+		//collision avec monstre normal -> on stp le jeu pour l'instant sauf si le hero est en mode saiyen
 		if (lab.collisionMonstreNormal(hero.getPosition().x, hero.getPosition().y) && !hero.isSaiyen()) {
 			label = new JLabel("LE MOOOOOOOOOOOONSTRE VOUS A DEVORE");
 			panel.add(label);
@@ -253,7 +258,7 @@ public class PacmanGame implements Game {
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
-				return true ;
+			return true ;
 		}
 		if(hero.getTime() == 0){
 			label = new JLabel("Temps écoulé");
@@ -287,9 +292,7 @@ public class PacmanGame implements Game {
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
-
 			return true;
-
 		}
 		*/else{
 
@@ -299,7 +302,7 @@ public class PacmanGame implements Game {
 
 
 
-		}
+	}
 
 	private void countDown(){
 		hero.countDown();

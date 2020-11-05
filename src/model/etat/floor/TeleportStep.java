@@ -1,6 +1,8 @@
 package model.etat.floor;
 
+import javax.imageio.ImageIO;
 import java.awt.*;
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 
@@ -9,7 +11,7 @@ public class TeleportStep extends Floor {
 
     public TeleportStep(Point p, int w, int h) throws IOException {
         super(p, w, h);
-        URL url = new URL("https://f.hellowork.com/blogdumoderateur/2013/02/gif-anime.gif");
+        bufferedImage = ImageIO.read(new File("resources/images/teleport.png"));
        // bufferedImage = new ImageInput(url);
     }
 

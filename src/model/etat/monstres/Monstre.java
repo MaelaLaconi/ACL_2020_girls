@@ -23,11 +23,13 @@ public abstract class Monstre {
     protected int speed;
     protected BufferedImage bufferedImage;
     private int step = 1;
+    private boolean moving;
 
     public Monstre(Point point, int width, int height){
         this.positions = point;
         this.width = width;
         this.height = height;
+        this.moving=true;
     }
 
     /**
@@ -81,6 +83,18 @@ public abstract class Monstre {
     public void draw(BufferedImage im) throws IOException{
     }
 
+    public void suspend(){
+        moving=false;
+    }
+
+    public boolean isMoving() {
+        return moving;
+    }
+
+    public void setMoving(boolean moving) {
+        this.moving = moving;
+    }
+
     public boolean monstreNormal(){
         return false;
     }
@@ -96,4 +110,5 @@ public abstract class Monstre {
     public int getHeight() {
         return height;
     }
+
 }

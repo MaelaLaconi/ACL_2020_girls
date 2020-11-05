@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Random;
 
 public enum Pouvoir {
-    TEMPS, VIE, SAIYEN ;
+    TEMPS, VIE, SUSPEND, SAIYAN;
 
     private static final List<Pouvoir> VALUES =
             Collections.unmodifiableList(Arrays.asList(values()));

@@ -9,6 +9,8 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Timer;
+import java.util.TimerTask;
 
 /**
  *
@@ -50,12 +52,15 @@ public class Labyrinthe {
                 case 't' :
                     listFloor.add(new Tresor(new Point(colonne, ligne), WIDTH, HEIGHT));
                     break;
-                case 's' : //skull trapStep
+               case 's' : //skull trapStep
                     listFloor.add(new TrapStep(new Point(colonne, ligne), WIDTH, HEIGHT));
                     break;
                 case 'c' :
                     this.stage=new NextStage(new Point(colonne, ligne), WIDTH, HEIGHT);
                     listFloor.add(stage);
+                    break;
+                case 'p' :
+                    listFloor.add(new TeleportStep(new Point(colonne, ligne), WIDTH, HEIGHT));
                     break;
 
             }
@@ -69,7 +74,9 @@ public class Labyrinthe {
             floor.draw(im);
         }
         for(Monstre monstre : listMonstres){
-            monstre.move(this, WIDTH, HEIGHT);
+            if(monstre.isMoving()) {
+                monstre.move(this, WIDTH, HEIGHT);
+            }
             monstre.draw(im);
         }
     }
@@ -123,5 +130,32 @@ public class Labyrinthe {
 
     public int getHeight(){
         return ligne;
+    }
+
+    /**
+     * Suspend le monstre pour quelques secondes
+     * @param second
+     */
+    public void suspendMonstre(int second) {
+        for(Monstre monstre : listMonstres){
+            monstre.suspend();
+        }
+        Timer timer = new Timer();
+        TimerTask decount = new TimerTask() {
+            @Override
+            public void run() {
+                letMonstreGo();
+            }
+        };
+        timer.schedule(decount, second*1000);
+    }
+
+    /**
+     * Making the monster moves again
+     */
+    private void letMonstreGo() {
+        for(Monstre monster : listMonstres){
+            monster.setMoving(true);
+        }
     }
 }
