@@ -4,6 +4,7 @@ import engine.Cmd;
 import engine.Game;
 import model.etat.Hero;
 import model.etat.Labyrinthe;
+import model.etat.Pouvoir;
 import model.etat.floor.Floor;
 import model.etat.floor.MagicStep;
 import model.etat.floor.NextStage;
@@ -116,6 +117,7 @@ public class PacmanGame implements Game {
 		if(lab.getFloor(hero.getPosition().x, hero.getPosition().y).isAtDoor()&& lab.getStage().openDoor() ){
 			this.source="resources/lab/lab1.txt";
 			this.hero.setPosition(new Point(this.hero.getPosition().x/2,this.hero.getPosition().y/2));
+			hero.setSaiyen(false);  //on redeviens normal a chanque nouveau monde
 			BufferedReader helpReader;
 			this.lab=new Labyrinthe();
 			try {
@@ -132,10 +134,25 @@ public class PacmanGame implements Game {
 		if(!this.lab.equals(null)){
 			if (lab.getFloor(hero.getPosition().x, hero.getPosition().y).isMagicalStep()) {
 				MagicStep magicStep = (MagicStep) lab.getFloor(hero.getPosition().x, hero.getPosition().y);
+				System.out.println("********************"+!magicStep.isActivate());
 				if (!magicStep.isActivate()) {
-					//si on est sur un magicalStep on ajoute le temps
-					hero.addTime();
+					Pouvoir pouvoir = Pouvoir.randomPouvoir() ;
+					System.out.println(pouvoir);
+
+					switch (pouvoir){
+						case TEMPS:
+							//si on est sur un magicalStep on ajoute le temps
+							hero.addTime();
+							break;
+						case VIE:
+							//hero.addLife() ;
+							break;
+						case SAIYEN:
+							hero.setSaiyen(true);
+							break;
+					}
 					magicStep.activate(hero);
+
 				}
 			}
 
@@ -202,8 +219,8 @@ public class PacmanGame implements Game {
 		JPanel panel = new JPanel();
 		JLabel label;
 
-		//collision avec monstre normal -> on stp le jeu pour l'instant
-		if (lab.collisionMonstreNormal(hero.getPosition().x, hero.getPosition().y)) {
+		//collision avec monstre normal -> on stp le jeu pour l'instant saud si le hero est en mode saiyen
+		if (lab.collisionMonstreNormal(hero.getPosition().x, hero.getPosition().y) && !hero.isSaiyen()) {
 			label = new JLabel("LE MOOOOOOOOOOOONSTRE VOUS A DEVORE");
 			panel.add(label);
 			frame.setContentPane(panel);

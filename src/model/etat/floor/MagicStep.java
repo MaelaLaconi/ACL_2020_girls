@@ -28,7 +28,6 @@ public class MagicStep extends Floor{
     public void activate(Hero hero) throws IOException {
         isActivate = true;
         desactivate();
-
     }
 
     /**

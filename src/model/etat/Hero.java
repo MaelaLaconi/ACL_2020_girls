@@ -13,6 +13,7 @@ public class Hero {
     private int height;
     private BufferedImage im;
     private int time ;
+    private boolean saiyen ;
 
     public Hero() throws IOException {
         position = new Point(0,0);
@@ -20,6 +21,7 @@ public class Hero {
         height = 30;
         im = ImageIO.read(new File("resources/images/hero.png"));
         time = 60 ;
+        saiyen = false ;
     }
 
     public void draw(BufferedImage im){
@@ -63,5 +65,13 @@ public class Hero {
 
     public void countDown(){
         time--;
+    }
+
+    public boolean isSaiyen() {
+        return saiyen;
+    }
+
+    public void setSaiyen(boolean saiyen) {
+        this.saiyen = saiyen;
     }
 }
