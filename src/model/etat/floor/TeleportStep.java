@@ -11,6 +11,7 @@ public class TeleportStep extends Floor {
 
     public TeleportStep(Point p, int w, int h) throws IOException {
         super(p, w, h);
+        /*)*/
         bufferedImage = ImageIO.read(new File("resources/images/teleport.png"));
        // bufferedImage = new ImageInput(url);
     }

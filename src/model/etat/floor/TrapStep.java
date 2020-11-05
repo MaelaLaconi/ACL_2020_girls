@@ -20,6 +20,7 @@ public class TrapStep extends Floor {
     public TrapStep(Point p, int w, int h) {
         super(p, w, h);
         try {
+          //
             bufferedImage = ImageIO.read(new File("resources/images/magic.png"));
         } catch (IOException e) {
             e.printStackTrace();
