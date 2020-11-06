@@ -1,6 +1,7 @@
 package model.etat;
 
 import model.etat.floor.*;
+import model.etat.monstres.Fantome;
 import model.etat.monstres.Monstre;
 import model.etat.monstres.NormalMonstre;
 
@@ -27,6 +28,8 @@ public class Labyrinthe {
     public Labyrinthe() throws IOException {
         listMonstres = new ArrayList<>();
         listMonstres.add(new NormalMonstre(new Point(100,100),35   ,35));
+        listMonstres.add(new Fantome(new Point(300,300),35   ,35));
+
         listFloor = new ArrayList<>();
         ligne = 0;
     }
@@ -81,11 +84,24 @@ public class Labyrinthe {
         }
     }
 
-    public Floor getFloor(int x, int y){
+    public Floor getFloor(Hero hero){
+        int x = hero.getPosition().x ;
+        int y = hero.getPosition().y ;
+
         for (Floor floor: listFloor) {
 
             if(floor.getPosition().x <= x && floor.getPosition().x+WIDTH >= x
             && floor.getPosition().y <= y && floor.getPosition().y+HEIGHT >= y){
+                return floor;
+            }
+        }
+        return null;
+    }
+
+    public Floor getFloor(int x, int y){
+        for (Floor floor: listFloor) {
+            if(floor.getPosition().x <= x && floor.getPosition().x+WIDTH >= x
+                    && floor.getPosition().y <= y && floor.getPosition().y+HEIGHT >= y){
                 return floor;
             }
         }
@@ -110,9 +126,9 @@ public class Labyrinthe {
         return null;
     }
 
-    public boolean collisionMonstreNormal(int x, int y){
+    public boolean collisionMonstre(int x, int y){
         Monstre monstre = getMonstre(x, y) ;
-        if (monstre == null || !monstre.monstreNormal()){
+        if (monstre == null){
             return false ;
         }
         else{

@@ -112,7 +112,7 @@ public class PacmanGame implements Game {
 	}
 
 	private void update() throws IOException {
-		if(lab.getFloor(hero.getPosition().x, hero.getPosition().y).isAtDoor()&& lab.getStage().openDoor() ){
+		if(lab.getFloor(hero).isAtDoor()&& lab.getStage().openDoor() ){
 			this.source="resources/lab/lab1.txt";
 			this.hero.setPosition(new Point(this.hero.getPosition().x/2,this.hero.getPosition().y/2));
 			hero.normalTransform(); //on redeviens normal a chanque nouveau map
@@ -131,8 +131,8 @@ public class PacmanGame implements Game {
 		}
 
 		if(!this.lab.equals(null)){
-			if (lab.getFloor(hero.getPosition().x, hero.getPosition().y).isMagicalStep()) {
-				MagicStep magicStep = (MagicStep) lab.getFloor(hero.getPosition().x, hero.getPosition().y);
+			if (lab.getFloor(hero).isMagicalStep()) {
+				MagicStep magicStep = (MagicStep) lab.getFloor(hero);
 				if (!magicStep.isActivate()) {
 
 					Pouvoir pouvoir = Pouvoir.randomPouvoir() ;
@@ -159,8 +159,8 @@ public class PacmanGame implements Game {
 				}
 			}
 
-			if (lab.getFloor(hero.getPosition().x, hero.getPosition().y).isTrapStep()) {
-				TrapStep trapStep = (TrapStep) lab.getFloor(hero.getPosition().x, hero.getPosition().y);
+			if (lab.getFloor(hero).isTrapStep()) {
+				TrapStep trapStep = (TrapStep) lab.getFloor(hero);
 				if (!trapStep.isActivate()) {
 					Degat degat = Degat.randomDegat() ;
 					switch (degat){
@@ -189,11 +189,11 @@ public class PacmanGame implements Game {
 			}
 
 
-			if (lab.getFloor(hero.getPosition().x, hero.getPosition().y).isTresor()) {
+			if (lab.getFloor(hero).isTresor()) {
 				if (!this.lab.getStage().openDoor()) {
 					this.lab.getStage().setBufferedImage(ImageIO.read(new File("resources/images/dooropen.png")));
 					this.lab.getStage().setOpen(true);
-					Tresor tresor = (Tresor) lab.getFloor(hero.getPosition().x, hero.getPosition().y);
+					Tresor tresor = (Tresor) lab.getFloor(hero);
 					if (!tresor.isCollected()) {
 						score=score+20;
 						tresor.collected(hero);
@@ -253,7 +253,7 @@ public class PacmanGame implements Game {
 		JLabel label;
 
 		//collision avec monstre normal -> on stp le jeu pour l'instant sauf si le hero est en mode saiyen
-		if (lab.collisionMonstreNormal(hero.getPosition().x, hero.getPosition().y) && !hero.isSaiyen()) {
+		if (lab.collisionMonstre(hero.getPosition().x, hero.getPosition().y) && !hero.isSaiyen()) {
 			label = new JLabel("LE MOOOOOOOOOOOONSTRE VOUS A DEVORE");
 			panel.add(label);
 			frame.setContentPane(panel);
