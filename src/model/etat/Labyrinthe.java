@@ -28,7 +28,7 @@ public class Labyrinthe {
     public Labyrinthe() throws IOException {
         listMonstres = new ArrayList<>();
         listMonstres.add(new NormalMonstre(new Point(100,100),35   ,35));
-        listMonstres.add(new Fantome(new Point(300,300),35   ,35));
+        listMonstres.add(new Fantome(new Point(400,400),35   ,35));
 
         listFloor = new ArrayList<>();
         ligne = 0;
@@ -117,11 +117,16 @@ public class Labyrinthe {
     }
 
     public Monstre getMonstre(int x, int y) {
+        int x1, y1 ;
         for (Monstre monstre: listMonstres) {
-            if(monstre.getPosition().x <= x && monstre.getPosition().x+monstre.getWidth() >= x
-                    && monstre.getPosition().y <= y && monstre.getPosition().y+monstre.getHeight() >= y){
-                return monstre;
+            x1 = monstre.getPosition().x ;
+            y1 = monstre.getPosition().y ;
+            Rectangle m = new Rectangle(x1,y1, monstre.getWidth(), monstre.getHeight()) ;
+            Rectangle h = new Rectangle(x,y,Hero.width,Hero.height) ;
+            if (m.intersects(h)){
+                return monstre ;
             }
+
         }
         return null;
     }

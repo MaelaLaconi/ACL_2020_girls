@@ -9,8 +9,8 @@ import java.io.IOException;
 public class Hero {
 
     private Point position;
-    private int width;
-    private int height;
+    protected static int width;
+    protected static int height;
     private BufferedImage im;
     private int time ;
     private boolean saiyen ;
