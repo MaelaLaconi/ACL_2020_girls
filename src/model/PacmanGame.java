@@ -6,6 +6,8 @@ import model.etat.Degat;
 import model.etat.Hero;
 import model.etat.Labyrinthe;
 import model.etat.Pouvoir;
+import model.etat.diamonds.DiamondBleu;
+import model.etat.diamonds.DiamondRouge;
 import model.etat.floor.*;
 
 import javax.imageio.ImageIO;
@@ -16,6 +18,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -113,7 +116,9 @@ public class PacmanGame implements Game {
 
 	private void update() throws IOException {
 		if(lab.getFloor(hero).isAtDoor()&& lab.getStage().openDoor() ){
-			this.source="resources/lab/lab1.txt";
+			Random rand= new Random();
+			int numeroLab = rand.nextInt(5-1+1)+1;
+			this.source="resources/lab/lab"+numeroLab+".txt";
 			this.hero.setPosition(new Point(this.hero.getPosition().x/2,this.hero.getPosition().y/2));
 			hero.normalTransform(); //on redeviens normal a chanque nouveau map
 			hero.setTime(hero.getTime()+20);// on lui rajoute 20sec à chaque nouvel map
@@ -189,6 +194,27 @@ public class PacmanGame implements Game {
 			}
 
 
+			if( lab.getDiamond(hero)!=null){
+				if (!lab.getDiamond(hero).isRedDiamond() && lab.getDiamond(hero)instanceof DiamondRouge) {
+					DiamondRouge diamondRouge = (DiamondRouge) lab.getDiamond(hero);
+					if (!diamondRouge.isPicked()) {
+						score += 10;
+						diamondRouge.picked(hero);
+					}
+
+
+
+				}
+				else if (!lab.getDiamond(hero).isBlueDiamond()&& lab.getDiamond(hero)instanceof DiamondBleu){
+					DiamondBleu diamondBleu = (DiamondBleu) lab.getDiamond(hero);
+					if (!diamondBleu.isPicked()) {
+						score += 5;
+						diamondBleu.picked(hero);
+					}
+
+
+				}
+			}
 			if (lab.getFloor(hero).isTresor()) {
 				if (!this.lab.getStage().openDoor()) {
 					this.lab.getStage().setBufferedImage(ImageIO.read(new File("resources/images/dooropen.png")));
