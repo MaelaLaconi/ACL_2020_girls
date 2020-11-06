@@ -115,7 +115,7 @@ public class PacmanGame implements Game {
 		if(lab.getFloor(hero.getPosition().x, hero.getPosition().y).isAtDoor()&& lab.getStage().openDoor() ){
 			this.source="resources/lab/lab1.txt";
 			this.hero.setPosition(new Point(this.hero.getPosition().x/2,this.hero.getPosition().y/2));
-			hero.setSaiyen(false);  //on redeviens normal a chanque nouveau map
+			hero.normalTransform(); //on redeviens normal a chanque nouveau map
 			hero.setTime(hero.getTime()+20);// on lui rajoute 20sec à chaque nouvel map
 			BufferedReader helpReader;
 			this.lab=new Labyrinthe();
@@ -138,16 +138,20 @@ public class PacmanGame implements Game {
 					Pouvoir pouvoir = Pouvoir.randomPouvoir() ;
 					switch (pouvoir){
 						case TEMPS:
+							System.out.println("TEMPS GAGNE");
 							hero.addTime();
 							break;
 						case SUSPEND:
+							System.out.println("SUSPENTION");
 							lab.suspendMonstre(5);
 							break;
 						case VIE:
+							System.out.println("VIE GAGNE");
 							//hero.addLife() ;
 							break;
 						case SAIYAN:
-							hero.setSaiyen(true);
+							System.out.println("MODE SAIYAN");
+							hero.saiyanTransform();
 							break;
 					}
 					magicStep.activate(hero);
@@ -170,7 +174,9 @@ public class PacmanGame implements Game {
 							break;
 						case SCORE:
 							System.out.println("SCOOOOOOOOOOOOORE");
-							score -= 5 ;
+							if (score-5 >=0) {
+								score -= 5;
+							}
 							break;
 					}
 					trapStep.activate();
@@ -277,25 +283,7 @@ public class PacmanGame implements Game {
 
 			return true;
 		}
-
-		/*if(lab.getFloor(hero.getPosition().x, hero.getPosition().y).tresor()){
-			label = new JLabel("C'est gagné !");
-			panel.add(label);
-			frame.setContentPane(panel);
-			frame.pack();
-			frame.setLocationRelativeTo(null);
-			frame.setPreferredSize(new Dimension(100,100));
-			frame.setVisible(true);
-			//Pause for 1 seconds
-			try {
-				Thread.sleep(1000);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
-			return true;
-		}
-		*/else{
-
+		else{
 			return false;
 		}
 

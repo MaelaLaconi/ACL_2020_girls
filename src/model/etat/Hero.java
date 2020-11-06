@@ -63,7 +63,10 @@ public class Hero {
     }
 
     public void subTime(){
-        time -= 30 ;
+
+        if (time-20>=0){
+            time -= 20 ;
+        }
     }
 
     public void countDown(){
@@ -74,7 +77,13 @@ public class Hero {
         return saiyen;
     }
 
-    public void setSaiyen(boolean saiyen) {
-        this.saiyen = saiyen;
+    public void saiyanTransform() throws IOException {
+        this.saiyen = true ;
+        im = ImageIO.read(new File("resources/images/saiyan.png"));
+    }
+
+    public void normalTransform() throws IOException {
+        this.saiyen = false ;
+        im = ImageIO.read(new File("resources/images/hero.png"));
     }
 }
