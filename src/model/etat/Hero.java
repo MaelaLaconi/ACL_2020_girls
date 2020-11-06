@@ -67,6 +67,10 @@ public class Hero {
         if (time-20>=0){
             time -= 20 ;
         }
+        else {
+            time = 0 ;
+
+        }
     }
 
     public void countDown(){

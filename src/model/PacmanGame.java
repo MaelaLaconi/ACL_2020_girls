@@ -177,6 +177,9 @@ public class PacmanGame implements Game {
 							if (score-5 >=0) {
 								score -= 5;
 							}
+							else {
+								score = 0 ;
+							}
 							break;
 					}
 					trapStep.activate();
