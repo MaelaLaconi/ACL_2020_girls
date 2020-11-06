@@ -77,8 +77,11 @@ public class Labyrinthe {
             floor.draw(im);
         }
         for(Monstre monstre : listMonstres){
-            if(monstre.isMoving()) {
+            if(monstre.isMoving() && monstre.monstreNormal()) {
                 monstre.move(this, WIDTH, HEIGHT);
+            }
+            if(monstre.isMoving() && monstre.monstreFantome()){
+                monstre.moveGhost(this, WIDTH, HEIGHT);
             }
             monstre.draw(im);
         }
