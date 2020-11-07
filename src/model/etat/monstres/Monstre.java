@@ -4,8 +4,10 @@ import model.PacmanGame;
 import model.PacmanPainter;
 import model.etat.Labyrinthe;
 
+import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.IOException;
 import java.util.Random;
 
@@ -23,7 +25,8 @@ public abstract class Monstre {
     protected int height;
     protected Point positions;
     protected int speed;
-    protected BufferedImage bufferedImage;
+    protected BufferedImage[] bufferedImage;
+    protected int indexIm,nbFrame;
     private int step = 1;
     private boolean moving;
 
@@ -31,8 +34,11 @@ public abstract class Monstre {
         this.positions = point;
         this.width = width;
         this.height = height;
+        bufferedImage=new BufferedImage[100];
+        indexIm=0;
         this.moving=true;
     }
+
 
     /**
      *
@@ -40,6 +46,7 @@ public abstract class Monstre {
      * @param wallWidth
      * @param wallHeight
      */
+
     public void move(Labyrinthe labyrinthe, int wallWidth, int wallHeight){
         //A droite
         if(step == DROITE) {
@@ -197,6 +204,7 @@ public abstract class Monstre {
 
             } else {
                 positions.x += speed;
+                nextFrame();
                 // System.out.println("here");
             }
         }
@@ -216,6 +224,7 @@ public abstract class Monstre {
 
             } else {
                 positions.x -= speed;
+                nextFrame();
             }
 
 
@@ -235,6 +244,7 @@ public abstract class Monstre {
 
             } else {
                 positions.y -= speed;
+                nextFrame();
             }
 
         }
@@ -256,12 +266,18 @@ public abstract class Monstre {
             }
             else{
                 positions.y += speed;
+                nextFrame();
             }
 
         }
 
 
     }
+
+    public void setIndexIm(int indexIm) {
+        this.indexIm = indexIm;
+    }
+
     /**
      *
      * @param im
@@ -269,7 +285,7 @@ public abstract class Monstre {
      */
     public void draw(BufferedImage im) throws IOException{
         Graphics2D crayon = (Graphics2D) im.getGraphics();
-        crayon.drawImage(this.bufferedImage, positions.x-(width/2), positions.y-(height/2),width,height,null);
+        crayon.drawImage(this.bufferedImage[indexIm], positions.x-(width/2), positions.y-(height/2),width,height,null);
     }
 
     public void suspend(){
@@ -307,5 +323,13 @@ public abstract class Monstre {
 
     public  boolean monstreGuardianMonster(){
         return false;
+    }
+    public void nextFrame(){
+        if (indexIm>nbFrame-1){
+            indexIm=0;
+        }
+        else {
+            indexIm++;
+        }
     }
 }

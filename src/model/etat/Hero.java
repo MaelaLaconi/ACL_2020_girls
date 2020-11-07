@@ -12,8 +12,8 @@ import java.util.TimerTask;
 public class Hero {
 
     private Point position;
-    private int width;
-    private int height;
+    public static int width;
+    public static int height;
     private BufferedImage im[];
     private int time ;
     private boolean saiyen ;
@@ -34,8 +34,20 @@ public class Hero {
         width = 30;
         height = 40;
         indexPhoto=0;
-        im=new BufferedImage[11];
-        for (int i=1;i<=10;i++) {
+        im=new BufferedImage[100];
+        init();
+        time = 60 ;
+        saiyen = false ;
+        nbDeVie=3;
+        imunise=false;
+
+    }
+    public void normalTransform() throws IOException {
+        this.saiyen = false ;
+        init();
+    }
+    public void init() throws IOException {
+        for (int i=1;i<=12;i++) {
             if (i<=4) {
                 im[i - 1] = ImageIO.read(new File("resources/images/belle/bellesFly" + i + ".png"));
             }
@@ -45,19 +57,23 @@ public class Hero {
             else if (i==6){
                 im[i-1]=ImageIO.read(new File("resources/images/belle/belledown.png"));
             }
-            else if (i>6){
+            else if (i>6 && i<=10){
                 int j=i-6;
                 System.out.println(j);
                 im[i - 1] = ImageIO.read(new File("resources/images/belle/bellesFlyG"+j+".png"));
             }
+            else if(i==11){
+                im[i-1]= ImageIO.read(new File("resources/images/belle/saiyanD.png"));
+            }
+            else if (i==12){
+                im[i-1]= ImageIO.read(new File("resources/images/belle/saiyanG.png"));
+            }
         }
-        time = 60 ;
-        saiyen = false ;
-        nbDeVie=3;
-        imunise=false;
-
     }
-
+    public void saiyanTransform() throws IOException {
+        this.saiyen = true ;
+        nextFrame("saiyan");
+    }
     public void draw(BufferedImage im){
         Graphics2D crayon = (Graphics2D) im.getGraphics();
         crayon.drawImage(this.im[indexPhoto],position.x-(width/2),position.y-(height/2),width,height,null);
@@ -165,6 +181,8 @@ public class Hero {
         else if (direction.equals("down")){
             indexPhoto=5;
         }
-
+        else if (direction.equals("saiyan")){
+            indexPhoto=11;
+        }
     }
 }

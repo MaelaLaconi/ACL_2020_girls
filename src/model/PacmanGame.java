@@ -6,16 +6,16 @@ import model.etat.Degat;
 import model.etat.Hero;
 import model.etat.Labyrinthe;
 import model.etat.Pouvoir;
+import model.etat.diamonds.DiamondBleu;
+import model.etat.diamonds.DiamondRouge;
 import model.etat.floor.*;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
+import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -35,6 +35,7 @@ public class PacmanGame implements Game {
 	private int sizeOfPolice = 35;
 	protected Font font = new Font("TimesRoman", Font.BOLD+Font.ITALIC, 30);
 	private String source;
+	private int nbDeVies;
 	/**
 	 * constructeur avec fichier source pour le help
 	 *
@@ -44,7 +45,7 @@ public class PacmanGame implements Game {
 		hero = new Hero();
 		BufferedReader helpReader;
 		this.source=source;
-
+		nbDeVies=hero.getNbDeVie();
 		try {
 			helpReader = new BufferedReader(new FileReader(this.source));
 			String ligne;
@@ -78,21 +79,25 @@ public class PacmanGame implements Game {
 			case UP:
 				if(collision(0, -speed)) {
 					hero.move(0, -speed);
+					hero.nextFrame("up");
 				}
 				break;
 			case DOWN:
 				if(collision(0, speed)) {
 					hero.move(0, speed);
+					hero.nextFrame("down");
 				}
 				break;
 			case LEFT:
 				if(collision(-speed, 0)) {
 					hero.move(-speed, 0);
+					hero.nextFrame("left");
 				}
 				break;
 			case RIGHT:
 				if(collision(speed,0)) {
 					hero.move(speed, 0);
+					hero.nextFrame("right");
 				}
 				break;
 		}
@@ -107,15 +112,25 @@ public class PacmanGame implements Game {
 		infosBar.setColor(Color.black);
 		infosBar.drawString("Time: "+hero.getTime(), sizeOfPolice+ lab.WIDTH, (sizeOfPolice/2 + lab.HEIGHT)/2);
 		infosBar.drawString("Scores: "+score, lab.getWidth()-((sizeOfPolice+ lab.WIDTH)*2), (sizeOfPolice/2 + lab.HEIGHT)/2);
-
+		BufferedImage imageCoeur=ImageIO.read(new File("resources/images/coeur.png"));
+		int dx1=450; int dx2=510;
+		BufferedImage imgRed=new BufferedImage(50,60,imageCoeur.getType());
+		infosBar.setRenderingHint(RenderingHints.KEY_INTERPOLATION,RenderingHints.VALUE_INTERPOLATION_BILINEAR);
+		for(int i=0;i<nbDeVies;i++){
+			infosBar.drawImage(imageCoeur,dx1,0,dx2,50,0,0,imageCoeur.getWidth(),imageCoeur.getHeight(),null);
+			dx1=dx2+5;
+			dx2=dx1+60;
+		}
 		update();
 	}
 
 	private void update() throws IOException {
-		if(lab.getFloor(hero.getPosition().x, hero.getPosition().y).isAtDoor()&& lab.getStage().openDoor() ){
-			this.source="resources/lab/lab1.txt";
+		if(lab.getFloor(hero).isAtDoor()&& lab.getStage().openDoor() ){
+			Random rand= new Random();
+			int numeroLab = rand.nextInt(5-1+1)+1;
+			this.source="resources/lab/lab"+numeroLab+".txt";
 			this.hero.setPosition(new Point(this.hero.getPosition().x/2,this.hero.getPosition().y/2));
-			hero.setSaiyen(false);  //on redeviens normal a chanque nouveau map
+			hero.normalTransform(); //on redeviens normal a chanque nouveau map
 			hero.setTime(hero.getTime()+20);// on lui rajoute 20sec à chaque nouvel map
 			BufferedReader helpReader;
 			this.lab=new Labyrinthe();
@@ -128,26 +143,31 @@ public class PacmanGame implements Game {
 				helpReader.close();
 			} catch (IOException e) {
 			}
+
 		}
 
 		if(!this.lab.equals(null)){
-			if (lab.getFloor(hero.getPosition().x, hero.getPosition().y).isMagicalStep()) {
-				MagicStep magicStep = (MagicStep) lab.getFloor(hero.getPosition().x, hero.getPosition().y);
+			if (lab.getFloor(hero).isMagicalStep()) {
+				MagicStep magicStep = (MagicStep) lab.getFloor(hero);
 				if (!magicStep.isActivate()) {
 
 					Pouvoir pouvoir = Pouvoir.randomPouvoir() ;
 					switch (pouvoir){
 						case TEMPS:
+							System.out.println("TEMPS GAGNE");
 							hero.addTime();
 							break;
 						case SUSPEND:
+							System.out.println("SUSPENTION");
 							lab.suspendMonstre(5);
 							break;
 						case VIE:
+							System.out.println("VIE GAGNE");
 							//hero.addLife() ;
 							break;
 						case SAIYAN:
-							hero.setSaiyen(true);
+							System.out.println("MODE SAIYAN");
+							hero.saiyanTransform();
 							break;
 					}
 					magicStep.activate(hero);
@@ -155,8 +175,8 @@ public class PacmanGame implements Game {
 				}
 			}
 
-			if (lab.getFloor(hero.getPosition().x, hero.getPosition().y).isTrapStep()) {
-				TrapStep trapStep = (TrapStep) lab.getFloor(hero.getPosition().x, hero.getPosition().y);
+			if (lab.getFloor(hero).isTrapStep()) {
+				TrapStep trapStep = (TrapStep) lab.getFloor(hero);
 				if (!trapStep.isActivate()) {
 					Degat degat = Degat.randomDegat() ;
 					switch (degat){
@@ -170,7 +190,12 @@ public class PacmanGame implements Game {
 							break;
 						case SCORE:
 							System.out.println("SCOOOOOOOOOOOOORE");
-							score -= 5 ;
+							if (score-5 >=0) {
+								score -= 5;
+							}
+							else {
+								score = 0 ;
+							}
 							break;
 					}
 					trapStep.activate();
@@ -180,11 +205,32 @@ public class PacmanGame implements Game {
 			}
 
 
-			if (lab.getFloor(hero.getPosition().x, hero.getPosition().y).isTresor()) {
+			if( lab.getDiamond(hero)!=null){
+				if (!lab.getDiamond(hero).isRedDiamond() && lab.getDiamond(hero)instanceof DiamondRouge) {
+					DiamondRouge diamondRouge = (DiamondRouge) lab.getDiamond(hero);
+					if (!diamondRouge.isPicked()) {
+						score += 10;
+						diamondRouge.picked(hero);
+					}
+
+
+
+				}
+				else if (!lab.getDiamond(hero).isBlueDiamond()&& lab.getDiamond(hero)instanceof DiamondBleu){
+					DiamondBleu diamondBleu = (DiamondBleu) lab.getDiamond(hero);
+					if (!diamondBleu.isPicked()) {
+						score += 5;
+						diamondBleu.picked(hero);
+					}
+
+
+				}
+			}
+			if (lab.getFloor(hero).isTresor()) {
 				if (!this.lab.getStage().openDoor()) {
 					this.lab.getStage().setBufferedImage(ImageIO.read(new File("resources/images/dooropen.png")));
 					this.lab.getStage().setOpen(true);
-					Tresor tresor = (Tresor) lab.getFloor(hero.getPosition().x, hero.getPosition().y);
+					Tresor tresor = (Tresor) lab.getFloor(hero);
 					if (!tresor.isCollected()) {
 						score=score+20;
 						tresor.collected(hero);
@@ -192,7 +238,7 @@ public class PacmanGame implements Game {
 				}
 			}
 		}
-
+		nbDeVies=hero.getNbDeVie();
 
 	}
 
@@ -244,7 +290,17 @@ public class PacmanGame implements Game {
 		JLabel label;
 
 		//collision avec monstre normal -> on stp le jeu pour l'instant sauf si le hero est en mode saiyen
-		if (lab.collisionMonstreNormal(hero.getPosition().x, hero.getPosition().y) && !hero.isSaiyen()) {
+		if (lab.collisionMonstre(hero.getPosition().x, hero.getPosition().y) && !hero.isSaiyen()) {
+			if (hero.getNbDeVie()>0 && hero.getImunise()==false){
+					hero.perdreUneVie();
+					hero.setImunise(true);
+					hero.isImunise();
+					return false;
+
+			}
+			if (hero.getImunise()==true){
+				return false;
+			}
 			label = new JLabel("LE MOOOOOOOOOOOONSTRE VOUS A DEVORE");
 			panel.add(label);
 			frame.setContentPane(panel);
@@ -277,25 +333,7 @@ public class PacmanGame implements Game {
 
 			return true;
 		}
-
-		/*if(lab.getFloor(hero.getPosition().x, hero.getPosition().y).tresor()){
-			label = new JLabel("C'est gagné !");
-			panel.add(label);
-			frame.setContentPane(panel);
-			frame.pack();
-			frame.setLocationRelativeTo(null);
-			frame.setPreferredSize(new Dimension(100,100));
-			frame.setVisible(true);
-			//Pause for 1 seconds
-			try {
-				Thread.sleep(1000);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
-			return true;
-		}
-		*/else{
-
+		else{
 			return false;
 		}
 

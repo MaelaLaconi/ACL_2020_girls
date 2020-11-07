@@ -10,7 +10,8 @@ public class NormalMonstre extends Monstre {
 
     public NormalMonstre(Point point, int width, int height) throws IOException{
         super(point, width, height);
-        bufferedImage = ImageIO.read(new File("resources/images/monstre.png"));
+        nbFrame=1;
+        bufferedImage[0] = ImageIO.read(new File("resources/images/monstre.png"));
         speed = 3;
 
     }

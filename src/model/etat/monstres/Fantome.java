@@ -9,7 +9,8 @@ import java.io.IOException;
 public class Fantome extends Monstre{
     public Fantome(Point point, int width, int height) throws IOException {
         super(point, width, height);
-        bufferedImage = ImageIO.read(new File("resources/images/fantome.png"));
+        nbFrame=1;
+        bufferedImage[0] = ImageIO.read(new File("resources/images/fantome.png"));
         speed = 4;
     }
 
