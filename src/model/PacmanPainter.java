@@ -4,6 +4,7 @@ package model;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
+import engine.Game;
 import engine.GamePainter;
 
 /**
@@ -13,6 +14,7 @@ import engine.GamePainter;
  * 
  */
 public class PacmanPainter implements GamePainter {
+
 	private PacmanGame pacmanGame;
 
 	/**
@@ -43,6 +45,7 @@ public class PacmanPainter implements GamePainter {
 	public int getWidth() {
 		return WIDTH;
 	}
+
 
 	@Override
 	public int getHeight() {

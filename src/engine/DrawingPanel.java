@@ -4,6 +4,7 @@ package engine;
  * @author Horatiu Cirstea, Vincent Thomas
  *
  */
+
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
@@ -32,7 +33,6 @@ public class DrawingPanel extends JPanel {
 	 * image en cours est l'image entrain d'etre affichee
 	 */
 	private BufferedImage currentImage;
-
 	/**
 	 * la taille des images
 	 */
@@ -50,8 +50,8 @@ public class DrawingPanel extends JPanel {
 		this.height = painter.getHeight();
 		this.setPreferredSize(new Dimension(this.width, this.height));
 		this.painter=painter;
-
 		// cree l'image buffer et son graphics
+
 		this.nextImage = new BufferedImage(width, height,
 				BufferedImage.TYPE_INT_RGB);
 		this.currentImage = new BufferedImage(width, height,

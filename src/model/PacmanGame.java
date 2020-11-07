@@ -35,6 +35,7 @@ public class PacmanGame implements Game {
 	private int sizeOfPolice = 35;
 	protected Font font = new Font("TimesRoman", Font.BOLD+Font.ITALIC, 30);
 	private String source;
+	private int nbVieH;
 	/**
 	 * constructeur avec fichier source pour le help
 	 *
@@ -44,6 +45,7 @@ public class PacmanGame implements Game {
 		hero = new Hero();
 		BufferedReader helpReader;
 		this.source=source;
+ 		nbVieH=hero.getNbDeVie();
 
 		try {
 			helpReader = new BufferedReader(new FileReader(this.source));
@@ -78,21 +80,28 @@ public class PacmanGame implements Game {
 			case UP:
 				if(collision(0, -speed)) {
 					hero.move(0, -speed);
+					hero.nextFrame("up");
+
+
 				}
 				break;
 			case DOWN:
 				if(collision(0, speed)) {
 					hero.move(0, speed);
+					hero.nextFrame("down");
 				}
 				break;
 			case LEFT:
 				if(collision(-speed, 0)) {
 					hero.move(-speed, 0);
+					hero.nextFrame("left");
+
 				}
 				break;
 			case RIGHT:
 				if(collision(speed,0)) {
 					hero.move(speed, 0);
+					hero.nextFrame("right");
 				}
 				break;
 		}
@@ -107,6 +116,16 @@ public class PacmanGame implements Game {
 		infosBar.setColor(Color.black);
 		infosBar.drawString("Time: "+hero.getTime(), sizeOfPolice+ lab.WIDTH, (sizeOfPolice/2 + lab.HEIGHT)/2);
 		infosBar.drawString("Scores: "+score, lab.getWidth()-((sizeOfPolice+ lab.WIDTH)*2), (sizeOfPolice/2 + lab.HEIGHT)/2);
+		BufferedImage imCoeur=ImageIO.read(new File("resources/images/coeur.png"));
+		//Redimensionner l'image
+		BufferedImage redImage=new BufferedImage(60,50,imCoeur.getType());
+		infosBar.setRenderingHint(RenderingHints.KEY_INTERPOLATION,RenderingHints.VALUE_INTERPOLATION_BILINEAR);
+		int dx1=450; int dx2=510;
+		for (int i=0;i<nbVieH;i++){
+			infosBar.drawImage(imCoeur,dx1,0,dx2,50,0,0,imCoeur.getWidth(),imCoeur.getHeight(),null);
+			dx1=dx2+5;
+			dx2=dx1+60;
+		}
 
 		update();
 	}
@@ -192,7 +211,7 @@ public class PacmanGame implements Game {
 				}
 			}
 		}
-
+			nbVieH=hero.getNbDeVie();
 
 	}
 
@@ -245,6 +264,17 @@ public class PacmanGame implements Game {
 
 		//collision avec monstre normal -> on stp le jeu pour l'instant sauf si le hero est en mode saiyen
 		if (lab.collisionMonstreNormal(hero.getPosition().x, hero.getPosition().y) && !hero.isSaiyen()) {
+			if (hero.getNbDeVie()>0 && hero.getImunise()==false){
+				hero.setImunise(true);
+				hero.isImunise();
+				hero.perdreUneVie();
+				System.out.println(hero.getNbDeVie());
+				System.out.println(hero.getImunise());
+				return false;
+			}
+			if (hero.getImunise()==true){
+				return false;
+			}
 			label = new JLabel("LE MOOOOOOOOOOOONSTRE VOUS A DEVORE");
 			panel.add(label);
 			frame.setContentPane(panel);
