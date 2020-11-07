@@ -48,13 +48,12 @@ public abstract class Floor {
 
     public abstract boolean isCollected();
 
-    public boolean isTresor(){
+    public boolean isSafe(){
         return false;
     }
    public void setBufferedImage(BufferedImage bufferedImage) {
         this.bufferedImage = bufferedImage;
     }
-
     public boolean isAtDoor(){
         return false;
     }

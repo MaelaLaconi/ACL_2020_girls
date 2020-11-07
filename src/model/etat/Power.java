@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Random;
 
 public enum Power {
-    TEMPS, VIE, SUSPEND, SAIYAN;
+    TIME, LIFE, SUSPEND, SAIYAN;
 
     private static final List<Power> VALUES =
             Collections.unmodifiableList(Arrays.asList(values()));
@@ -17,7 +17,7 @@ public enum Power {
      *
      * @return a ramdom power
      */
-    public static Power randomPouvoir()  {
+    public static Power randomPower()  {
         return VALUES.get(RANDOM.nextInt(SIZE));
     }
 }

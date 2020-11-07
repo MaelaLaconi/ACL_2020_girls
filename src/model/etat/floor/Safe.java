@@ -10,10 +10,10 @@ import java.io.IOException;
 /**
  *
  */
-public class Tresor extends Floor {
+public class Safe extends Floor {
     private boolean isCollected;
 
-    public Tresor(Point p, int w, int h) throws IOException {
+    public Safe(Point p, int w, int h) throws IOException {
         super(p, w, h);
         bufferedImage = ImageIO.read(new File("resources/images/tresor.png"));
         isCollected = false;
@@ -21,17 +21,17 @@ public class Tresor extends Floor {
 
 
     /**
-     * Function that will activate power ( à revoir)
-     * @param hero
+     * Function that indicate that the safe has been collected
+     *
      */
-    public void collected(Hero hero) throws IOException {
+    public void collected() throws IOException {
         isCollected = true;
         emptyTresor();
 
     }
 
     /**
-     *Function once the hero is on the magicstep
+     *Function once the hero is on the safe
      */
     private void emptyTresor() throws IOException {
         bufferedImage = ImageIO.read(new File("resources/images/tresorOpen.png"));
@@ -43,7 +43,7 @@ public class Tresor extends Floor {
     public boolean isCollected() {
         return isCollected;
     }
-    public boolean isTresor() {
+    public boolean isSafe() {
         return true;
     }
     public boolean openDoor() {

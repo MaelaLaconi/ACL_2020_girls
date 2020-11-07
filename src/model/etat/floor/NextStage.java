@@ -1,8 +1,6 @@
 package model.etat.floor;
 
 
-import model.etat.Hero;
-
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.io.File;
@@ -25,16 +23,20 @@ public class NextStage extends Floor {
     public boolean isCollected(){
         return false;
     }
+
     public boolean openDoor() {
         return isOpen;
     }
+
     public boolean isMagicalFloor() {
         return false;
     }
+
     public boolean isActivate() {
         return false;
     }
-    public void desactivate() throws IOException {
+
+    public void desactivate() {
 
     }
 

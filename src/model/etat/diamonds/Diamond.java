@@ -1,5 +1,7 @@
 package model.etat.diamonds;
 
+import model.etat.Hero;
+
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -13,6 +15,8 @@ public abstract class Diamond
         protected int width;
         protected int height;
         protected BufferedImage bufferedImage;
+        private boolean isPicked;
+
 
         /**
          * Constructeur Floor
@@ -24,6 +28,8 @@ public abstract class Diamond
         position = p;
         width = w;
         height = h;
+        isPicked=false;
+
     }
 
         /**
@@ -35,9 +41,28 @@ public abstract class Diamond
         Graphics2D crayon = (Graphics2D) im.getGraphics();
         crayon.drawImage(this.bufferedImage,position.x,position.y,width,height,null);
     }
+
+        /**
+         * replace the diamond by floor
+         * @throws IOException
+         */
         public void remove() throws IOException {
             bufferedImage = ImageIO.read(new File("resources/images/floor.png"));
         }
+
+        /**
+         * when the hero has picked the diamond it's removed
+         *
+         */
+        public void picked() throws IOException {
+            isPicked = true;
+            remove();
+        }
+
+        public boolean isPicked() {
+            return isPicked;
+        }
+
 
         public Point getPosition() {
             return position;
@@ -47,6 +72,7 @@ public abstract class Diamond
         public boolean isBlueDiamond() {
             return false;
         }
+
         public boolean isRedDiamond() {
             return false;
         }

@@ -11,21 +11,22 @@ public class TeleportStep extends Floor {
 
     public TeleportStep(Point p, int w, int h) throws IOException {
         super(p, w, h);
-        /*)*/
         bufferedImage = ImageIO.read(new File("resources/images/teleport.png"));
-       // bufferedImage = new ImageInput(url);
     }
 
     @Override
     public boolean isCollected() {
         return false;
     }
+
     public boolean openDoor() {
         return false;
     }
+
     public boolean isMagicalFloor() {
         return false;
     }
+
     public boolean isActivate() {
         return false;
     }

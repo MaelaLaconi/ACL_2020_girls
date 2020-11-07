@@ -6,7 +6,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Random;
 
-public class GhostMonster extends Monstre{
+public class GhostMonster extends Monster {
     public GhostMonster(Point point, int width, int height) throws IOException {
         super(point, width, height);
         nbFrame=1;

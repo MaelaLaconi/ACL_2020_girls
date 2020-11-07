@@ -6,8 +6,7 @@ import java.util.List;
 import java.util.Random;
 
 public enum Damage {
-    TEMPS, VIE, SCORE ;
-
+    TIME, LIFE, SCORE ;
     private static final List<Damage> VALUES =
             Collections.unmodifiableList(Arrays.asList(values()));
     private static final int SIZE = VALUES.size();
@@ -17,7 +16,7 @@ public enum Damage {
      *
      * @return a random damage
      */
-    public static Damage randomDegat()  {
+    public static Damage randomDamage()  {
         return VALUES.get(RANDOM.nextInt(SIZE));
     }
 

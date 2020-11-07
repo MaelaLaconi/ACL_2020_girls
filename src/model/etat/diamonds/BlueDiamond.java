@@ -9,7 +9,7 @@ import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 
-public class DiamondRouge extends Diamond {
+public class BlueDiamond extends Diamond {
     /**
      * Constructeur Floor
      *
@@ -17,21 +17,14 @@ public class DiamondRouge extends Diamond {
      * @param w
      * @param h
      */
-    private boolean isPicked;
-    public DiamondRouge(Point p, int w, int h) throws IOException {
+
+    public BlueDiamond(Point p, int w, int h) throws IOException {
         super(p, w, h);
-        bufferedImage = ImageIO.read(new File("resources/images/rouge.png"));
-        isPicked=false;
+        bufferedImage = ImageIO.read(new File("resources/images/bleu.png"));
     }
 
-    public void picked(Hero hero) throws IOException {
-        isPicked = true;
-        remove();
-    }
 
-    public boolean isPicked() {
-        return isPicked;
-    }
+
     @Override
     public boolean isBlueDiamond() {
         return false;

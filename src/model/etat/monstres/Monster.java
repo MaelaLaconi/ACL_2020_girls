@@ -12,7 +12,7 @@ import java.util.Random;
  *
  */
 
-public abstract class Monstre {
+public abstract class Monster {
     public static int HAUT = 4 ;
     public static int BAS = 2 ;
     public static int GAUCHE = 3 ;
@@ -28,7 +28,7 @@ public abstract class Monstre {
     private boolean moving;
     private int counterGhost;
 
-    public Monstre(Point point, int width, int height){
+    public Monster(Point point, int width, int height){
         this.positions = point;
         this.width = width;
         this.height = height;

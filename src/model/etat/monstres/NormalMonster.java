@@ -2,13 +2,12 @@ package model.etat.monstres;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
-import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
-public class NormalMonstre extends Monstre {
+public class NormalMonster extends Monster {
 
-    public NormalMonstre(Point point, int width, int height) throws IOException{
+    public NormalMonster(Point point, int width, int height) throws IOException{
         super(point, width, height);
         nbFrame=1;
         bufferedImage[0] = ImageIO.read(new File("resources/images/monstre.png"));

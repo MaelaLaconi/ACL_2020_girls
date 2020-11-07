@@ -17,16 +17,21 @@ public class Hero {
     private BufferedImage im[];
     private int time ;
     private boolean saiyan;
-    private int nbDeVie;
+    private int nbLife;
     private int indexPhoto;
+    public static int RIGHT = 1 ;
+    public static int LEFT = 2 ;
+    public static int UP = 3 ;
+    public static int DOWN = 4 ;
+    private static int SAIYAN = 5 ;
 
     public void setImunise(boolean imunise) {
         this.imunise = imunise;
     }
 
     private boolean imunise;
-    public int getNbDeVie() {
-        return nbDeVie;
+    public int getNbLife() {
+        return nbLife;
     }
 
     public Hero() throws IOException {
@@ -38,7 +43,7 @@ public class Hero {
         init();
         time = 60 ;
         saiyan = false ;
-        nbDeVie=3;
+        nbLife =3;
         imunise=false;
     }
 
@@ -82,7 +87,7 @@ public class Hero {
      */
     public void saiyanTransform() {
         this.saiyan = true ;
-        nextFrame("saiyan");
+        nextFrame(SAIYAN);
     }
 
     /**
@@ -139,13 +144,19 @@ public class Hero {
         return saiyan;
     }
 
-    public void perdreUneVie(){
-        nbDeVie--;
+    /**
+     * the hero loose a life
+     */
+    public void subLife(){
+        nbLife--;
     }
 
-    public void gagnerUneVie(){
-        if (nbDeVie < 3){
-            nbDeVie++;
+    /**
+     * the hero win a life if he doesn't have 3 already
+     */
+    public void addLife(){
+        if (nbLife < 3){
+            nbLife++;
         }
     }
 
@@ -155,9 +166,7 @@ public class Hero {
                 System.out.println("Task performed on: " + new Date() + "n" +
                         "Thread's name: " + Thread.currentThread().getName());
                 setImunise(false);
-
             }
-
         };
         Timer timer = new Timer("Timer");
 
@@ -169,8 +178,8 @@ public class Hero {
         return imunise;
     }
 
-    public void nextFrame(String direction){
-        if (direction.equals("right")){
+    public void nextFrame(int direction){
+        if (direction == RIGHT){
             if (indexPhoto>=3){
                 indexPhoto=0;
             }
@@ -178,7 +187,7 @@ public class Hero {
                 indexPhoto++;
             }
         }
-        if (direction.equals("left")){
+        if (direction == LEFT){
             if (indexPhoto>=9){
                 indexPhoto=6;
             }
@@ -190,16 +199,15 @@ public class Hero {
                 indexPhoto++;
             }
         }
-        if (direction.equals("up")){
+        if (direction == UP){
             if (indexPhoto!=4){
                 indexPhoto=4;
             }
-
         }
-        else if (direction.equals("down")){
+        else if (direction == DOWN){
             indexPhoto=5;
         }
-        else if (direction.equals("saiyan")){
+        else if (direction == SAIYAN){
             indexPhoto=11;
         }
     }
