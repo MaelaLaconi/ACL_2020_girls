@@ -66,4 +66,15 @@ public abstract class Floor {
 
    public boolean isTrapStep(){ return false ;}
     public abstract void desactivate() throws IOException;
+    public boolean isTeleportStep(){
+        return false;
+    }
+
+    public int getWidth() {
+        return width;
+    }
+
+    public int getHeight() {
+        return height;
+    }
 }

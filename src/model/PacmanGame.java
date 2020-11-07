@@ -19,6 +19,8 @@ import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import static java.lang.Thread.sleep;
+
 /**
  * @author Horatiu Cirstea, Vincent Thomas
  *
@@ -36,6 +38,7 @@ public class PacmanGame implements Game {
 	protected Font font = new Font("TimesRoman", Font.BOLD+Font.ITALIC, 30);
 	private String source;
 	private int nbLife;
+	private boolean teleport;
 	/**
 	 * constructeur avec fichier source pour le help
 	 *
@@ -125,6 +128,16 @@ public class PacmanGame implements Game {
 	}
 
 	private void update() throws IOException {
+		this.teleport=true;
+		if(lab.getFloor(hero).isTeleportStep()){
+			for (TeleportStep teleportStep : lab.getListTeleportStep()) {
+				if ((teleportStep.getX()<lab.getFloor(hero).getPosition().x || teleportStep.getX()>lab.getFloor(hero).getPosition().x + lab.getFloor(hero).getWidth()) && (teleportStep.getY()<lab.getFloor(hero).getPosition().y || teleportStep.getY()>lab.getFloor(hero).getPosition().y + lab.getFloor(hero).getHeight()) && teleport) {
+				hero.setPosition(teleportStep.getPosition());
+				teleport = false;
+				}
+			}
+
+		}
 		//if we are at the door and we already took the safe
 		if(lab.getFloor(hero).isAtDoor() && lab.getStage().openDoor() ){
 			Random rand= new Random();
@@ -302,7 +315,7 @@ public class PacmanGame implements Game {
 			frame.setVisible(true);
 			//Pause for 1 seconds
 			try {
-				Thread.sleep(1000);
+				sleep(1000);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
@@ -318,7 +331,7 @@ public class PacmanGame implements Game {
 			frame.setVisible(true);
 			//Pause for 1 seconds
 			try {
-				Thread.sleep(1000);
+				sleep(1000);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}

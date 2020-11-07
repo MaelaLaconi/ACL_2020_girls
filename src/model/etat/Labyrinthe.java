@@ -25,7 +25,8 @@ public class Labyrinthe {
     private Collection<Floor> listFloors;
     private Collection<Monster> listMonsters;
     private Collection<Diamond> listDiamonds;
-    private NextStage stage;
+    private Collection<TeleportStep> listTeleportStep;
+    private Door stage;
     private int line, column;
     public final int WIDTH = 50;
     public final int HEIGHT = 50;
@@ -36,13 +37,11 @@ public class Labyrinthe {
         listMonsters.add(new GhostMonster(new Point(400,400),35   ,35));
         listMonsters.add(new GhostMonster(new Point(300,500),35   ,35));
         listMonsters.add(new GhostMonster(new Point(500,600),35   ,35));
-
         listDiamonds =new ArrayList<>();
         listDiamonds.add(new BlueDiamond(new Point(200,300),35   ,35));
         listDiamonds.add(new RedDiamond(new Point(450,150),30   ,30));
-
-
         listFloors = new ArrayList<>();
+        listTeleportStep=new ArrayList<>();
         line = 0;
     }
 
@@ -55,28 +54,36 @@ public class Labyrinthe {
         column = 0;
         for (char ch: string.toCharArray()) {
             switch(ch){
+                //Wall
                 case 'w' :
                     listFloors.add(new Wall(new Point(column, line), WIDTH, HEIGHT));
                     break;
+                //Normal Step
                 case 'n' :
                     listFloors.add(new NormalStep(new Point(column, line), WIDTH, HEIGHT));
                     break;
+                //Magic Step
                 case 'm' :
                     listFloors.add(new MagicStep(new Point(column, line), WIDTH, HEIGHT));
                     break;
+                //Safe
                 case 't' :
                     listFloors.add(new Safe(new Point(column, line), WIDTH, HEIGHT));
                     listMonsters.add(new GuardianMonster(new Point(column, line),35   ,35));
                     break;
+                //Trap Step
                case 's' : //skull trapStep
                     listFloors.add(new TrapStep(new Point(column, line), WIDTH, HEIGHT));
                     break;
+                //Door
                 case 'c' :
-                    this.stage=new NextStage(new Point(column, line), WIDTH, HEIGHT);
+                    this.stage=new Door(new Point(column, line), WIDTH, HEIGHT);
                     listFloors.add(stage);
                     break;
+                //Teleport Step
                 case 'p' :
                     listFloors.add(new TeleportStep(new Point(column, line), WIDTH, HEIGHT));
+                    listTeleportStep.add(new TeleportStep(new Point(column, line), WIDTH, HEIGHT));
                     break;
 
             }
@@ -209,7 +216,7 @@ public class Labyrinthe {
         }
     }
 
-    public NextStage getStage() {
+    public Door getStage() {
         return stage;
     }
 
@@ -246,6 +253,10 @@ public class Labyrinthe {
         for(Monster monster : listMonsters){
             monster.setMoving(true);
         }
+    }
+
+    public Collection<TeleportStep> getListTeleportStep() {
+        return listTeleportStep;
     }
 
     public Collection<Diamond> getListDiamonds() {
