@@ -2,10 +2,10 @@ package model;
 
 import engine.Cmd;
 import engine.Game;
-import model.etat.Degat;
+import model.etat.Damage;
 import model.etat.Hero;
 import model.etat.Labyrinthe;
-import model.etat.Pouvoir;
+import model.etat.Power;
 import model.etat.diamonds.DiamondBleu;
 import model.etat.diamonds.DiamondRouge;
 import model.etat.floor.*;
@@ -146,95 +146,91 @@ public class PacmanGame implements Game {
 
 		}
 
-		if(!this.lab.equals(null)){
-			if (lab.getFloor(hero).isMagicalStep()) {
-				MagicStep magicStep = (MagicStep) lab.getFloor(hero);
-				if (!magicStep.isActivate()) {
-
-					Pouvoir pouvoir = Pouvoir.randomPouvoir() ;
-					switch (pouvoir){
-						case TEMPS:
-							System.out.println("TEMPS GAGNE");
-							hero.addTime();
-							break;
-						case SUSPEND:
-							System.out.println("SUSPENTION");
-							lab.suspendMonstre(5);
-							break;
-						case VIE:
-							System.out.println("VIE GAGNE");
-							//hero.addLife() ;
-							break;
-						case SAIYAN:
-							System.out.println("MODE SAIYAN");
-							hero.saiyanTransform();
-							break;
-					}
-					magicStep.activate(hero);
-
+		if (lab.getFloor(hero).isMagicalStep()) {
+			MagicStep magicStep = (MagicStep) lab.getFloor(hero);
+			if (!magicStep.isActivate()) {
+				Power power = Power.randomPouvoir() ;
+				switch (power){
+					case TEMPS:
+						System.out.println("TEMPS GAGNE");
+						hero.addTime();
+						break;
+					case SUSPEND:
+						System.out.println("SUSPENTION");
+						lab.suspendMonstre(5);
+						break;
+					case VIE:
+						System.out.println("VIE GAGNE");
+						hero.gagnerUneVie();
+						break;
+					case SAIYAN:
+						System.out.println("MODE SAIYAN");
+						hero.saiyanTransform();
+						break;
 				}
+				magicStep.activate(hero);
 			}
+		}
 
-			if (lab.getFloor(hero).isTrapStep()) {
-				TrapStep trapStep = (TrapStep) lab.getFloor(hero);
-				if (!trapStep.isActivate()) {
-					Degat degat = Degat.randomDegat() ;
-					switch (degat){
-						case TEMPS:
-							System.out.println("TEEEEEEEEEEMPS");
-							hero.subTime();
-							break;
-						case VIE:
-							System.out.println("VIEEEEEEEEEEE");
-							//hero.subLife() ;
-							break;
-						case SCORE:
-							System.out.println("SCOOOOOOOOOOOOORE");
-							if (score-5 >=0) {
-								score -= 5;
-							}
-							else {
-								score = 0 ;
-							}
-							break;
-					}
-					trapStep.activate();
-
+		if (lab.getFloor(hero).isTrapStep()) {
+			TrapStep trapStep = (TrapStep) lab.getFloor(hero);
+			if (!trapStep.isActivate()) {
+				Damage damage = Damage.randomDegat() ;
+				switch (damage){
+					case TEMPS:
+						System.out.println("TEEEEEEEEEEMPS");
+						hero.subTime();
+						break;
+					case VIE:
+						System.out.println("VIEEEEEEEEEEE");
+						//hero.subLife() ;
+						break;
+					case SCORE:
+						System.out.println("SCOOOOOOOOOOOOORE");
+						if (score-5 >=0) {
+							score -= 5;
+						}
+						else {
+							score = 0 ;
+						}
+						break;
 				}
+				trapStep.activate();
 
 			}
 
-
-			if( lab.getDiamond(hero)!=null){
-				if (!lab.getDiamond(hero).isRedDiamond() && lab.getDiamond(hero)instanceof DiamondRouge) {
-					DiamondRouge diamondRouge = (DiamondRouge) lab.getDiamond(hero);
-					if (!diamondRouge.isPicked()) {
-						score += 10;
-						diamondRouge.picked(hero);
-					}
+		}
 
 
-
+		if( lab.getDiamond(hero)!=null){
+			if (!lab.getDiamond(hero).isRedDiamond() && lab.getDiamond(hero)instanceof DiamondRouge) {
+				DiamondRouge diamondRouge = (DiamondRouge) lab.getDiamond(hero);
+				if (!diamondRouge.isPicked()) {
+					score += 10;
+					diamondRouge.picked(hero);
 				}
-				else if (!lab.getDiamond(hero).isBlueDiamond()&& lab.getDiamond(hero)instanceof DiamondBleu){
-					DiamondBleu diamondBleu = (DiamondBleu) lab.getDiamond(hero);
-					if (!diamondBleu.isPicked()) {
-						score += 5;
-						diamondBleu.picked(hero);
-					}
 
 
-				}
+
 			}
-			if (lab.getFloor(hero).isTresor()) {
-				if (!this.lab.getStage().openDoor()) {
-					this.lab.getStage().setBufferedImage(ImageIO.read(new File("resources/images/dooropen.png")));
-					this.lab.getStage().setOpen(true);
-					Tresor tresor = (Tresor) lab.getFloor(hero);
-					if (!tresor.isCollected()) {
-						score=score+20;
-						tresor.collected(hero);
-					}
+			else if (!lab.getDiamond(hero).isBlueDiamond()&& lab.getDiamond(hero)instanceof DiamondBleu){
+				DiamondBleu diamondBleu = (DiamondBleu) lab.getDiamond(hero);
+				if (!diamondBleu.isPicked()) {
+					score += 5;
+					diamondBleu.picked(hero);
+				}
+
+
+			}
+		}
+		if (lab.getFloor(hero).isTresor()) {
+			if (!this.lab.getStage().openDoor()) {
+				this.lab.getStage().setBufferedImage(ImageIO.read(new File("resources/images/dooropen.png")));
+				this.lab.getStage().setOpen(true);
+				Tresor tresor = (Tresor) lab.getFloor(hero);
+				if (!tresor.isCollected()) {
+					score=score+20;
+					tresor.collected(hero);
 				}
 			}
 		}
@@ -290,7 +286,7 @@ public class PacmanGame implements Game {
 		JLabel label;
 
 		//collision avec monstre normal -> on stp le jeu pour l'instant sauf si le hero est en mode saiyen
-		if (lab.collisionMonstre(hero.getPosition().x, hero.getPosition().y) && !hero.isSaiyen()) {
+		if (lab.collisionMonstre(hero.getPosition().x, hero.getPosition().y) && !hero.isSaiyan()) {
 			if (hero.getNbDeVie()>0 && hero.getImunise()==false){
 					hero.perdreUneVie();
 					hero.setImunise(true);

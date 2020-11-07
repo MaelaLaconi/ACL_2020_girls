@@ -23,6 +23,7 @@ public class GuardianMonster  extends Monstre{
         }
         speed = 4;
     }
+
     @Override
     public boolean monstreGuardianMonster() {
         return true;

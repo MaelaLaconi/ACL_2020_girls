@@ -13,14 +13,7 @@ public class NormalMonstre extends Monstre {
         nbFrame=1;
         bufferedImage[0] = ImageIO.read(new File("resources/images/monstre.png"));
         speed = 3;
-
     }
-
-   /* @Override
-    public void draw(BufferedImage im) throws IOException {
-        Graphics2D crayon = (Graphics2D) im.getGraphics();
-        crayon.drawImage(this.bufferedImage, positions.x-(width/2), positions.y-(height/2),width,height,null);
-    }*/
 
     @Override
     public boolean monstreNormal() {

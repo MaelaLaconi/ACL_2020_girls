@@ -4,7 +4,7 @@ import model.etat.diamonds.Diamond;
 import model.etat.diamonds.DiamondBleu;
 import model.etat.diamonds.DiamondRouge;
 import model.etat.floor.*;
-import model.etat.monstres.Fantome;
+import model.etat.monstres.GhostMonster;
 import model.etat.monstres.GuardianMonster;
 import model.etat.monstres.Monstre;
 import model.etat.monstres.NormalMonstre;
@@ -33,7 +33,10 @@ public class Labyrinthe {
     public Labyrinthe() throws IOException {
         listMonstres = new ArrayList<>();
         listMonstres.add(new NormalMonstre(new Point(100,100),35   ,35));
-        listMonstres.add(new Fantome(new Point(400,400),35   ,35));
+        listMonstres.add(new GhostMonster(new Point(400,400),35   ,35));
+        listMonstres.add(new GhostMonster(new Point(300,500),35   ,35));
+        listMonstres.add(new GhostMonster(new Point(600,800),35   ,35));
+
         listDiamond =new ArrayList<>();
         listDiamond.add(new DiamondBleu(new Point(200,300),35   ,35));
         listDiamond.add(new DiamondRouge(new Point(450,150),30   ,30));
@@ -94,7 +97,7 @@ public class Labyrinthe {
                 monstre.move(this, WIDTH, HEIGHT);
             }
             if(monstre.isMoving() && monstre.monstreFantome()){
-                monstre.moveGhost(this, WIDTH, HEIGHT);
+                monstre.moveGhost();
             }
             if(monstre.isMoving() && monstre.monstreGuardianMonster()){
                 monstre.moveGuardianMonster(this, WIDTH, HEIGHT);

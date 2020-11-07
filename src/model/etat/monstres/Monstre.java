@@ -1,13 +1,10 @@
 package model.etat.monstres;
 
-import model.PacmanGame;
 import model.PacmanPainter;
 import model.etat.Labyrinthe;
 
-import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
 import java.util.Random;
 
@@ -27,9 +24,9 @@ public abstract class Monstre {
     protected int speed;
     protected BufferedImage[] bufferedImage;
     protected int indexIm,nbFrame;
-    private int step = 1;
+    private int step ;
     private boolean moving;
-    private int compteur ;
+    private int counterGhost;
 
     public Monstre(Point point, int width, int height){
         this.positions = point;
@@ -38,70 +35,63 @@ public abstract class Monstre {
         bufferedImage=new BufferedImage[100];
         indexIm=0;
         this.moving=true;
-        compteur = 0 ;
+        counterGhost = 0 ;
+        step = 1 ;
     }
 
 
     /**
-     *
+     *  move normal monster (collisions with walls)
      * @param labyrinthe
      * @param wallWidth
      * @param wallHeight
      */
 
     public void move(Labyrinthe labyrinthe, int wallWidth, int wallHeight){
-        //A droite
+        Random rand = new Random();
+
         if(step == DROITE) {
             if(!labyrinthe.isWall(positions.x + speed + wallWidth/2, positions.y)){
                 positions.x += speed;
             }
             else {
-                Random rand = new Random();
                 step = rand.nextInt(4-1+1) + 1;
             }
         }
-        //A gauche
+
         else if(step == GAUCHE) {
             if(!labyrinthe.isWall(positions.x - speed - wallWidth/2, positions.y)){
                 positions.x -= speed;
             }
             else {
-                Random rand = new Random();
                 step = rand.nextInt(4-1+1) + 1;
             }
         }
-        //Haut
+
         else if(step == HAUT) {
             if(!labyrinthe.isWall(positions.x, positions.y - speed - wallHeight/2)){
                 positions.y -= speed;
             }
             else {
-                Random rand = new Random();
                 step = rand.nextInt(4-1+1) + 1;
             }
         }
-        //Bas
+
         else if(step == BAS) {
             if(!labyrinthe.isWall(positions.x, positions.y + speed + wallHeight/2)){
                 positions.y += speed;
             }
             else {
-                Random rand = new Random();
                 step = rand.nextInt(4-1+1) + 1;
             }
         }
     }
 
     /**
-     *
-     * @param labyrinthe
-     * @param wallWidth
-     * @param wallHeight
+     * move gosht monster (can go through walls)
      */
-    public void moveGhost(Labyrinthe labyrinthe, int wallWidth, int wallHeight){
-        compteur++ ;
-        System.out.println("compteur = "+compteur);
-        // System.out.println("X : " + positions.x +" Y : "+ positions.y + " Speed : "+speed+" Lab Height: "+ PacmanPainter.HEIGHT + " Lab Width: "+PacmanPainter.WIDTH);
+    public void moveGhost(){
+        counterGhost++ ;
         if(step == DROITE) {
             if ( positions.x==PacmanPainter.WIDTH) {
                 System.out.println("here");
@@ -118,6 +108,7 @@ public abstract class Monstre {
                     positions.x -= speed;
             }
         }
+
         else if(step == HAUT) {
             if (positions.y <= 0) {
                 positions.y = PacmanPainter.HEIGHT;
@@ -126,6 +117,7 @@ public abstract class Monstre {
             }
 
         }
+
         else if(step == BAS) {
             if(positions.y >= PacmanPainter.HEIGHT){
                     positions.y =0;
@@ -135,15 +127,16 @@ public abstract class Monstre {
             }
         }
 
-        if (compteur==200){
+        //change direction (random)
+        if (counterGhost ==200){
             Random rand = new Random();
             step = rand.nextInt(4-1+1) + 1;
-            compteur = 0 ;
+            counterGhost = 0 ;
         }
     }
 
     /**
-     *
+     *  move guardian monster toward the hero
      * @param labyrinthe
      * @param wallWidth
      * @param wallHeight
@@ -151,59 +144,28 @@ public abstract class Monstre {
     public void moveGuardianMonster(Labyrinthe labyrinthe, int wallWidth, int wallHeight){
         Random rand = new Random();
         step = rand.nextInt(4-1+1) + 1;
-        // System.out.println("X : " + positions.x +" Y : "+ positions.y + " Speed : "+speed+" Lab Height: "+ PacmanPainter.HEIGHT + " Lab Width: "+PacmanPainter.WIDTH);
+
         if(step == DROITE) {
             if ( positions.x==PacmanPainter.WIDTH) {
-                System.out.println("here");
                 positions.x = 0 ;
-               /*  while (labyrinthe.isWall(positions.x, positions.y )){
-                     positions.x += speed;
-                 }
-                 if(!labyrinthe.isWall(positions.x, positions.y )){
-
-                     Random rand = new Random();
-                     step = rand.nextInt(4-1+1) + 1;
-                 }*/
-
             } else {
                 positions.x += speed;
                 nextFrame();
-                // System.out.println("here");
             }
         }
 
         else if(step == GAUCHE) {
             if(positions.x==0) {
                 positions.x=PacmanPainter.WIDTH;
-               /* while (labyrinthe.isWall(positions.x, positions.y)){
-                    positions.x -= speed;
-                }
-                if(!labyrinthe.isWall(positions.x, positions.y )){
-                   Random rand = new Random();
-                    step = rand.nextInt(4-1+1) + 1;
-                }
-*/
-
-
             } else {
                 positions.x -= speed;
                 nextFrame();
             }
-
-
         }
+
         else if(step == HAUT) {
             if (positions.y <= 0) {
                 positions.y = PacmanPainter.HEIGHT;
-              /*  while (labyrinthe.isWall(positions.x, positions.y )){
-                    positions.y -= speed;
-                }
-                if(!labyrinthe.isWall(positions.x, positions.y )){
-                    Random rand = new Random();
-                    step = rand.nextInt(4-1+1) + 1;
-                }
-*/
-
 
             } else {
                 positions.y -= speed;
@@ -211,30 +173,16 @@ public abstract class Monstre {
             }
 
         }
+
         else if(step == BAS) {
             if(positions.y >= PacmanPainter.HEIGHT){
                 positions.y =0;
-             /*   while (labyrinthe.isWall(positions.x, positions.y)){
-                    positions.y += speed;
-                }
-                if(!labyrinthe.isWall(positions.x, positions.y)){
-
-                    Random rand = new Random();
-                    step = rand.nextInt(4-1+1) + 1;
-                }*/
-
-
-
-
             }
             else{
                 positions.y += speed;
                 nextFrame();
             }
-
         }
-
-
     }
 
     public void setIndexIm(int indexIm) {
@@ -242,15 +190,17 @@ public abstract class Monstre {
     }
 
     /**
-     *
+     *  draw the monster on the screen
      * @param im
-     * @throws IOException
      */
-    public void draw(BufferedImage im) throws IOException{
+    public void draw(BufferedImage im) {
         Graphics2D crayon = (Graphics2D) im.getGraphics();
         crayon.drawImage(this.bufferedImage[indexIm], positions.x-(width/2), positions.y-(height/2),width,height,null);
     }
 
+    /**
+     * for trap step (the monster doesn't move some times
+     */
     public void suspend(){
         moving=false;
     }
@@ -271,7 +221,6 @@ public abstract class Monstre {
         return false;
     }
 
-
     public Point getPosition() {
         return positions;
     }
@@ -287,6 +236,7 @@ public abstract class Monstre {
     public  boolean monstreGuardianMonster(){
         return false;
     }
+
     public void nextFrame(){
         if (indexIm>nbFrame-1){
             indexIm=0;
@@ -294,5 +244,9 @@ public abstract class Monstre {
         else {
             indexIm++;
         }
+    }
+
+    public void setStep(int step) {
+        this.step = step;
     }
 }

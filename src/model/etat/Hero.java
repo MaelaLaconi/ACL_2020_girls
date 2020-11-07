@@ -16,7 +16,7 @@ public class Hero {
     public static int height;
     private BufferedImage im[];
     private int time ;
-    private boolean saiyen ;
+    private boolean saiyan;
     private int nbDeVie;
     private int indexPhoto;
 
@@ -37,15 +37,21 @@ public class Hero {
         im=new BufferedImage[100];
         init();
         time = 60 ;
-        saiyen = false ;
+        saiyan = false ;
         nbDeVie=3;
         imunise=false;
-
     }
+
+    /**
+     *  the hero beacomes again normal (isn't saiyan anymore)
+     * @throws IOException
+     */
     public void normalTransform() throws IOException {
-        this.saiyen = false ;
+        this.saiyan = false ;
         init();
     }
+
+
     public void init() throws IOException {
         for (int i=1;i<=12;i++) {
             if (i<=4) {
@@ -70,10 +76,19 @@ public class Hero {
             }
         }
     }
-    public void saiyanTransform() throws IOException {
-        this.saiyen = true ;
+
+    /**
+     *  saiyan mode activated
+     */
+    public void saiyanTransform() {
+        this.saiyan = true ;
         nextFrame("saiyan");
     }
+
+    /**
+     * draw the hero
+     * @param im
+     */
     public void draw(BufferedImage im){
         Graphics2D crayon = (Graphics2D) im.getGraphics();
         crayon.drawImage(this.im[indexPhoto],position.x-(width/2),position.y-(height/2),width,height,null);
@@ -120,19 +135,20 @@ public class Hero {
         time--;
     }
 
-    public boolean isSaiyen() {
-        return saiyen;
+    public boolean isSaiyan() {
+        return saiyan;
     }
 
-    public void setSaiyen(boolean saiyen) {
-        this.saiyen = saiyen;
-    }
     public void perdreUneVie(){
         nbDeVie--;
     }
+
     public void gagnerUneVie(){
-        nbDeVie++;
+        if (nbDeVie < 3){
+            nbDeVie++;
+        }
     }
+
     public void isImunise(){
         TimerTask task = new TimerTask() {
             public void run() {
@@ -148,9 +164,11 @@ public class Hero {
         long delay = 1000L;
         timer.schedule(task, delay);
     }
+
     public boolean getImunise(){
         return imunise;
     }
+
     public void nextFrame(String direction){
         if (direction.equals("right")){
             if (indexPhoto>=3){
