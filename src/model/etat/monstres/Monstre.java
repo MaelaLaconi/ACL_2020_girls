@@ -1,5 +1,7 @@
 package model.etat.monstres;
 
+import model.PacmanGame;
+import model.PacmanPainter;
 import model.etat.Labyrinthe;
 
 import java.awt.*;
@@ -80,7 +82,194 @@ public abstract class Monstre {
             }
         }
     }
+
+    /**
+     *
+     * @param labyrinthe
+     * @param wallWidth
+     * @param wallHeight
+     */
+    public void moveGhost(Labyrinthe labyrinthe, int wallWidth, int wallHeight){
+     // System.out.println("X : " + positions.x +" Y : "+ positions.y + " Speed : "+speed+" Lab Height: "+ PacmanPainter.HEIGHT + " Lab Width: "+PacmanPainter.WIDTH);
+        if(step == DROITE) {
+            if ( positions.x==PacmanPainter.WIDTH) {
+                System.out.println("here");
+                 positions.x = 0 ;
+               /*  while (labyrinthe.isWall(positions.x, positions.y )){
+                     positions.x += speed;
+                 }
+                 if(!labyrinthe.isWall(positions.x, positions.y )){
+
+                     Random rand = new Random();
+                     step = rand.nextInt(4-1+1) + 1;
+                 }*/
+
+            } else {
+                positions.x += speed;
+               // System.out.println("here");
+            }
+        }
+
+        else if(step == GAUCHE) {
+            if(positions.x==0) {
+                positions.x=PacmanPainter.WIDTH;
+               /* while (labyrinthe.isWall(positions.x, positions.y)){
+                    positions.x -= speed;
+                }
+                if(!labyrinthe.isWall(positions.x, positions.y )){
+                   Random rand = new Random();
+                    step = rand.nextInt(4-1+1) + 1;
+                }
+*/
+
+
+            } else {
+                    positions.x -= speed;
+                }
+
+
+        }
+        else if(step == HAUT) {
+            if (positions.y <= 0) {
+                positions.y = PacmanPainter.HEIGHT;
+              /*  while (labyrinthe.isWall(positions.x, positions.y )){
+                    positions.y -= speed;
+                }
+                if(!labyrinthe.isWall(positions.x, positions.y )){
+                    Random rand = new Random();
+                    step = rand.nextInt(4-1+1) + 1;
+                }
+*/
+
+
+            } else {
+                positions.y -= speed;
+            }
+
+        }
+        else if(step == BAS) {
+            if(positions.y >= PacmanPainter.HEIGHT){
+                    positions.y =0;
+             /*   while (labyrinthe.isWall(positions.x, positions.y)){
+                    positions.y += speed;
+                }
+                if(!labyrinthe.isWall(positions.x, positions.y)){
+
+                    Random rand = new Random();
+                    step = rand.nextInt(4-1+1) + 1;
+                }*/
+
+
+
+
+            }
+                else{
+                    positions.y += speed;
+                }
+
+            }
+
+
+    }
+
+    /**
+     *
+     * @param labyrinthe
+     * @param wallWidth
+     * @param wallHeight
+     */
+    public void moveGuardianMonster(Labyrinthe labyrinthe, int wallWidth, int wallHeight){
+        Random rand = new Random();
+        step = rand.nextInt(4-1+1) + 1;
+        // System.out.println("X : " + positions.x +" Y : "+ positions.y + " Speed : "+speed+" Lab Height: "+ PacmanPainter.HEIGHT + " Lab Width: "+PacmanPainter.WIDTH);
+        if(step == DROITE) {
+            if ( positions.x==PacmanPainter.WIDTH) {
+                System.out.println("here");
+                positions.x = 0 ;
+               /*  while (labyrinthe.isWall(positions.x, positions.y )){
+                     positions.x += speed;
+                 }
+                 if(!labyrinthe.isWall(positions.x, positions.y )){
+
+                     Random rand = new Random();
+                     step = rand.nextInt(4-1+1) + 1;
+                 }*/
+
+            } else {
+                positions.x += speed;
+                // System.out.println("here");
+            }
+        }
+
+        else if(step == GAUCHE) {
+            if(positions.x==0) {
+                positions.x=PacmanPainter.WIDTH;
+               /* while (labyrinthe.isWall(positions.x, positions.y)){
+                    positions.x -= speed;
+                }
+                if(!labyrinthe.isWall(positions.x, positions.y )){
+                   Random rand = new Random();
+                    step = rand.nextInt(4-1+1) + 1;
+                }
+*/
+
+
+            } else {
+                positions.x -= speed;
+            }
+
+
+        }
+        else if(step == HAUT) {
+            if (positions.y <= 0) {
+                positions.y = PacmanPainter.HEIGHT;
+              /*  while (labyrinthe.isWall(positions.x, positions.y )){
+                    positions.y -= speed;
+                }
+                if(!labyrinthe.isWall(positions.x, positions.y )){
+                    Random rand = new Random();
+                    step = rand.nextInt(4-1+1) + 1;
+                }
+*/
+
+
+            } else {
+                positions.y -= speed;
+            }
+
+        }
+        else if(step == BAS) {
+            if(positions.y >= PacmanPainter.HEIGHT){
+                positions.y =0;
+             /*   while (labyrinthe.isWall(positions.x, positions.y)){
+                    positions.y += speed;
+                }
+                if(!labyrinthe.isWall(positions.x, positions.y)){
+
+                    Random rand = new Random();
+                    step = rand.nextInt(4-1+1) + 1;
+                }*/
+
+
+
+
+            }
+            else{
+                positions.y += speed;
+            }
+
+        }
+
+
+    }
+    /**
+     *
+     * @param im
+     * @throws IOException
+     */
     public void draw(BufferedImage im) throws IOException{
+        Graphics2D crayon = (Graphics2D) im.getGraphics();
+        crayon.drawImage(this.bufferedImage, positions.x-(width/2), positions.y-(height/2),width,height,null);
     }
 
     public void suspend(){
@@ -99,6 +288,11 @@ public abstract class Monstre {
         return false;
     }
 
+    public boolean monstreFantome(){
+        return false;
+    }
+
+
     public Point getPosition() {
         return positions;
     }
@@ -111,4 +305,7 @@ public abstract class Monstre {
         return height;
     }
 
+    public  boolean monstreGuardianMonster(){
+        return false;
+    }
 }

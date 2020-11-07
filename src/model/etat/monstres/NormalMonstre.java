@@ -15,11 +15,11 @@ public class NormalMonstre extends Monstre {
 
     }
 
-    @Override
+   /* @Override
     public void draw(BufferedImage im) throws IOException {
         Graphics2D crayon = (Graphics2D) im.getGraphics();
         crayon.drawImage(this.bufferedImage, positions.x-(width/2), positions.y-(height/2),width,height,null);
-    }
+    }*/
 
     @Override
     public boolean monstreNormal() {

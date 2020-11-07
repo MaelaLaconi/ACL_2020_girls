@@ -1,6 +1,11 @@
 package model.etat;
 
+import model.etat.diamonds.Diamond;
+import model.etat.diamonds.DiamondBleu;
+import model.etat.diamonds.DiamondRouge;
 import model.etat.floor.*;
+import model.etat.monstres.Fantome;
+import model.etat.monstres.GuardianMonster;
 import model.etat.monstres.Monstre;
 import model.etat.monstres.NormalMonstre;
 
@@ -19,6 +24,7 @@ import java.util.TimerTask;
 public class Labyrinthe {
     private Collection<Floor> listFloor;
     private Collection<Monstre> listMonstres;
+    private Collection<Diamond> listDiamond;
     private NextStage stage;
     private int ligne, colonne;
     public final int WIDTH = 50;
@@ -27,6 +33,12 @@ public class Labyrinthe {
     public Labyrinthe() throws IOException {
         listMonstres = new ArrayList<>();
         listMonstres.add(new NormalMonstre(new Point(100,100),35   ,35));
+        listMonstres.add(new Fantome(new Point(400,400),35   ,35));
+        listDiamond =new ArrayList<>();
+        listDiamond.add(new DiamondBleu(new Point(200,300),35   ,35));
+        listDiamond.add(new DiamondRouge(new Point(450,150),30   ,30));
+
+
         listFloor = new ArrayList<>();
         ligne = 0;
     }
@@ -51,6 +63,7 @@ public class Labyrinthe {
                     break;
                 case 't' :
                     listFloor.add(new Tresor(new Point(colonne, ligne), WIDTH, HEIGHT));
+                    listMonstres.add(new GuardianMonster(new Point(colonne,ligne),35   ,35));
                     break;
                case 's' : //skull trapStep
                     listFloor.add(new TrapStep(new Point(colonne, ligne), WIDTH, HEIGHT));
@@ -73,15 +86,27 @@ public class Labyrinthe {
         for (Floor floor : listFloor) {
             floor.draw(im);
         }
+        for(Diamond diamond: listDiamond){
+            diamond.draw(im);
+        }
         for(Monstre monstre : listMonstres){
-            if(monstre.isMoving()) {
+            if(monstre.isMoving() && monstre.monstreNormal()) {
                 monstre.move(this, WIDTH, HEIGHT);
+            }
+            if(monstre.isMoving() && monstre.monstreFantome()){
+                monstre.moveGhost(this, WIDTH, HEIGHT);
+            }
+            if(monstre.isMoving() && monstre.monstreGuardianMonster()){
+                monstre.moveGuardianMonster(this, WIDTH, HEIGHT);
             }
             monstre.draw(im);
         }
     }
 
-    public Floor getFloor(int x, int y){
+    public Floor getFloor(Hero hero){
+        int x = hero.getPosition().x ;
+        int y = hero.getPosition().y ;
+
         for (Floor floor: listFloor) {
 
             if(floor.getPosition().x <= x && floor.getPosition().x+WIDTH >= x
@@ -92,6 +117,38 @@ public class Labyrinthe {
         return null;
     }
 
+    public Floor getFloor(int x, int y){
+        for (Floor floor: listFloor) {
+            if(floor.getPosition().x <= x && floor.getPosition().x+WIDTH >= x
+                    && floor.getPosition().y <= y && floor.getPosition().y+HEIGHT >= y){
+                return floor;
+            }
+        }
+        return null;
+    }
+
+    public Diamond getDiamond(Hero hero){
+        int x = hero.getPosition().x ;
+        int y = hero.getPosition().y ;
+
+        for (Diamond diamond: listDiamond) {
+            if(diamond.getPosition().x <= x && diamond.getPosition().x+WIDTH >= x
+                    && diamond.getPosition().y <= y && diamond.getPosition().y+HEIGHT >= y){
+                return diamond;
+            }
+        }
+        return null;
+    }
+
+    public Diamond getDiamond(int x, int y){
+        for (Diamond diamond: listDiamond) {
+            if(diamond.getPosition().x <= x && diamond.getPosition().x+WIDTH >= x
+                    && diamond.getPosition().y <= y && diamond.getPosition().y+HEIGHT >= y){
+                return diamond;
+            }
+        }
+        return null;
+    }
     public boolean isWall(int x, int y){
         if(getFloor(x, y) instanceof Wall){
             return true;
@@ -101,18 +158,23 @@ public class Labyrinthe {
     }
 
     public Monstre getMonstre(int x, int y) {
+        int x1, y1 ;
         for (Monstre monstre: listMonstres) {
-            if(monstre.getPosition().x <= x && monstre.getPosition().x+monstre.getWidth() >= x
-                    && monstre.getPosition().y <= y && monstre.getPosition().y+monstre.getHeight() >= y){
-                return monstre;
+            x1 = monstre.getPosition().x ;
+            y1 = monstre.getPosition().y ;
+            Rectangle m = new Rectangle(x1,y1, monstre.getWidth(), monstre.getHeight()) ;
+            Rectangle h = new Rectangle(x,y,Hero.width,Hero.height) ;
+            if (m.intersects(h)){
+                return monstre ;
             }
+
         }
         return null;
     }
 
-    public boolean collisionMonstreNormal(int x, int y){
+    public boolean collisionMonstre(int x, int y){
         Monstre monstre = getMonstre(x, y) ;
-        if (monstre == null || !monstre.monstreNormal()){
+        if (monstre == null){
             return false ;
         }
         else{
@@ -157,5 +219,9 @@ public class Labyrinthe {
         for(Monstre monster : listMonstres){
             monster.setMoving(true);
         }
+    }
+
+    public Collection<Diamond> getListDiamond() {
+        return listDiamond;
     }
 }
