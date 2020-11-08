@@ -22,10 +22,10 @@ public class MagicStep extends Floor{
 
 
     /**
-     * Function that will activate power ( à revoir)
-     * @param hero
+     * Function that will activate the magic step
+     *
      */
-    public void activate(Hero hero) throws IOException {
+    public void activate() throws IOException {
         isActivate = true;
         desactivate();
     }
@@ -42,9 +42,11 @@ public class MagicStep extends Floor{
     public boolean isMagicalStep() {
         return true;
     }
+
     public boolean isCollected() {
         return false;
     }
+
     public boolean openDoor() {return false;}
 
     public boolean isMagicalFloor() {

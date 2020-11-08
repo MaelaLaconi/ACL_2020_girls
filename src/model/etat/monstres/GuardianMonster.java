@@ -6,7 +6,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
-public class GuardianMonster  extends Monstre{
+public class GuardianMonster  extends Monster {
     private BufferedImage[] bufferedImages;
     public GuardianMonster(Point point, int width, int height) throws IOException {
         super(point, width, height);
@@ -25,6 +25,7 @@ public class GuardianMonster  extends Monstre{
         }
         speed = 4;
     }
+
     @Override
     public boolean monstreGuardianMonster() {
         return true;

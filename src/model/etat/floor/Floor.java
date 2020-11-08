@@ -48,13 +48,12 @@ public abstract class Floor {
 
     public abstract boolean isCollected();
 
-    public boolean isTresor(){
+    public boolean isSafe(){
         return false;
     }
    public void setBufferedImage(BufferedImage bufferedImage) {
         this.bufferedImage = bufferedImage;
     }
-
     public boolean isAtDoor(){
         return false;
     }
@@ -67,4 +66,15 @@ public abstract class Floor {
 
    public boolean isTrapStep(){ return false ;}
     public abstract void desactivate() throws IOException;
+    public boolean isTeleportStep(){
+        return false;
+    }
+
+    public int getWidth() {
+        return width;
+    }
+
+    public int getHeight() {
+        return height;
+    }
 }

@@ -1,44 +1,48 @@
 package model.etat;
 
 import model.etat.diamonds.Diamond;
-import model.etat.diamonds.DiamondBleu;
-import model.etat.diamonds.DiamondRouge;
+import model.etat.diamonds.BlueDiamond;
+import model.etat.diamonds.RedDiamond;
 import model.etat.floor.*;
-import model.etat.monstres.Fantome;
+import model.etat.monstres.GhostMonster;
 import model.etat.monstres.GuardianMonster;
-import model.etat.monstres.Monstre;
-import model.etat.monstres.NormalMonstre;
+import model.etat.monstres.Monster;
+import model.etat.monstres.NormalMonster;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Timer;
+import java.util.TimerTask;
 
 /**
  *
  */
 
 public class Labyrinthe {
-    private Collection<Floor> listFloor;
-    private Collection<Monstre> listMonstres;
-    private Collection<Diamond> listDiamond;
-    private NextStage stage;
-    private int ligne, colonne;
+    private Collection<Floor> listFloors;
+    private Collection<Monster> listMonsters;
+    private Collection<Diamond> listDiamonds;
+    private Collection<TeleportStep> listTeleportStep;
+    private Door stage;
+    private int line, column;
     public final int WIDTH = 50;
     public final int HEIGHT = 50;
-    private Labyrinthe lab;
+
     public Labyrinthe() throws IOException {
-        listMonstres = new ArrayList<>();
-        listMonstres.add(new NormalMonstre(new Point(100,100),35   ,35));
-        listMonstres.add(new Fantome(new Point(400,400),35   ,35));
-        listDiamond =new ArrayList<>();
-        listDiamond.add(new DiamondBleu(new Point(200,300),35   ,35));
-        listDiamond.add(new DiamondRouge(new Point(450,150),30   ,30));
-
-
-        listFloor = new ArrayList<>();
-        ligne = 0;
-        lab=this;
+        listMonsters = new ArrayList<>();
+        listMonsters.add(new NormalMonster(new Point(100,100),35   ,35));
+        listMonsters.add(new GhostMonster(new Point(400,400),35   ,35));
+        listMonsters.add(new GhostMonster(new Point(300,500),35   ,35));
+        listMonsters.add(new GhostMonster(new Point(500,600),35   ,35));
+        listDiamonds =new ArrayList<>();
+        listDiamonds.add(new BlueDiamond(new Point(200,300),35   ,35));
+        listDiamonds.add(new RedDiamond(new Point(450,150),30   ,30));
+        listFloors = new ArrayList<>();
+        listTeleportStep=new ArrayList<>();
+        line = 0;
     }
 
     /**
@@ -47,76 +51,78 @@ public class Labyrinthe {
      * @throws IOException
      */
     public void generate(String string) throws IOException {
-        colonne = 0;
+        column = 0;
         for (char ch: string.toCharArray()) {
             switch(ch){
+                //Wall
                 case 'w' :
-                    listFloor.add(new Wall(new Point(colonne, ligne), WIDTH, HEIGHT));
+                    listFloors.add(new Wall(new Point(column, line), WIDTH, HEIGHT));
                     break;
+                //Normal Step
                 case 'n' :
-                    listFloor.add(new NormalStep(new Point(colonne, ligne), WIDTH, HEIGHT));
+                    listFloors.add(new NormalStep(new Point(column, line), WIDTH, HEIGHT));
                     break;
+                //Magic Step
                 case 'm' :
-                    listFloor.add(new MagicStep(new Point(colonne, ligne), WIDTH, HEIGHT));
+                    listFloors.add(new MagicStep(new Point(column, line), WIDTH, HEIGHT));
                     break;
+                //Safe
                 case 't' :
-                    listFloor.add(new Tresor(new Point(colonne, ligne), WIDTH, HEIGHT));
-                    listMonstres.add(new GuardianMonster(new Point(colonne,ligne),35   ,35));
+                    listFloors.add(new Safe(new Point(column, line), WIDTH, HEIGHT));
+                    listMonsters.add(new GuardianMonster(new Point(column, line),35   ,35));
                     break;
+                //Trap Step
                case 's' : //skull trapStep
-                    listFloor.add(new TrapStep(new Point(colonne, ligne), WIDTH, HEIGHT));
+                    listFloors.add(new TrapStep(new Point(column, line), WIDTH, HEIGHT));
                     break;
+                //Door
                 case 'c' :
-                    this.stage=new NextStage(new Point(colonne, ligne), WIDTH, HEIGHT);
-                    listFloor.add(stage);
+                    this.stage=new Door(new Point(column, line), WIDTH, HEIGHT);
+                    listFloors.add(stage);
                     break;
+                //Teleport Step
                 case 'p' :
-                    listFloor.add(new TeleportStep(new Point(colonne, ligne), WIDTH, HEIGHT));
+                    listFloors.add(new TeleportStep(new Point(column, line), WIDTH, HEIGHT));
+                    listTeleportStep.add(new TeleportStep(new Point(column, line), WIDTH, HEIGHT));
                     break;
 
             }
-            colonne += WIDTH;
+            column += WIDTH;
         }
-        ligne += HEIGHT;
+        line += HEIGHT;
     }
 
     public void draw(BufferedImage im) throws IOException {
-        for (Floor floor : listFloor) {
+        for (Floor floor : listFloors) {
             floor.draw(im);
         }
-        for(Diamond diamond: listDiamond){
+        for(Diamond diamond: listDiamonds){
             diamond.draw(im);
         }
-        for(Monstre monstre : listMonstres){
-            if(monstre.isMoving() && monstre.monstreNormal()) {
-                monstre.move(this, WIDTH, HEIGHT);
+        for(Monster monster : listMonsters){
+            if(monster.isMoving() && monster.monstreNormal()) {
+                monster.move(this, WIDTH, HEIGHT);
             }
-            if(monstre.isMoving() && monstre.monstreFantome()){
-                monstre.moveGhost(this, WIDTH, HEIGHT);
+            if(monster.isMoving() && monster.monstreFantome()){
+                monster.moveGhost();
             }
-            if(monstre.isMoving() && monstre.monstreGuardianMonster()){
-                TimerTask task = new TimerTask() {
-                    public void run() {
-                        System.out.println("Task performed on: " + new Date() + "n" +
-                                "Thread's name: " + Thread.currentThread().getName());
-                        monstre.moveGuardianMonster(lab, WIDTH, HEIGHT);
-                    }
-                };
-                Timer timer = new Timer("Timer");
-
-                long delay = 10000L;
-                timer.schedule(task, delay);
-
+            if(monster.isMoving() && monster.monstreGuardianMonster()){
+                monster.moveGuardianMonster(this, WIDTH, HEIGHT);
             }
-            monstre.draw(im);
+            monster.draw(im);
         }
     }
 
+    /**
+     * get floor where the hero is
+     * @param hero
+     * @return
+     */
     public Floor getFloor(Hero hero){
         int x = hero.getPosition().x ;
         int y = hero.getPosition().y ;
 
-        for (Floor floor: listFloor) {
+        for (Floor floor: listFloors) {
 
             if(floor.getPosition().x <= x && floor.getPosition().x+WIDTH >= x
             && floor.getPosition().y <= y && floor.getPosition().y+HEIGHT >= y){
@@ -126,8 +132,14 @@ public class Labyrinthe {
         return null;
     }
 
+    /**
+     * get floor at a certain position
+     * @param x
+     * @param y
+     * @return
+     */
     public Floor getFloor(int x, int y){
-        for (Floor floor: listFloor) {
+        for (Floor floor: listFloors) {
             if(floor.getPosition().x <= x && floor.getPosition().x+WIDTH >= x
                     && floor.getPosition().y <= y && floor.getPosition().y+HEIGHT >= y){
                 return floor;
@@ -136,11 +148,16 @@ public class Labyrinthe {
         return null;
     }
 
+    /**
+     * get diamon where the hero is
+     * @param hero
+     * @return
+     */
     public Diamond getDiamond(Hero hero){
         int x = hero.getPosition().x ;
         int y = hero.getPosition().y ;
 
-        for (Diamond diamond: listDiamond) {
+        for (Diamond diamond: listDiamonds) {
             if(diamond.getPosition().x <= x && diamond.getPosition().x+WIDTH >= x
                     && diamond.getPosition().y <= y && diamond.getPosition().y+HEIGHT >= y){
                 return diamond;
@@ -149,15 +166,12 @@ public class Labyrinthe {
         return null;
     }
 
-    public Diamond getDiamond(int x, int y){
-        for (Diamond diamond: listDiamond) {
-            if(diamond.getPosition().x <= x && diamond.getPosition().x+WIDTH >= x
-                    && diamond.getPosition().y <= y && diamond.getPosition().y+HEIGHT >= y){
-                return diamond;
-            }
-        }
-        return null;
-    }
+    /**
+     *
+     * @param x
+     * @param y
+     * @return true is the i a wall a the position (x, y), false otherwise
+     */
     public boolean isWall(int x, int y){
         if(getFloor(x, y) instanceof Wall){
             return true;
@@ -166,24 +180,35 @@ public class Labyrinthe {
         }
     }
 
-    public Monstre getMonstre(int x, int y) {
+    /**
+     * get monster where the hero is
+     * @param x
+     * @param y
+     * @return
+     */
+    public Monster getMonster(int x, int y) {
         int x1, y1 ;
-        for (Monstre monstre: listMonstres) {
-            x1 = monstre.getPosition().x ;
-            y1 = monstre.getPosition().y ;
-            Rectangle m = new Rectangle(x1,y1, monstre.getWidth(), monstre.getHeight()) ;
+        for (Monster monster : listMonsters) {
+            x1 = monster.getPosition().x ;
+            y1 = monster.getPosition().y ;
+            Rectangle m = new Rectangle(x1,y1, monster.getWidth(), monster.getHeight()) ;
             Rectangle h = new Rectangle(x,y,Hero.width,Hero.height) ;
             if (m.intersects(h)){
-                return monstre ;
+                return monster;
             }
-
         }
         return null;
     }
 
-    public boolean collisionMonstre(int x, int y){
-        Monstre monstre = getMonstre(x, y) ;
-        if (monstre == null){
+    /**
+     *
+     * @param x
+     * @param y
+     * @return true if there is a collision between the hero and a monster, false otherwise
+     */
+    public boolean collisionMonster(int x, int y){
+        Monster monster = getMonster(x, y) ;
+        if (monster == null){
             return false ;
         }
         else{
@@ -191,31 +216,31 @@ public class Labyrinthe {
         }
     }
 
-    public NextStage getStage() {
+    public Door getStage() {
         return stage;
     }
 
     public int getWidth(){
-        return colonne;
+        return column;
     }
 
     public int getHeight(){
-        return ligne;
+        return line;
     }
 
     /**
-     * Suspend le monstre pour quelques secondes
+     * Suspend the monster for a few seconds
      * @param second
      */
-    public void suspendMonstre(int second) {
-        for(Monstre monstre : listMonstres){
-            monstre.suspend();
+    public void suspendMonster(int second) {
+        for(Monster monster : listMonsters){
+            monster.suspend();
         }
         Timer timer = new Timer();
         TimerTask decount = new TimerTask() {
             @Override
             public void run() {
-                letMonstreGo();
+                letMonsterGo();
             }
         };
         timer.schedule(decount, second*1000);
@@ -224,13 +249,17 @@ public class Labyrinthe {
     /**
      * Making the monster moves again
      */
-    private void letMonstreGo() {
-        for(Monstre monster : listMonstres){
+    private void letMonsterGo() {
+        for(Monster monster : listMonsters){
             monster.setMoving(true);
         }
     }
 
-    public Collection<Diamond> getListDiamond() {
-        return listDiamond;
+    public Collection<TeleportStep> getListTeleportStep() {
+        return listTeleportStep;
+    }
+
+    public Collection<Diamond> getListDiamonds() {
+        return listDiamonds;
     }
 }

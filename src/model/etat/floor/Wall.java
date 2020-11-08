@@ -29,7 +29,7 @@ public class Wall extends Floor {
     public boolean isActivate() {
         return false;
     }
-    public void desactivate() throws IOException {
+    public void desactivate() {
 
     }
 }

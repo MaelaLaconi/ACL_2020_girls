@@ -1,6 +1,5 @@
 package model.etat.floor;
 
-import model.etat.Hero;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -55,8 +54,8 @@ public class TrapStep extends Floor {
     @Override
     public void desactivate() throws IOException {
         bufferedImage = ImageIO.read(new File("resources/images/trapStepIn.png"));
-
     }
+
     public void activate() throws IOException {
         isActivate = true;
         desactivate();
