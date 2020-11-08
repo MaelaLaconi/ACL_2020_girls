@@ -10,6 +10,8 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.Random;
+import java.util.Timer;
+import java.util.TimerTask;
 
 /**
  *
@@ -26,7 +28,7 @@ public abstract class Monstre {
     protected Point positions;
     protected int speed;
     protected BufferedImage[] bufferedImage;
-    protected int indexIm,nbFrame;
+    protected int indexIm,nbFrame,nbFrameD,nbFrameG;
     private int step = 1;
     private boolean moving;
 
@@ -189,22 +191,22 @@ public abstract class Monstre {
         Random rand = new Random();
         step = rand.nextInt(4-1+1) + 1;
         // System.out.println("X : " + positions.x +" Y : "+ positions.y + " Speed : "+speed+" Lab Height: "+ PacmanPainter.HEIGHT + " Lab Width: "+PacmanPainter.WIDTH);
-        if(step == DROITE) {
+        /*if(step == DROITE) {
             if ( positions.x==PacmanPainter.WIDTH) {
                 System.out.println("here");
                 positions.x = 0 ;
-               /*  while (labyrinthe.isWall(positions.x, positions.y )){
+                while (labyrinthe.isWall(positions.x, positions.y )){
                      positions.x += speed;
                  }
                  if(!labyrinthe.isWall(positions.x, positions.y )){
 
                      Random rand = new Random();
                      step = rand.nextInt(4-1+1) + 1;
-                 }*/
+                 }
 
             } else {
                 positions.x += speed;
-                nextFrame();
+                nextFrame(step);
                 // System.out.println("here");
             }
         }
@@ -212,19 +214,20 @@ public abstract class Monstre {
         else if(step == GAUCHE) {
             if(positions.x==0) {
                 positions.x=PacmanPainter.WIDTH;
-               /* while (labyrinthe.isWall(positions.x, positions.y)){
+                while (labyrinthe.isWall(positions.x, positions.y)){
                     positions.x -= speed;
                 }
                 if(!labyrinthe.isWall(positions.x, positions.y )){
                    Random rand = new Random();
                     step = rand.nextInt(4-1+1) + 1;
                 }
-*/
+
 
 
             } else {
                 positions.x -= speed;
-                nextFrame();
+                nextFrame(step);
+
             }
 
 
@@ -239,12 +242,11 @@ public abstract class Monstre {
                     Random rand = new Random();
                     step = rand.nextInt(4-1+1) + 1;
                 }
-*/
+
 
 
             } else {
                 positions.y -= speed;
-                nextFrame();
             }
 
         }
@@ -258,7 +260,7 @@ public abstract class Monstre {
 
                     Random rand = new Random();
                     step = rand.nextInt(4-1+1) + 1;
-                }*/
+                }
 
 
 
@@ -266,11 +268,16 @@ public abstract class Monstre {
             }
             else{
                 positions.y += speed;
-                nextFrame();
             }
 
+        }*/
+        nextFrame(step);
+        if (step==3){
+            step=1;
         }
-
+        else {
+            step=3;
+        }
 
     }
 
@@ -285,7 +292,7 @@ public abstract class Monstre {
      */
     public void draw(BufferedImage im) throws IOException{
         Graphics2D crayon = (Graphics2D) im.getGraphics();
-        crayon.drawImage(this.bufferedImage[indexIm], positions.x-(width/2), positions.y-(height/2),width,height,null);
+        crayon.drawImage(this.bufferedImage[indexIm], positions.x-(width/2), positions.y-(height/2),40,50,null);
     }
 
     public void suspend(){
@@ -324,12 +331,21 @@ public abstract class Monstre {
     public  boolean monstreGuardianMonster(){
         return false;
     }
-    public void nextFrame(){
-        if (indexIm>nbFrame-1){
-            indexIm=0;
+    public void nextFrame(int step){
+        if (step == DROITE) {
+            if (indexIm > nbFrameD - 1) {
+                indexIm = 0;
+            } else {
+                indexIm++;
+            }
         }
-        else {
-            indexIm++;
+        if (step==GAUCHE){
+            if (indexIm<nbFrameG | indexIm>nbFrame){
+                indexIm=nbFrameG;
+            }
+            else {
+                indexIm++;
+            }
         }
     }
 }

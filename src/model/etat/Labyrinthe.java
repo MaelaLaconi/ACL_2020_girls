@@ -12,10 +12,7 @@ import model.etat.monstres.NormalMonstre;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Timer;
-import java.util.TimerTask;
+import java.util.*;
 
 /**
  *
@@ -29,7 +26,7 @@ public class Labyrinthe {
     private int ligne, colonne;
     public final int WIDTH = 50;
     public final int HEIGHT = 50;
-
+    private Labyrinthe lab;
     public Labyrinthe() throws IOException {
         listMonstres = new ArrayList<>();
         listMonstres.add(new NormalMonstre(new Point(100,100),35   ,35));
@@ -41,6 +38,7 @@ public class Labyrinthe {
 
         listFloor = new ArrayList<>();
         ligne = 0;
+        lab=this;
     }
 
     /**
@@ -97,7 +95,18 @@ public class Labyrinthe {
                 monstre.moveGhost(this, WIDTH, HEIGHT);
             }
             if(monstre.isMoving() && monstre.monstreGuardianMonster()){
-                monstre.moveGuardianMonster(this, WIDTH, HEIGHT);
+                TimerTask task = new TimerTask() {
+                    public void run() {
+                        System.out.println("Task performed on: " + new Date() + "n" +
+                                "Thread's name: " + Thread.currentThread().getName());
+                        monstre.moveGuardianMonster(lab, WIDTH, HEIGHT);
+                    }
+                };
+                Timer timer = new Timer("Timer");
+
+                long delay = 10000L;
+                timer.schedule(task, delay);
+
             }
             monstre.draw(im);
         }
