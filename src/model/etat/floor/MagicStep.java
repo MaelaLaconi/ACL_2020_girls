@@ -16,7 +16,9 @@ public class MagicStep extends Floor{
 
     public MagicStep(Point p, int w, int h) throws IOException {
         super(p, w, h);
-        bufferedImage = ImageIO.read(new File("resources/images/magic.png"));
+        bufferedImage = ImageIO.read(getClass().getResourceAsStream("/images/magic.png"));
+
+       // bufferedImage = ImageIO.read(new File("resources/images/magic.png"));
         isActivate = false;
     }
 
@@ -34,7 +36,9 @@ public class MagicStep extends Floor{
      *Function once the hero is on the magicstep
      */
     public void desactivate() throws IOException {
-        bufferedImage = ImageIO.read(new File("resources/images/magicStepIn.png"));
+        bufferedImage = ImageIO.read(getClass().getResourceAsStream("/images/magicStepIn.png"));
+
+        //bufferedImage = ImageIO.read(new File("resources/images/magicStepIn.png"));
     }
 
 

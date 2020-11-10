@@ -20,7 +20,9 @@ public class BlueDiamond extends Diamond {
 
     public BlueDiamond(Point p, int w, int h) throws IOException {
         super(p, w, h);
-        bufferedImage = ImageIO.read(new File("resources/images/bleu.png"));
+        bufferedImage = ImageIO.read(getClass().getResourceAsStream("/images/bleu.png"));
+
+        //bufferedImage = ImageIO.read(new File("resources/images/bleu.png"));
     }
 
 

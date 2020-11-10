@@ -15,7 +15,9 @@ public class TeleportStep extends Floor {
         super(p, w, h);
         x= (int) p.getX();
         y= (int) p.getY();
-        bufferedImage = ImageIO.read(new File("resources/images/teleport.png"));
+        bufferedImage = ImageIO.read(getClass().getResourceAsStream("/images/teleport.png"));
+
+       // bufferedImage = ImageIO.read(new File("resources/images/teleport.png"));
         stepIn=false;
     }
 
