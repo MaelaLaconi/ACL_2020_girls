@@ -134,8 +134,8 @@ public class PacmanGame implements Game {
 		if(lab.getFloor(hero).isTeleportStep()){
 			for (TeleportStep teleportStep : lab.getListTeleportStep()) {
 				if ((teleportStep.getX()<lab.getFloor(hero).getPosition().x || teleportStep.getX()>lab.getFloor(hero).getPosition().x + lab.getFloor(hero).getWidth()) && (teleportStep.getY()<lab.getFloor(hero).getPosition().y || teleportStep.getY()>lab.getFloor(hero).getPosition().y + lab.getFloor(hero).getHeight()) && teleport) {
-				hero.setPosition(teleportStep.getPosition());
-				teleport = false;
+					hero.setPosition(teleportStep.getPosition());
+					teleport = false;
 				}
 			}
 
@@ -164,73 +164,73 @@ public class PacmanGame implements Game {
 		}
 
 		//if we are on a magical step
-			if (lab.getFloor(hero).isMagicalStep()) {
-				MagicStep magicStep = (MagicStep) lab.getFloor(hero);
-				if (!magicStep.isActivate()) {
-					Power power = Power.randomPower();
-					switch (power) {
-						case TIME:
-							System.out.println("TEMPS GAGNE");
-							hero.addTime();
-							break;
-						case SUSPEND:
-							System.out.println("SUSPENTION");
-							lab.suspendMonster(5);
-							break;
-						case LIFE:
-							System.out.println("VIE GAGNE");
-							hero.addLife();
-							break;
-						case SAIYAN:
-							System.out.println("MODE SAIYAN");
-							hero.saiyanTransform();
-							break;
-					}
-					magicStep.activate();
+		if (lab.getFloor(hero).isMagicalStep()) {
+			MagicStep magicStep = (MagicStep) lab.getFloor(hero);
+			if (!magicStep.isActivate()) {
+				Power power = Power.randomPower();
+				switch (power) {
+					case TIME:
+						System.out.println("TEMPS GAGNE");
+						hero.addTime();
+						break;
+					case SUSPEND:
+						System.out.println("SUSPENTION");
+						lab.suspendMonster(5);
+						break;
+					case LIFE:
+						System.out.println("VIE GAGNE");
+						hero.addLife();
+						break;
+					case SAIYAN:
+						System.out.println("MODE SAIYAN");
+						hero.saiyanTransform();
+						break;
 				}
+				magicStep.activate();
+			}
+		}
+
+		//if we are on a trap step
+		if (lab.getFloor(hero).isTrapStep()) {
+			TrapStep trapStep = (TrapStep) lab.getFloor(hero);
+			if (!trapStep.isActivate()) {
+				Damage damage = Damage.randomDamage();
+				switch (damage) {
+					case TIME:
+						System.out.println("TEEEEEEEEEEMPS");
+						hero.subTime();
+						break;
+					case LIFE:
+						System.out.println("VIEEEEEEEEEEE");
+						hero.subLife();
+						break;
+					case SCORE:
+						System.out.println("SCOOOOOOOOOOOOORE");
+						if (score - 5 >= 0) {
+							score -= 5;
+						} else {
+							score = 0;
+						}
+						break;
+				}
+				trapStep.activate();
+
 			}
 
-			//if we are on a trap step
-			if (lab.getFloor(hero).isTrapStep()) {
-				TrapStep trapStep = (TrapStep) lab.getFloor(hero);
-				if (!trapStep.isActivate()) {
-					Damage damage = Damage.randomDamage();
-					switch (damage) {
-						case TIME:
-							System.out.println("TEEEEEEEEEEMPS");
-							hero.subTime();
-							break;
-						case LIFE:
-							System.out.println("VIEEEEEEEEEEE");
-							hero.subLife();
-							break;
-						case SCORE:
-							System.out.println("SCOOOOOOOOOOOOORE");
-							if (score - 5 >= 0) {
-								score -= 5;
-							} else {
-								score = 0;
-							}
-							break;
-					}
-					trapStep.activate();
+		}
 
-				}
-
-			}
-
-			//if we are on the safe
-			if (lab.getFloor(hero).isSafe()) {
-				if (!this.lab.getStage().openDoor()) {
-					this.lab.getStage().setBufferedImage(ImageIO.read(getClass().getResourceAsStream("/images/dooropen.png")));
-					this.lab.getStage().setOpen(true);
-					Safe safe = (Safe) lab.getFloor(hero);
-					if (!safe.isCollected()) {
-						score=score+20;
-						safe.collected();
-					}
+		//if we are on the safe
+		if (lab.getFloor(hero).isSafe()) {
+			if (!this.lab.getStage().openDoor()) {
+				this.lab.getStage().setBufferedImage(ImageIO.read(getClass().getResourceAsStream("/images/dooropen.png")));
+				this.lab.getStage().setOpen(true);
+				Safe safe = (Safe) lab.getFloor(hero);
+				if (!safe.isCollected()) {
+					score=score+20;
+					safe.collected();
 				}
 			}
+		}
 
 		//if we are on a diamond
 		if( lab.getDiamond(hero)!=null){
@@ -302,10 +302,10 @@ public class PacmanGame implements Game {
 
 		if (lab.collisionMonster(hero.getPosition().x, hero.getPosition().y) && !hero.isSaiyan()) {
 			if (hero.getNbLife()>0 && hero.getImunise()==false){
-					hero.subLife();
-					hero.setImunise(true);
-					hero.isImunise();
-					return false;
+				hero.subLife();
+				hero.setImunise(true);
+				hero.isImunise();
+				return false;
 			}
 			if (hero.getImunise()==true){
 				return false;
