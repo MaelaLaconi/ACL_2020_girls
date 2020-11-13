@@ -12,8 +12,6 @@ public class GuardianMonster  extends Monster {
         super(point, width, height);
         bufferedImages=new BufferedImage[100];
         nbFrame=8;
-        nbFrameD=4;
-        nbFrameG=4;
         for (int i=1;i<=8;i++) {
             if (i<=4) {
                 bufferedImage[i - 1] = ImageIO.read(new File("resources/images/mechants/mojoD" + i + ".png"));
