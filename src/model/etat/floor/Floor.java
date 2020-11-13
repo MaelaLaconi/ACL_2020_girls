@@ -62,6 +62,9 @@ public abstract class Floor {
 
     public abstract boolean isMagicalFloor();
 
+    public boolean isNormalStep(){ return false;}
+
+
     public abstract boolean isActivate();
 
    public boolean isTrapStep(){ return false ;}

@@ -9,6 +9,7 @@ import model.etat.monstres.GuardianMonster;
 import model.etat.monstres.Monster;
 import model.etat.monstres.NormalMonster;
 
+import javax.swing.text.Position;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
@@ -152,6 +153,7 @@ public class Labyrinthe {
         return null;
     }
 
+
     /**
      * get diamon where the hero is
      * @param hero
@@ -170,6 +172,8 @@ public class Labyrinthe {
         return null;
     }
 
+
+
     /**
      *
      * @param x
@@ -183,6 +187,7 @@ public class Labyrinthe {
             return false;
         }
     }
+
 
     /**
      * get monster where the hero is
@@ -259,6 +264,9 @@ public class Labyrinthe {
         }
     }
 
+    public  boolean isNormalStep(int x, int y){
+        return getFloor(x,y).isNormalStep() ;
+    }
     public Collection<TeleportStep> getListTeleportStep() {
         return listTeleportStep;
     }
