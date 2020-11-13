@@ -1,13 +1,12 @@
 package model;
 
 
+import model.etat.Hero;
+
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.KeyEvent;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import java.awt.event.*;
 import java.awt.geom.AffineTransform;
 import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
@@ -98,13 +97,25 @@ public class Menu  {
                                 choices.setBackground(new Color(247, 227, 177 ));
                                 JLabel character = new JLabel("Choose your character : ");
                                 JButton belle = new JButton(new ImageIcon("resources/images/belle/bellesFly4.png"));
+                                belle.addActionListener(new ActionListener() {
+                                    public void actionPerformed(ActionEvent arg0) {
+                                        Hero.character="Belle";
+                                    }
+                                });
+
                                 JButton bulle = new JButton(new ImageIcon("resources/images/bulle/bulleD.png"));
+                                bulle.addActionListener(new ActionListener() {
+                                    public void actionPerformed(ActionEvent arg0) {
+                                        Hero.character="Bulle";
+                                    }
+                                });
                                 JLabel difficulty = new JLabel("Choose difficulty : ");
                                 JTextField level = new JTextField(2);
                                 JButton submit = new JButton("Ok");
                                 choices.add(character);
                                 choices.add(belle);
                                 choices.add(bulle);
+                              //  choices.setLayout(new BoxLayout(choices, BoxLayout.Y_AXIS));
                                 choices.add(difficulty);
                                 choices.add(level);
                                 choices.add(submit);
