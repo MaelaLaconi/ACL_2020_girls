@@ -2,6 +2,7 @@ package engine;
 
 import model.Menu;
 
+import javax.crypto.spec.PSource;
 import javax.sound.sampled.*;
 import java.io.File;
 import java.io.IOException;
@@ -58,7 +59,7 @@ public class GameEngineGraphical {
 		this.game = game;
 		this.gamePainter = gamePainter;
 		this.gameController = gameController;
-		launcher= Menu.launcher;
+
 	}
 
 	/**
@@ -80,6 +81,7 @@ public class GameEngineGraphical {
 			else{
 				menu.getFrame().dispose();
 				test=true;
+				//this.game.getHero().setTime(60);
 				this.gui = new GraphicalInterface(this.gamePainter, this.gameController);
 
 			}
@@ -98,8 +100,10 @@ public class GameEngineGraphical {
 						// rest fpscap timer
 						fpsCap = System.currentTimeMillis();
 					}
+
 				}
-				System.exit(0);
+		System.exit(0);
+
 
 	}
 		}

@@ -3,7 +3,6 @@ package model.etat;
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
 import java.util.Date;
 import java.util.Timer;
@@ -33,6 +32,7 @@ public class Hero {
         indexPhoto=0;
         im=new BufferedImage[100];
         init();
+
         time = 60 ;
         saiyan = false ;
         nbLife =3;
@@ -211,4 +211,6 @@ public class Hero {
             indexPhoto=11;
         }
     }
+
+
 }

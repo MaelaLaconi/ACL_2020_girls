@@ -28,6 +28,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import static java.lang.Thread.sleep;
+import static model.Menu.launcher;
 
 /**
  * @author Horatiu Cirstea, Vincent Thomas
@@ -79,12 +80,13 @@ public class PacmanGame implements Game {
 	}
 
 
+	@Override
 	/**
 	 * faire evoluer le jeu suite a une commande
 	 *
 	 * @param commande
+	 * @return
 	 */
-	@Override
 	public void evolve(Cmd commande) {
 		switch (commande){
 			case UP:
@@ -373,7 +375,10 @@ public class PacmanGame implements Game {
 	}
 
 	private void countDown(){
-		hero.countDown();
+		if(launcher){
+			hero.countDown();
+		}
+
 	}
 	public Labyrinthe getLab() {
 		return lab;

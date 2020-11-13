@@ -92,14 +92,32 @@ public class Menu  {
 
                             }
                             else{
-                                 System.out.println("optio");
+                                JFrame option=new JFrame("Options");
+                                option.setSize(300, 300);
+                                JPanel choices = new JPanel();
+                                choices.setBackground(new Color(247, 227, 177 ));
+                                JLabel character = new JLabel("Choose your character : ");
+                                JButton belle = new JButton(new ImageIcon("resources/images/belle/bellesFly4.png"));
+                                JButton bulle = new JButton(new ImageIcon("resources/images/bulle/bulleD.png"));
+                                JLabel difficulty = new JLabel("Choose difficulty : ");
+                                JTextField level = new JTextField(2);
+                                JButton submit = new JButton("Ok");
+                                choices.add(character);
+                                choices.add(belle);
+                                choices.add(bulle);
+                                choices.add(difficulty);
+                                choices.add(level);
+                                choices.add(submit);
+                                option.add(choices);
+                                option.pack();
+                                option.setLocationRelativeTo(null);
+                                option.setVisible(true);
                             }
                             break;
                         }
                     }
                     if (newItem != null && !newItem.equals(selectMenuItem)) {
                         selectMenuItem = newItem;
-
                         repaint();
                     }
 
@@ -288,9 +306,7 @@ public class Menu  {
 
     }
 
-    public static boolean isLauncher() {
-        return launcher;
-    }
+
 
     public JFrame getFrame() {
         return frame;
