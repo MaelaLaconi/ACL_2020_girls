@@ -274,4 +274,5 @@ public class Labyrinthe {
     public Collection<Diamond> getListDiamonds() {
         return listDiamonds;
     }
+
 }

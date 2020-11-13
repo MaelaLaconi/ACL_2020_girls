@@ -24,15 +24,7 @@ public class Hero {
     public static int UP = 3 ;
     public static int DOWN = 4 ;
     private static int SAIYAN = 5 ;
-
-    public void setImunise(boolean imunise) {
-        this.imunise = imunise;
-    }
-
     private boolean imunise;
-    public int getNbLife() {
-        return nbLife;
-    }
 
     public Hero() throws IOException {
         position = new Point(0,0);
@@ -142,6 +134,15 @@ public class Hero {
     public boolean isSaiyan() {
         return saiyan;
     }
+
+    public int getNbLife() {
+        return nbLife;
+    }
+
+    public void setImunise(boolean imunise) {
+        this.imunise = imunise;
+    }
+
 
     /**
      * the hero loose a life

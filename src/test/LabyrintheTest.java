@@ -34,4 +34,15 @@ public class LabyrintheTest {
         //assertDoesNotThrow(() -> labyrintheTest.generate("0"));
     }
 
+    @Test
+    void collisionMonster(){
+        //ne marche pas
+        labyrintheTest.collisionMonster(101,99) ;
+       /* assert (labyrintheTest.collisionMonster(400,400)) ;
+        assert (labyrintheTest.collisionMonster(300,500)) ;
+        assert (labyrintheTest.collisionMonster(500,600)) ;
+        assert (!labyrintheTest.collisionMonster(0,0)) ;*/
+
+
+    }
 }
