@@ -10,6 +10,8 @@ import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.JPanel;
 
 public class DrawingPanel extends JPanel {
@@ -62,7 +64,7 @@ public class DrawingPanel extends JPanel {
 	 * demande de mettre a jour le rendu de l'image sur le Panel. Creer une
 	 * nouvelle image vide sur laquelle dessiner
 	 */
-	public void drawGame() throws IOException {
+	public void drawGame() throws IOException, LineUnavailableException, UnsupportedAudioFileException {
 		// generer la nouvelle image
 		this.painter.draw(this.nextImage);
 

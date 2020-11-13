@@ -1,15 +1,16 @@
 package model;
 
 
-
 import javax.imageio.ImageIO;
-import javax.sound.sampled.*;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.geom.AffineTransform;
+import java.awt.image.AffineTransformOp;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -18,10 +19,10 @@ import java.util.List;
 import java.util.Map;
 
 
-public class Menu {
+public class Menu  {
     public static boolean launcher=false;
     private JFrame frame;
-    public Menu() throws IOException, LineUnavailableException, UnsupportedAudioFileException {
+    public Menu(){
 
 
                    EventQueue.invokeLater(new Runnable() {
@@ -34,11 +35,14 @@ public class Menu {
                        }
 
                        frame = new JFrame("Pac Women");
-                       JLabel welcome = new JLabel("Welcome");
                        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                       JLabel welcome = new JLabel("Welcome");
+                       welcome.setFont(new Font("Serif", Font.PLAIN, 44));
+                       welcome.setForeground(Color.white);
                        TestPane testPane = new TestPane();
-                       testPane.add(welcome);
 
+                       testPane.add(welcome);
+                       testPane.setBackground(new Color(247, 227, 177 ));
                        frame.add(testPane);
 
                        frame.pack();
@@ -73,25 +77,29 @@ public class Menu {
                 @Override
                 public void mouseClicked(MouseEvent e) {
                     String newItem = null;
+
                     for (String text : menuItems) {
-                        if(text.equals("Start Game")){
-                            launcher=true;
-
-
-                        }
-                        if(text.equals("Exit")){
-                            System.exit(0);
-                        }
-
 
                         Rectangle bounds = menuBounds.get(text);
                         if (bounds.contains(e.getPoint())) {
                             newItem = text;
+                            if(text.equals("Start Game")){
+                                    launcher=true;
+
+                            }
+                            else if(text.equals("Exit")){
+                                  System.exit(0);
+
+                            }
+                            else{
+                                 System.out.println("optio");
+                            }
                             break;
                         }
                     }
                     if (newItem != null && !newItem.equals(selectMenuItem)) {
                         selectMenuItem = newItem;
+
                         repaint();
                     }
 
@@ -141,14 +149,42 @@ public class Menu {
         @Override
         protected void paintComponent(Graphics g) {
             Image img = null;
+            Image img2= null;
+            Image img3= null;
+            Image img4= null;
             super.paintComponent(g);
             Graphics2D g2d = (Graphics2D) g.create();
             try {
                 img = ImageIO.read(new File("resources/images/hero.png"));
+                img2=ImageIO.read(new File("resources/images/fantome.png"));
+                img3=ImageIO.read(new File("resources/images/fantome2.png"));
+                img4=ImageIO.read(new File("resources/images/mechants/mojoG3.png"));
+
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            g2d.drawImage(img, 10, 10, this);
+
+            //Drawing hero
+            g2d.drawImage(img, 10, 10, 130,130,this);
+
+            //Drawing mojo
+            g2d.drawImage(img4, 360, 10, 250,130,this);
+
+
+
+            // Drawing ghost
+            double rotationRequired2 = Math.toRadians (25);
+            double locationX = getWidth() / 2;
+            double locationY = getWidth() / 2;
+            AffineTransform tx2 = AffineTransform.getRotateInstance(rotationRequired2, locationX, locationY);
+            AffineTransformOp op2 = new AffineTransformOp(tx2, AffineTransformOp.TYPE_BILINEAR);
+            g2d.drawImage(op2.filter((BufferedImage) img3, null), 180, 180,85,85, this);
+            double rotationRequired = Math.toRadians (60);
+            AffineTransform tx = AffineTransform.getRotateInstance(rotationRequired, locationX, locationY);
+            AffineTransformOp op = new AffineTransformOp(tx, AffineTransformOp.TYPE_BILINEAR);
+            g2d.drawImage(op.filter((BufferedImage) img2, null), 350, 180,82,82, this);
+
+
             if (menuBounds == null) {
                 menuBounds = new HashMap<>(menuItems.size());
                 int width = 60;
@@ -159,7 +195,7 @@ public class Menu {
                     height = Math.max(height, dim.height);
                 }
 
-                int x = (getWidth() - (width + 10)) / 2;
+                int x = (int) ((getWidth() - (width )) / 2.3);
 
                 int totalHeight = (height + 10) * menuItems.size();
                 totalHeight += 5 * (menuItems.size() - 1);
@@ -250,6 +286,10 @@ public class Menu {
             g2d.draw(bounds);
         }
 
+    }
+
+    public static boolean isLauncher() {
+        return launcher;
     }
 
     public JFrame getFrame() {

@@ -35,6 +35,8 @@ public class GameEngineGraphical {
 	 * l'interface graphique
 	 */
 	private GraphicalInterface gui;
+	public static Clip clip;
+
 
 	/**
 	 * launcher
@@ -67,13 +69,13 @@ public class GameEngineGraphical {
 		// creation de l'interface graphique
 		long  fpsCap = System.currentTimeMillis();
 		AudioInputStream ais = AudioSystem.getAudioInputStream(new File("resources/music/music.wav"));
-		Clip clip = AudioSystem.getClip();
+		clip = AudioSystem.getClip();
 		clip.open(ais);
 		Menu menu = new Menu();
 		boolean test=false;
 		while(!test) {
 			if (!launcher) {
-				System.out.println(" ");
+				System.out.println("");
 			}
 			else{
 				menu.getFrame().dispose();

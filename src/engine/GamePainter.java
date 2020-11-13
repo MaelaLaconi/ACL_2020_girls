@@ -1,5 +1,7 @@
 package engine;
 
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
@@ -18,7 +20,7 @@ public interface GamePainter {
 	 * @param image
 	 *            image sur laquelle dessiner
 	 */
-	public abstract void draw(BufferedImage image) throws IOException;
+	public abstract void draw(BufferedImage image) throws IOException, LineUnavailableException, UnsupportedAudioFileException;
 
 	public abstract int getWidth();
 	public abstract int getHeight();

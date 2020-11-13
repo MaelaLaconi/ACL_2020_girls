@@ -2,16 +2,23 @@ package model;
 
 import engine.Cmd;
 import engine.Game;
+import engine.GameEngineGraphical;
 import model.etat.Damage;
 import model.etat.Hero;
 import model.etat.Labyrinthe;
 import model.etat.Power;
 import model.etat.diamonds.BlueDiamond;
 import model.etat.diamonds.RedDiamond;
-import model.etat.floor.*;
-import start.Main;
+import model.etat.floor.MagicStep;
+import model.etat.floor.Safe;
+import model.etat.floor.TeleportStep;
+import model.etat.floor.TrapStep;
 
 import javax.imageio.ImageIO;
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -107,7 +114,7 @@ public class PacmanGame implements Game {
 		}
 	}
 
-	public void draw(BufferedImage im) throws IOException {
+	public void draw(BufferedImage im) throws IOException, LineUnavailableException, UnsupportedAudioFileException {
 		lab.draw(im);
 		hero.draw(im);
 		Graphics2D infosBar = (Graphics2D) im.getGraphics();
@@ -129,7 +136,7 @@ public class PacmanGame implements Game {
 		update();
 	}
 
-	private void update() throws IOException {
+	private void update() throws IOException, UnsupportedAudioFileException, LineUnavailableException {
 		this.teleport=true;
 		if(lab.getFloor(hero).isTeleportStep()){
 			for (TeleportStep teleportStep : lab.getListTeleportStep()) {
@@ -142,6 +149,20 @@ public class PacmanGame implements Game {
 		}
 		//if we are at the door and we already took the safe
 		if(lab.getFloor(hero).isAtDoor() && lab.getStage().openDoor() ){
+			GameEngineGraphical.clip.close();
+			AudioInputStream ais = AudioSystem.getAudioInputStream(new File("resources/music/victory.wav"));
+			GameEngineGraphical.clip = AudioSystem.getClip();
+			GameEngineGraphical.clip.open(ais);
+			GameEngineGraphical.clip.start();
+			try {
+				sleep(4000);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+			ais = AudioSystem.getAudioInputStream(new File("resources/music/music.wav"));
+			GameEngineGraphical.clip = AudioSystem.getClip();
+			GameEngineGraphical.clip.open(ais);
+			GameEngineGraphical.clip.start();
 			Random rand= new Random();
 			int numeroLab = rand.nextInt(5-1+1)+1;
 
