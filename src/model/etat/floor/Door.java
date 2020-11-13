@@ -11,7 +11,9 @@ public class Door extends Floor {
 
     public Door(Point p, int w, int h) throws IOException {
         super(p, w, h);
-        bufferedImage = ImageIO.read(new File("resources/images/doorclosed.png"));
+        bufferedImage = ImageIO.read(getClass().getResourceAsStream("/images/doorclosed.png"));
+
+        //bufferedImage = ImageIO.read(new File("resources/images/doorclosed.png"));
         isOpen = false;
     }
 

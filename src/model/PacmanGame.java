@@ -9,6 +9,7 @@ import model.etat.Power;
 import model.etat.diamonds.BlueDiamond;
 import model.etat.diamonds.RedDiamond;
 import model.etat.floor.*;
+import start.Main;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -43,14 +44,14 @@ public class PacmanGame implements Game {
 	 * constructeur avec fichier source pour le help
 	 *
 	 */
-	public PacmanGame(String source) throws IOException {
+	public PacmanGame(BufferedReader helpReader) throws IOException {
 		lab = new Labyrinthe();
 		hero = new Hero();
-		BufferedReader helpReader;
-		this.source=source;
+		//BufferedReader helpReader;
+		//this.source=source;
 		nbLife =hero.getNbLife();
 		try {
-			helpReader = new BufferedReader(new FileReader(this.source));
+			//helpReader = new BufferedReader(new FileReader(this.source));
 			String ligne;
 			while ((ligne = helpReader.readLine()) != null) {
 				lab.generate(ligne);
@@ -115,7 +116,8 @@ public class PacmanGame implements Game {
 		infosBar.setColor(Color.black);
 		infosBar.drawString("Time: "+hero.getTime(), sizeOfPolice+ lab.WIDTH, (sizeOfPolice/2 + lab.HEIGHT)/2);
 		infosBar.drawString("Scores: "+score, lab.getWidth()-((sizeOfPolice+ lab.WIDTH)*2), (sizeOfPolice/2 + lab.HEIGHT)/2);
-		BufferedImage imageCoeur=ImageIO.read(new File("resources/images/coeur.png"));
+		BufferedImage imageCoeur = ImageIO.read(getClass().getResourceAsStream("/images/coeur.png"));
+
 		int dx1=450; int dx2=510;
 		BufferedImage imgRed=new BufferedImage(50,60,imageCoeur.getType());
 		infosBar.setRenderingHint(RenderingHints.KEY_INTERPOLATION,RenderingHints.VALUE_INTERPOLATION_BILINEAR);
@@ -142,14 +144,15 @@ public class PacmanGame implements Game {
 		if(lab.getFloor(hero).isAtDoor() && lab.getStage().openDoor() ){
 			Random rand= new Random();
 			int numeroLab = rand.nextInt(5-1+1)+1;
-			this.source="resources/lab/lab"+numeroLab+".txt";
+
 			this.hero.setPosition(new Point(this.hero.getPosition().x/2,this.hero.getPosition().y/2));
 			hero.normalTransform(); //on redeviens normal a chanque nouveau map
 			hero.setTime(hero.getTime()+20);// on lui rajoute 20sec à chaque nouvel map
 			BufferedReader helpReader;
+			InputStream inputStream = getClass().getResourceAsStream("/lab/lab"+numeroLab+".txt") ;
 			this.lab=new Labyrinthe();
 			try {
-				helpReader = new BufferedReader(new FileReader(this.source));
+				helpReader = new BufferedReader(new InputStreamReader(inputStream));
 				String ligne;
 				while ((ligne = helpReader.readLine()) != null) {
 					this.lab.generate(ligne);
@@ -161,61 +164,73 @@ public class PacmanGame implements Game {
 		}
 
 		//if we are on a magical step
-		if (lab.getFloor(hero).isMagicalStep()) {
-			MagicStep magicStep = (MagicStep) lab.getFloor(hero);
-			if (!magicStep.isActivate()) {
-				Power power = Power.randomPower() ;
-				switch (power){
-					case TIME:
-						System.out.println("TEMPS GAGNE");
-						hero.addTime();
-						break;
-					case SUSPEND:
-						System.out.println("SUSPENTION");
-						lab.suspendMonster(5);
-						break;
-					case LIFE:
-						System.out.println("VIE GAGNE");
-						hero.addLife();
-						break;
-					case SAIYAN:
-						System.out.println("MODE SAIYAN");
-						hero.saiyanTransform();
-						break;
+			if (lab.getFloor(hero).isMagicalStep()) {
+				MagicStep magicStep = (MagicStep) lab.getFloor(hero);
+				if (!magicStep.isActivate()) {
+					Power power = Power.randomPower();
+					switch (power) {
+						case TIME:
+							System.out.println("TEMPS GAGNE");
+							hero.addTime();
+							break;
+						case SUSPEND:
+							System.out.println("SUSPENTION");
+							lab.suspendMonster(5);
+							break;
+						case LIFE:
+							System.out.println("VIE GAGNE");
+							hero.addLife();
+							break;
+						case SAIYAN:
+							System.out.println("MODE SAIYAN");
+							hero.saiyanTransform();
+							break;
+					}
+					magicStep.activate();
 				}
-				magicStep.activate();
-			}
-		}
-
-		//if we are on a trap step
-		if (lab.getFloor(hero).isTrapStep()) {
-			TrapStep trapStep = (TrapStep) lab.getFloor(hero);
-			if (!trapStep.isActivate()) {
-				Damage damage = Damage.randomDamage() ;
-				switch (damage){
-					case TIME:
-						System.out.println("TEEEEEEEEEEMPS");
-						hero.subTime();
-						break;
-					case LIFE:
-						System.out.println("VIEEEEEEEEEEE");
-						hero.subLife();
-						break;
-					case SCORE:
-						System.out.println("SCOOOOOOOOOOOOORE");
-						if (score-5 >=0) {
-							score -= 5;
-						}
-						else {
-							score = 0 ;
-						}
-						break;
-				}
-				trapStep.activate();
-
 			}
 
-		}
+			//if we are on a trap step
+			if (lab.getFloor(hero).isTrapStep()) {
+				TrapStep trapStep = (TrapStep) lab.getFloor(hero);
+				if (!trapStep.isActivate()) {
+					Damage damage = Damage.randomDamage();
+					switch (damage) {
+						case TIME:
+							System.out.println("TEEEEEEEEEEMPS");
+							hero.subTime();
+							break;
+						case LIFE:
+							System.out.println("VIEEEEEEEEEEE");
+							hero.subLife();
+							break;
+						case SCORE:
+							System.out.println("SCOOOOOOOOOOOOORE");
+							if (score - 5 >= 0) {
+								score -= 5;
+							} else {
+								score = 0;
+							}
+							break;
+					}
+					trapStep.activate();
+
+				}
+
+			}
+
+			//if we are on the safe
+			if (lab.getFloor(hero).isSafe()) {
+				if (!this.lab.getStage().openDoor()) {
+					this.lab.getStage().setBufferedImage(ImageIO.read(getClass().getResourceAsStream("/images/dooropen.png")));
+					this.lab.getStage().setOpen(true);
+					Safe safe = (Safe) lab.getFloor(hero);
+					if (!safe.isCollected()) {
+						score=score+20;
+						safe.collected();
+					}
+				}
+			}
 
 		//if we are on a diamond
 		if( lab.getDiamond(hero)!=null){
@@ -235,18 +250,7 @@ public class PacmanGame implements Game {
 			}
 		}
 
-		//if we are on the safe
-		if (lab.getFloor(hero).isSafe()) {
-			if (!this.lab.getStage().openDoor()) {
-				this.lab.getStage().setBufferedImage(ImageIO.read(new File("resources/images/dooropen.png")));
-				this.lab.getStage().setOpen(true);
-				Safe safe = (Safe) lab.getFloor(hero);
-				if (!safe.isCollected()) {
-					score=score+20;
-					safe.collected();
-				}
-			}
-		}
+
 		nbLife =hero.getNbLife();
 	}
 

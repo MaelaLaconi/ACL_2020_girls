@@ -60,24 +60,35 @@ public class Hero {
     public void init() throws IOException {
         for (int i=1;i<=12;i++) {
             if (i<=4) {
-                im[i - 1] = ImageIO.read(new File("resources/images/belle/bellesFly" + i + ".png"));
+                im[i - 1] = ImageIO.read(getClass().getResourceAsStream("/images/belle/bellesFly" + i +".png"));
+
+              //  im[i - 1] = ImageIO.read(new File("resources/images/belle/bellesFly" + i + ".png"));
             }
             if (i==5){
-                im[i-1]= ImageIO.read(new File("resources/images/belle/belleup.png"));
+                im[i - 1] = ImageIO.read(getClass().getResourceAsStream("/images/belle/belleup.png"));
+
+                //im[i-1]= ImageIO.read(new File("resources/images/belle/belleup.png"));
             }
             else if (i==6){
-                im[i-1]=ImageIO.read(new File("resources/images/belle/belledown.png"));
+                im[i - 1] = ImageIO.read(getClass().getResourceAsStream("/images/belle/belledown.png"));
+
+               // im[i-1]=ImageIO.read(new File("resources/images/belle/belledown.png"));
             }
             else if (i>6 && i<=10){
                 int j=i-6;
-                System.out.println(j);
-                im[i - 1] = ImageIO.read(new File("resources/images/belle/bellesFlyG"+j+".png"));
+                im[i - 1] = ImageIO.read(getClass().getResourceAsStream("/images/belle/bellesFlyG"+j+".png"));
+
+               // im[i - 1] = ImageIO.read(new File("resources/images/belle/bellesFlyG"+j+".png"));
             }
             else if(i==11){
-                im[i-1]= ImageIO.read(new File("resources/images/belle/saiyanD.png"));
+                im[i - 1] = ImageIO.read(getClass().getResourceAsStream("/images/belle/saiyanD.png"));
+
+               // im[i-1]= ImageIO.read(new File("resources/images/belle/saiyanD.png"));
             }
             else if (i==12){
-                im[i-1]= ImageIO.read(new File("resources/images/belle/saiyanG.png"));
+                im[i - 1] = ImageIO.read(getClass().getResourceAsStream("/images/belle/saiyanG.png"));
+
+               // im[i-1]= ImageIO.read(new File("resources/images/belle/saiyanG.png"));
             }
         }
     }

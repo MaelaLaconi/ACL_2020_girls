@@ -15,7 +15,9 @@ public class Safe extends Floor {
 
     public Safe(Point p, int w, int h) throws IOException {
         super(p, w, h);
-        bufferedImage = ImageIO.read(new File("resources/images/tresor.png"));
+        bufferedImage = ImageIO.read(getClass().getResourceAsStream("/images/tresor.png"));
+
+       // bufferedImage = ImageIO.read(new File("resources/images/tresor.png"));
         isCollected = false;
     }
 
@@ -34,7 +36,9 @@ public class Safe extends Floor {
      *Function once the hero is on the safe
      */
     private void emptyTresor() throws IOException {
-        bufferedImage = ImageIO.read(new File("resources/images/tresorOpen.png"));
+        bufferedImage = ImageIO.read(getClass().getResourceAsStream("/images/tresorOpen.png"));
+
+       // bufferedImage = ImageIO.read(new File("resources/images/tresorOpen.png"));
     }
 
 

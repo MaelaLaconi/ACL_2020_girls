@@ -121,9 +121,13 @@ public class Labyrinthe {
     public Floor getFloor(Hero hero){
         int x = hero.getPosition().x ;
         int y = hero.getPosition().y ;
-
+        Rectangle f, h ;
         for (Floor floor: listFloors) {
-
+            /*f = new Rectangle(floor.getPosition().x, floor.getPosition().y, WIDTH, HEIGHT) ;
+            h = new Rectangle(x, y, hero.getWidth(), hero.getHeight()) ;
+            if (f.intersects(h)){
+                return floor ;
+            }*/
             if(floor.getPosition().x <= x && floor.getPosition().x+WIDTH >= x
             && floor.getPosition().y <= y && floor.getPosition().y+HEIGHT >= y){
                 return floor;

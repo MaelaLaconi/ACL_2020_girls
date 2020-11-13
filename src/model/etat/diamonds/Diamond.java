@@ -47,7 +47,9 @@ public abstract class Diamond
          * @throws IOException
          */
         public void remove() throws IOException {
-            bufferedImage = ImageIO.read(new File("resources/images/floor.png"));
+            bufferedImage = ImageIO.read(getClass().getResourceAsStream("/images/floor.png"));
+
+            //bufferedImage = ImageIO.read(new File("resources/images/floor.png"));
         }
 
         /**
