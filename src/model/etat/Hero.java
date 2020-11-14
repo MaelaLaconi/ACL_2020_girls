@@ -3,7 +3,6 @@ package model.etat;
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
 import java.util.Date;
 import java.util.Timer;
@@ -11,6 +10,7 @@ import java.util.TimerTask;
 
 public class Hero {
 
+    public static String character="Belle";
     private Point position;
     public static int width;
     public static int height;
@@ -24,15 +24,7 @@ public class Hero {
     public static int UP = 3 ;
     public static int DOWN = 4 ;
     private static int SAIYAN = 5 ;
-
-    public void setImunise(boolean imunise) {
-        this.imunise = imunise;
-    }
-
     private boolean imunise;
-    public int getNbLife() {
-        return nbLife;
-    }
 
     public Hero() throws IOException {
         position = new Point(0,0);
@@ -41,6 +33,7 @@ public class Hero {
         indexPhoto=0;
         im=new BufferedImage[100];
         init();
+
         time = 60 ;
         saiyan = false ;
         nbLife =3;
@@ -58,38 +51,43 @@ public class Hero {
 
 
     public void init() throws IOException {
-        for (int i=1;i<=12;i++) {
-            if (i<=4) {
-                im[i - 1] = ImageIO.read(getClass().getResourceAsStream("/images/belle/bellesFly" + i +".png"));
-
-              //  im[i - 1] = ImageIO.read(new File("resources/images/belle/bellesFly" + i + ".png"));
+        switch (character) {
+            case "Belle":
+            for (int i = 1; i <= 12; i++) {
+                if (i <= 4) {
+                    im[i - 1] = ImageIO.read(getClass().getResourceAsStream("/images/belle/bellesFly" + i + ".png"));
+                }
+                if (i == 5) {
+                    im[i - 1] = ImageIO.read(getClass().getResourceAsStream("/images/belle/belleup.png"));
+                } else if (i == 6) {
+                    im[i - 1] = ImageIO.read(getClass().getResourceAsStream("/images/belle/belledown.png"));
+                } else if (i > 6 && i <= 10) {
+                    int j = i - 6;
+                    im[i - 1] = ImageIO.read(getClass().getResourceAsStream("/images/belle/bellesFlyG" + j + ".png"));
+                } else if (i == 11) {
+                    im[i - 1] = ImageIO.read(getClass().getResourceAsStream("/images/belle/saiyanD.png"));
+                } else if (i == 12) {
+                    im[i - 1] = ImageIO.read(getClass().getResourceAsStream("/images/belle/saiyanG.png"));
+                }
             }
-            if (i==5){
-                im[i - 1] = ImageIO.read(getClass().getResourceAsStream("/images/belle/belleup.png"));
-
-                //im[i-1]= ImageIO.read(new File("resources/images/belle/belleup.png"));
-            }
-            else if (i==6){
-                im[i - 1] = ImageIO.read(getClass().getResourceAsStream("/images/belle/belledown.png"));
-
-               // im[i-1]=ImageIO.read(new File("resources/images/belle/belledown.png"));
-            }
-            else if (i>6 && i<=10){
-                int j=i-6;
-                im[i - 1] = ImageIO.read(getClass().getResourceAsStream("/images/belle/bellesFlyG"+j+".png"));
-
-               // im[i - 1] = ImageIO.read(new File("resources/images/belle/bellesFlyG"+j+".png"));
-            }
-            else if(i==11){
-                im[i - 1] = ImageIO.read(getClass().getResourceAsStream("/images/belle/saiyanD.png"));
-
-               // im[i-1]= ImageIO.read(new File("resources/images/belle/saiyanD.png"));
-            }
-            else if (i==12){
-                im[i - 1] = ImageIO.read(getClass().getResourceAsStream("/images/belle/saiyanG.png"));
-
-               // im[i-1]= ImageIO.read(new File("resources/images/belle/saiyanG.png"));
-            }
+           /* case "Bulle":
+                for (int i = 1; i <= 12; i++) {
+                    if (i <= 4) {
+                        im[i - 1] = ImageIO.read(getClass().getResourceAsStream("/images/bulle/bulleD.png"));
+                    }
+                    if (i == 5) {
+                        im[i - 1] = ImageIO.read(getClass().getResourceAsStream("/images/bulle/bulleup.png"));
+                    } else if (i == 6) {
+                        im[i - 1] = ImageIO.read(getClass().getResourceAsStream("/images/bulle/bullDown.png"));
+                    } else if (i > 6 && i <= 10) {
+                        int j = i - 6;
+                        im[i - 1] = ImageIO.read(getClass().getResourceAsStream("/images/bulle/bulleG.png"));
+                    } else if (i == 11) {
+                        im[i - 1] = ImageIO.read(getClass().getResourceAsStream("/images/belle/saiyanD.png"));
+                    } else if (i == 12) {
+                        im[i - 1] = ImageIO.read(getClass().getResourceAsStream("/images/belle/saiyanG.png"));
+                    }
+                }*/
         }
     }
 
@@ -154,6 +152,15 @@ public class Hero {
     public boolean isSaiyan() {
         return saiyan;
     }
+
+    public int getNbLife() {
+        return nbLife;
+    }
+
+    public void setImunise(boolean imunise) {
+        this.imunise = imunise;
+    }
+
 
     /**
      * the hero loose a life
@@ -222,4 +229,6 @@ public class Hero {
             indexPhoto=11;
         }
     }
+
+
 }

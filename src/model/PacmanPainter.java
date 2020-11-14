@@ -7,6 +7,9 @@ import java.io.IOException;
 import engine.Game;
 import engine.GamePainter;
 
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
+
 /**
  * @author Horatiu Cirstea, Vincent Thomas
  *
@@ -36,7 +39,7 @@ public class PacmanPainter implements GamePainter {
 	 * methode  redefinie de Afficheur retourne une image du jeu
 	 */
 	@Override
-	public void draw(BufferedImage im) throws IOException {
+	public void draw(BufferedImage im) throws IOException, LineUnavailableException, UnsupportedAudioFileException {
 		pacmanGame.draw(im);
 
 	}

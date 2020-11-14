@@ -29,6 +29,11 @@ public class NormalStep extends Floor {
         return false;
     }
 
+    @Override
+    public boolean isNormalStep() {
+        return true ;
+    }
+
     public boolean isActivate() {
         return false;
     }

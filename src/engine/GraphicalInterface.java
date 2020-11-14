@@ -1,5 +1,7 @@
 package engine;
 
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.JFrame;
 import java.io.IOException;
 
@@ -44,7 +46,7 @@ public class GraphicalInterface  {
 	/**
 	 * mise a jour du dessin
 	 */
-	public void paint() throws IOException {
+	public void paint() throws IOException, LineUnavailableException, UnsupportedAudioFileException {
 		this.panel.drawGame();	
 	}
 	
