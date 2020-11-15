@@ -21,7 +21,7 @@ import java.util.Map;
 public class Menu  {
     public static boolean launcher=false;
     private JFrame frame;
-    public Menu(Hero hero){
+    public Menu(){
 
 
                    EventQueue.invokeLater(new Runnable() {
