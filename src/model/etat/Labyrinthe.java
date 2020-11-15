@@ -108,7 +108,7 @@ public class Labyrinthe {
                 monster.moveGhost();
             }
             if(monster.isMoving() && monster.monstreGuardianMonster()){
-                monster.moveGuardianMonster(this, WIDTH, HEIGHT);
+                monster.moveGuardianMonster();
             }
             monster.draw(im);
         }

@@ -94,7 +94,6 @@ public abstract class Monster {
         counterGhost++ ;
         if(step == DROITE) {
             if ( positions.x==PacmanPainter.WIDTH) {
-                System.out.println("here");
                  positions.x = 0 ;
             } else {
                 positions.x += speed;
@@ -137,11 +136,9 @@ public abstract class Monster {
 
     /**
      *  move guardian monster toward the hero
-     * @param labyrinthe
-     * @param wallWidth
-     * @param wallHeight
-     */
-    public void moveGuardianMonster(Labyrinthe labyrinthe, int wallWidth, int wallHeight){
+     *
+     * */
+    public void moveGuardianMonster(){
         Random rand = new Random();
         step = rand.nextInt(4-1+1) + 1;
 
@@ -199,10 +196,19 @@ public abstract class Monster {
     }
 
     /**
-     * for trap step (the monster doesn't move some times
+     * for trap step (the monster doesn't move some times)
      */
     public void suspend(){
         moving=false;
+    }
+
+    public void nextFrame(){
+        if (indexIm>nbFrame-1){
+            indexIm=0;
+        }
+        else {
+            indexIm++;
+        }
     }
 
     public boolean isMoving() {
@@ -235,15 +241,6 @@ public abstract class Monster {
 
     public  boolean monstreGuardianMonster(){
         return false;
-    }
-
-    public void nextFrame(){
-        if (indexIm>nbFrame-1){
-            indexIm=0;
-        }
-        else {
-            indexIm++;
-        }
     }
 
     public void setStep(int step) {

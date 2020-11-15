@@ -20,8 +20,6 @@ public class RedDiamond extends Diamond {
     public RedDiamond(Point p, int w, int h) throws IOException {
         super(p, w, h);
         bufferedImage = ImageIO.read(getClass().getResourceAsStream("/images/rouge.png"));
-
-        //bufferedImage = ImageIO.read(new File("resources/images/rouge.png"));
     }
 
 

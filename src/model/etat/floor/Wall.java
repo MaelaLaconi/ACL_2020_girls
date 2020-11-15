@@ -13,8 +13,6 @@ public class Wall extends Floor {
     public Wall(Point p, int w, int h) throws IOException {
         super(p, w, h);
         bufferedImage = ImageIO.read(getClass().getResourceAsStream("/images/wall.png"));
-
-       // bufferedImage = ImageIO.read(new File("resources/images/wall.png"));
     }
 
     @Override

@@ -183,7 +183,6 @@ public class PacmanGame implements Game {
 				helpReader.close();
 			} catch (IOException e) {
 			}
-
 		}
 
 		//if we are on a magical step
@@ -312,6 +311,7 @@ public class PacmanGame implements Game {
 		}
 	}
 
+
 	/**
 	 * the game is finished if the hero doesn't have any life left ,
 	 * or if the time is null
@@ -324,13 +324,13 @@ public class PacmanGame implements Game {
 		JLabel label;
 
 		if (lab.collisionMonster(hero.getPosition().x, hero.getPosition().y) && !hero.isSaiyan()) {
-			if (hero.getNbLife()>0 && hero.getImunise()==false){
+			if (hero.getNbLife()>0 && !hero.getImunise()){
 				hero.subLife();
 				hero.setImunise(true);
 				hero.isImunise();
 				return false;
 			}
-			if (hero.getImunise()==true){
+			if (hero.getImunise()){
 				return false;
 			}
 			label = new JLabel("LE MOOOOOOOOOOOONSTRE VOUS A DEVORE");
@@ -348,7 +348,7 @@ public class PacmanGame implements Game {
 			}
 			return true ;
 		}
-		if(hero.getTime() == 0){
+		if(hero.getTime() <= 0){
 			label = new JLabel("Temps écoulé");
 			panel.add(label);
 			frame.setContentPane(panel);

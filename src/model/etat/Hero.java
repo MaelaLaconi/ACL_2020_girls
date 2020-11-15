@@ -96,7 +96,7 @@ public class Hero {
      */
     public void saiyanTransform() {
         this.saiyan = true ;
-        nextFrame(SAIYAN);
+        //nextFrame(SAIYAN);
     }
 
     /**
@@ -204,6 +204,7 @@ public class Hero {
             else {
                 indexPhoto++;
             }
+
         }
         if (direction == LEFT){
             if (indexPhoto>=9){
@@ -211,11 +212,12 @@ public class Hero {
             }
             else if (indexPhoto<6){
                 indexPhoto=6;
-                System.out.println(indexPhoto);
             }
             else {
                 indexPhoto++;
             }
+
+
         }
         if (direction == UP){
             if (indexPhoto!=4){
@@ -225,8 +227,14 @@ public class Hero {
         else if (direction == DOWN){
             indexPhoto=5;
         }
-        else if (direction == SAIYAN){
-            indexPhoto=11;
+
+        if (saiyan){
+            if (direction == RIGHT){
+                indexPhoto = 10 ;
+            }
+            if (direction == LEFT){
+                indexPhoto = 11 ;
+            }
         }
     }
 

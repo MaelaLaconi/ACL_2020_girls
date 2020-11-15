@@ -24,8 +24,13 @@ class HeroTest {
     @Test
     void normalTransform() throws IOException {
         assert (!h.isSaiyan());
+
         h.saiyanTransform();
         assert (h.isSaiyan()) ;
+
+        h.normalTransform();
+        assert (!h.isSaiyan());
+
         h.normalTransform();
         assert (!h.isSaiyan());
     }
@@ -33,6 +38,10 @@ class HeroTest {
     @Test
     void saiyanTransform() {
         assert (!h.isSaiyan()) ;
+
+        h.saiyanTransform();
+        assert (h.isSaiyan()) ;
+
         h.saiyanTransform();
         assert (h.isSaiyan()) ;
     }
@@ -40,11 +49,14 @@ class HeroTest {
     @Test
     void move() {
         assert (h.getPosition().equals(new Point(0,0)));
+
         h.move(0,1);
         assert (h.getPosition().equals(new Point(0,1)));
+
         h.move(3,2);
         assert (h.getPosition().equals(new Point(3,3)));
 
-
+        h.move(-1,-1);
+        assert (h.getPosition().equals(new Point(2,2)));
     }
 }

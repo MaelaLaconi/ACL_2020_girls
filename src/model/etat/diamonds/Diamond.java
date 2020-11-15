@@ -1,15 +1,11 @@
 package model.etat.diamonds;
 
-import model.etat.Hero;
-
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
 
-public abstract class Diamond
-    {
+public abstract class Diamond {
 
         protected Point position;
         protected int width;
@@ -32,51 +28,48 @@ public abstract class Diamond
 
     }
 
-        /**
-         *
-         * @param im
-         * @throws IOException
-         */
-        public void draw(BufferedImage im) throws IOException{
-        Graphics2D crayon = (Graphics2D) im.getGraphics();
-        crayon.drawImage(this.bufferedImage,position.x,position.y,width,height,null);
+    /**
+     *
+     * @param im
+     * @throws IOException
+     */
+    public void draw(BufferedImage im) throws IOException{
+    Graphics2D crayon = (Graphics2D) im.getGraphics();
+    crayon.drawImage(this.bufferedImage,position.x,position.y,width,height,null);
     }
 
-        /**
-         * replace the diamond by floor
-         * @throws IOException
-         */
-        public void remove() throws IOException {
-            bufferedImage = ImageIO.read(getClass().getResourceAsStream("/images/floor.png"));
+    /**
+     * replace the diamond by floor
+     * @throws IOException
+     */
+    public void remove() throws IOException {
+        bufferedImage = ImageIO.read(getClass().getResourceAsStream("/images/floor.png"));
+    }
 
-            //bufferedImage = ImageIO.read(new File("resources/images/floor.png"));
-        }
+    /**
+     * when the hero has picked the diamond it's removed
+     *
+     */
+    public void picked() throws IOException {
+        isPicked = true;
+        remove();
+    }
 
-        /**
-         * when the hero has picked the diamond it's removed
-         *
-         */
-        public void picked() throws IOException {
-            isPicked = true;
-            remove();
-        }
-
-        public boolean isPicked() {
-            return isPicked;
-        }
+    public boolean isPicked() {
+        return isPicked;
+    }
 
 
-        public Point getPosition() {
-            return position;
-        }
+    public Point getPosition() {
+        return position;
+    }
 
+    public boolean isBlueDiamond() {
+        return false;
+    }
 
-        public boolean isBlueDiamond() {
-            return false;
-        }
-
-        public boolean isRedDiamond() {
-            return false;
-        }
+    public boolean isRedDiamond() {
+        return false;
+    }
 
     }

@@ -16,8 +16,6 @@ public class Safe extends Floor {
     public Safe(Point p, int w, int h) throws IOException {
         super(p, w, h);
         bufferedImage = ImageIO.read(getClass().getResourceAsStream("/images/tresor.png"));
-
-       // bufferedImage = ImageIO.read(new File("resources/images/tresor.png"));
         isCollected = false;
     }
 
@@ -29,7 +27,6 @@ public class Safe extends Floor {
     public void collected() throws IOException {
         isCollected = true;
         emptyTresor();
-
     }
 
     /**
@@ -37,8 +34,6 @@ public class Safe extends Floor {
      */
     private void emptyTresor() throws IOException {
         bufferedImage = ImageIO.read(getClass().getResourceAsStream("/images/tresorOpen.png"));
-
-       // bufferedImage = ImageIO.read(new File("resources/images/tresorOpen.png"));
     }
 
 
@@ -61,7 +56,6 @@ public class Safe extends Floor {
     public boolean isActivate() {
         return false;
     }
-    public void desactivate() throws IOException {
-
+    public void desactivate() {
     }
 }
