@@ -23,7 +23,6 @@ public class Hero {
     public static int LEFT = 2 ;
     public static int UP = 3 ;
     public static int DOWN = 4 ;
-    private static int SAIYAN = 5 ;
     private boolean imunise;
 
     public Hero() throws IOException {
@@ -96,7 +95,6 @@ public class Hero {
      */
     public void saiyanTransform() {
         this.saiyan = true ;
-        //nextFrame(SAIYAN);
     }
 
     /**
@@ -181,8 +179,8 @@ public class Hero {
     public void isImunise(){
         TimerTask task = new TimerTask() {
             public void run() {
-                System.out.println("Task performed on: " + new Date() + "n" +
-                        "Thread's name: " + Thread.currentThread().getName());
+               // System.out.println("Task performed on: " + new Date() + "n" +
+                 //       "Thread's name: " + Thread.currentThread().getName());
                 setImunise(false);
             }
         };

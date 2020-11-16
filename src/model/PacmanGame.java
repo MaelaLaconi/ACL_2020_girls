@@ -55,11 +55,8 @@ public class PacmanGame implements Game {
 	public PacmanGame(BufferedReader helpReader) throws IOException {
 		lab = new Labyrinthe();
 		hero = new Hero();
-		//BufferedReader helpReader;
-		//this.source=source;
 		nbLife =hero.getNbLife();
 		try {
-			//helpReader = new BufferedReader(new FileReader(this.source));
 			String ligne;
 			while ((ligne = helpReader.readLine()) != null) {
 				lab.generate(ligne);
@@ -96,6 +93,7 @@ public class PacmanGame implements Game {
 				}
 				break;
 			case DOWN:
+				System.out.println(collision(0, speed));
 				if(collision(0, speed)) {
 					hero.move(0, speed);
 					hero.nextFrame(hero.DOWN);
@@ -382,5 +380,9 @@ public class PacmanGame implements Game {
 	}
 	public Labyrinthe getLab() {
 		return lab;
+	}
+
+	public Hero getHero() {
+		return hero;
 	}
 }
