@@ -3,16 +3,15 @@ package model;
 import engine.Cmd;
 import engine.Game;
 import engine.GameEngineGraphical;
+import model.astar.AStar;
+import model.astar.Node;
 import model.etat.Damage;
 import model.etat.Hero;
 import model.etat.Labyrinthe;
 import model.etat.Power;
 import model.etat.diamonds.BlueDiamond;
 import model.etat.diamonds.RedDiamond;
-import model.etat.floor.MagicStep;
-import model.etat.floor.Safe;
-import model.etat.floor.TeleportStep;
-import model.etat.floor.TrapStep;
+import model.etat.floor.*;
 
 import javax.imageio.ImageIO;
 import javax.sound.sampled.AudioInputStream;
@@ -23,9 +22,13 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.*;
+import java.util.List;
 import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 import static java.lang.Thread.sleep;
 import static model.Menu.launcher;
@@ -74,6 +77,7 @@ public class PacmanGame implements Game {
 			}
 		};
 		timer.schedule(decount, 100, 1000);
+		lab.setH(hero);
 	}
 
 
@@ -93,7 +97,6 @@ public class PacmanGame implements Game {
 				}
 				break;
 			case DOWN:
-				System.out.println(collision(0, speed));
 				if(collision(0, speed)) {
 					hero.move(0, speed);
 					hero.nextFrame(hero.DOWN);
@@ -269,6 +272,37 @@ public class PacmanGame implements Game {
 				}
 			}
 		}
+
+		Runnable moveGuardian = new Runnable() {
+			@Override
+			public void run() {
+				int[][] blocksArray = lab.getBlocksArray();
+				Floor f = lab.getFloor(hero);
+				int x = f.getPosition().y/ lab.HEIGHT ;
+				int y = f.getPosition().x/ lab.WIDTH ;
+				//System.out.println("Hero :x "+x+" y "+y);
+				Node initialNode = new Node(x, y);
+
+				x = lab.getGuardianPos().y/ lab.HEIGHT ;
+				y = lab.getGuardianPos().x/ lab.WIDTH ;
+				//System.out.println("Monstre draw: "+x +" "+y);
+
+				Node finalNode = new Node(lab.getGuardianPos().y/ lab.HEIGHT, lab.getGuardianPos().x/ lab.WIDTH);
+				int rows = lab.getLine()/lab.HEIGHT ;
+				int cols = lab.getColumn()/lab.WIDTH ;
+
+
+				AStar aStar = new AStar(rows, cols, initialNode, finalNode);
+
+				aStar.setBlocks(blocksArray);
+				List<Node> path = aStar.findPath();
+				lab.getGuardianMonster().moveGuardianMonster(path);
+			}
+		};
+		ScheduledExecutorService executorService = Executors.newScheduledThreadPool(1) ;
+		executorService.scheduleAtFixedRate(moveGuardian, 3, 5, TimeUnit.SECONDS) ;
+
+
 
 
 		nbLife =hero.getNbLife();

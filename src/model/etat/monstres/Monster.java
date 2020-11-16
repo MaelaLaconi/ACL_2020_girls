@@ -1,11 +1,13 @@
 package model.etat.monstres;
 
 import model.PacmanPainter;
+import model.astar.Node;
 import model.etat.Labyrinthe;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.util.List;
 import java.util.Random;
 
 /**
@@ -27,6 +29,7 @@ public abstract class Monster {
     private int step ;
     private boolean moving;
     private int counterGhost;
+    private int count ;
 
     public Monster(Point point, int width, int height){
         this.positions = point;
@@ -37,6 +40,7 @@ public abstract class Monster {
         this.moving=true;
         counterGhost = 0 ;
         step = 1 ;
+        count = 0 ;
     }
 
 
@@ -182,7 +186,16 @@ public abstract class Monster {
         }
     }
 
-    public void setIndexIm(int indexIm) {
+
+    public void moveGuardianMonster(List<Node> path){
+        if (path.size()>1) {
+            positions.y = Labyrinthe.WIDTH * path.get(0).getRow();
+            positions.x = Labyrinthe.HEIGHT * path.get(0).getCol();
+        }
+
+    }
+
+        public void setIndexIm(int indexIm) {
         this.indexIm = indexIm;
     }
 

@@ -1,5 +1,7 @@
 package model.astar;
 
+import java.awt.*;
+
 /**
  * Node Class
  *
@@ -58,6 +60,9 @@ public class Node {
         return "Node [row=" + row + ", col=" + col + "]";
     }
 
+    public Point getNextPosition(){
+        return new Point(col, row) ;
+    }
     public int getH() {
         return h;
     }
