@@ -46,7 +46,6 @@ public class Labyrinthe {
         listFloors = new ArrayList<>();
         listTeleportStep=new ArrayList<>();
         line = 0;
-        blocksArray = new int[6][7] ;
     }
 
     /**
@@ -282,11 +281,13 @@ public class Labyrinthe {
     }
 
     public int[][] getBlocksArray() {
+        blocksArray = new int[line/HEIGHT][column/WIDTH] ;
+
         int i = 0 ;
         for (Floor floor: listFloors) {
             if(floor instanceof Wall){
-                blocksArray[i][0] = floor.getPosition().y / 50;
-                blocksArray[i][1] = floor.getPosition().x /50;
+                blocksArray[i][0] = floor.getPosition().y / HEIGHT;
+                blocksArray[i][1] = floor.getPosition().x / WIDTH;
                 i++ ;
             }
         }

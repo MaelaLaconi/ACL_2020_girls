@@ -3,6 +3,7 @@ package model.astar;
 import model.PacmanGame;
 import model.etat.Hero;
 import model.etat.Labyrinthe;
+import model.etat.floor.Floor;
 import start.Main;
 
 import java.io.BufferedReader;
@@ -24,7 +25,11 @@ public class AStarTest {
 
         Hero hero = game.getHero() ;
         //Node initialNode = new Node(hero.getPosition().x, hero.getPosition().y);
-        Node initialNode = new Node(2, 1);
+        Floor f = laby.getFloor(hero);
+        int x = f.getPosition().y/ laby.getHeight() ;
+        int y = f.getPosition().x/ laby.getWidth() ;
+        System.out.println("x "+x+" y "+y);
+        Node initialNode = new Node(x, y);
         Node finalNode = new Node(2, 5);
         int rows = 6;
         int cols = 7;
