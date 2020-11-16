@@ -29,6 +29,8 @@ public class Labyrinthe {
     private Collection<TeleportStep> listTeleportStep;
     private Door stage;
     private int line, column;
+    private int[][] blocksArray ;
+
     public final int WIDTH = 50;
     public final int HEIGHT = 50;
 
@@ -44,6 +46,7 @@ public class Labyrinthe {
         listFloors = new ArrayList<>();
         listTeleportStep=new ArrayList<>();
         line = 0;
+        blocksArray = new int[6][7] ;
     }
 
     /**
@@ -53,6 +56,8 @@ public class Labyrinthe {
      */
     public void generate(String string) throws IOException {
         column = 0;
+        int i = 0 ;
+        int j = 0 ;
         for (char ch: string.toCharArray()) {
             switch(ch){
                 //Wall
@@ -267,6 +272,7 @@ public class Labyrinthe {
     public  boolean isNormalStep(int x, int y){
         return getFloor(x,y).isNormalStep() ;
     }
+
     public Collection<TeleportStep> getListTeleportStep() {
         return listTeleportStep;
     }
@@ -275,4 +281,15 @@ public class Labyrinthe {
         return listDiamonds;
     }
 
+    public int[][] getBlocksArray() {
+        int i = 0 ;
+        for (Floor floor: listFloors) {
+            if(floor instanceof Wall){
+                blocksArray[i][0] = floor.getPosition().y / 50;
+                blocksArray[i][1] = floor.getPosition().x /50;
+                i++ ;
+            }
+        }
+        return blocksArray;
+    }
 }
