@@ -1,4 +1,4 @@
-package model.etat;
+package model.etat.hero;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -23,8 +23,9 @@ public class Hero {
     public static int LEFT = 2 ;
     public static int UP = 3 ;
     public static int DOWN = 4 ;
-    private static int SAIYAN = 5 ;
     private boolean imunise;
+    private BufferedImage lifeBar;
+    private Health health;
 
     public Hero() throws IOException {
         position = new Point(0,0);
@@ -32,12 +33,14 @@ public class Hero {
         height = 40;
         indexPhoto=0;
         im=new BufferedImage[100];
+        lifeBar = ImageIO.read(getClass().getResourceAsStream("/images/lifebar.png"));
         init();
 
         time = 60 ;
         saiyan = false ;
         nbLife =3;
         imunise=false;
+        this.health= new Health(5,this);
     }
 
     /**
@@ -96,7 +99,6 @@ public class Hero {
      */
     public void saiyanTransform() {
         this.saiyan = true ;
-        nextFrame(SAIYAN);
     }
 
     /**
@@ -106,6 +108,15 @@ public class Hero {
     public void draw(BufferedImage im){
         Graphics2D crayon = (Graphics2D) im.getGraphics();
         crayon.drawImage(this.im[indexPhoto],position.x-(width/2),position.y-(height/2),width,height,null);
+
+        //ici lidée c'est que une fois touché on enelve de la taille de la taille de l'image
+        float damage = (float) this.getHealth().getHp() / (float) this.getHealth().getHealth();
+        crayon.drawImage(
+                lifeBar,
+                position.x-(width/2) ,position.y-(height/2) + 2,
+                (int)(width * damage),height/4,
+                null
+        );
     }
 
     public void move(int x, int y){
@@ -181,8 +192,8 @@ public class Hero {
     public void isImunise(){
         TimerTask task = new TimerTask() {
             public void run() {
-                System.out.println("Task performed on: " + new Date() + "n" +
-                        "Thread's name: " + Thread.currentThread().getName());
+               // System.out.println("Task performed on: " + new Date() + "n" +
+                 //       "Thread's name: " + Thread.currentThread().getName());
                 setImunise(false);
             }
         };
@@ -204,6 +215,7 @@ public class Hero {
             else {
                 indexPhoto++;
             }
+
         }
         if (direction == LEFT){
             if (indexPhoto>=9){
@@ -211,11 +223,12 @@ public class Hero {
             }
             else if (indexPhoto<6){
                 indexPhoto=6;
-                System.out.println(indexPhoto);
             }
             else {
                 indexPhoto++;
             }
+
+
         }
         if (direction == UP){
             if (indexPhoto!=4){
@@ -225,10 +238,18 @@ public class Hero {
         else if (direction == DOWN){
             indexPhoto=5;
         }
-        else if (direction == SAIYAN){
-            indexPhoto=11;
+
+        if (saiyan){
+            if (direction == RIGHT){
+                indexPhoto = 10 ;
+            }
+            if (direction == LEFT){
+                indexPhoto = 11 ;
+            }
         }
     }
 
-
+    public Health getHealth() {
+        return health;
+    }
 }
