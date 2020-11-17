@@ -249,6 +249,7 @@ public class Hero {
         }
     }
 
+    
     public Health getHealth() {
         return health;
     }
