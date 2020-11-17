@@ -1,4 +1,4 @@
-package model.etat;
+package model.etat.hero;
 
 import java.util.Arrays;
 import java.util.Collections;

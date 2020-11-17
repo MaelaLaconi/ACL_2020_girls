@@ -11,12 +11,9 @@ public class GhostMonster extends Monster {
         super(point, width, height);
         nbFrame=1;
         bufferedImage[0] = ImageIO.read(getClass().getResourceAsStream("/images/fantome.png"));
-
-        //bufferedImage[0] = ImageIO.read(new File("resources/images/fantome.png"));
         speed = 4;
         Random rand = new Random();
         setStep(rand.nextInt(4-1+1) + 1);
-
     }
 
     @Override

@@ -1,8 +1,7 @@
-package model.etat.floor;
+package model.etat.elements;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
-import java.io.File;
 import java.io.IOException;
 
 
@@ -16,8 +15,6 @@ public class TeleportStep extends Floor {
         x= (int) p.getX();
         y= (int) p.getY();
         bufferedImage = ImageIO.read(getClass().getResourceAsStream("/images/teleport.png"));
-
-       // bufferedImage = ImageIO.read(new File("resources/images/teleport.png"));
         stepIn=false;
     }
 

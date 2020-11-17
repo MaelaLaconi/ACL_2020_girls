@@ -1,9 +1,8 @@
-package model.etat.floor;
+package model.etat.elements;
 
 
 import javax.imageio.ImageIO;
 import java.awt.*;
-import java.io.File;
 import java.io.IOException;
 
 public class TrapStep extends Floor {
@@ -20,8 +19,6 @@ public class TrapStep extends Floor {
         super(p, w, h);
         try {
             bufferedImage = ImageIO.read(getClass().getResourceAsStream("/images/trapStep.png"));
-
-            //bufferedImage = ImageIO.read(new File("resources/images/trapStep.png"));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -56,8 +53,6 @@ public class TrapStep extends Floor {
     @Override
     public void desactivate() throws IOException {
         bufferedImage = ImageIO.read(getClass().getResourceAsStream("/images/trapStepIn.png"));
-
-      //  bufferedImage = ImageIO.read(new File("resources/images/trapStepIn.png"));
     }
 
     public void activate() throws IOException {

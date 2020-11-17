@@ -15,13 +15,10 @@ public class GuardianMonster  extends Monster {
         for (int i=1;i<=8;i++) {
             if (i<=4) {
                 bufferedImage[i - 1] = ImageIO.read(getClass().getResourceAsStream("/images/mechants/mojoD" +i + ".png")) ;
-                //bufferedImage[i - 1] = ImageIO.read(new File("resources/images/mechants/mojoD" + i + ".png"));
             }
             if (i>4){
                 int j= i-4;
                 bufferedImage[i - 1] = ImageIO.read(getClass().getResourceAsStream("/images/mechants/mojoG" + j + ".png")) ;
-
-                //bufferedImage[i - 1] = ImageIO.read(new File("resources/images/mechants/mojoG" + j + ".png"));
             }
         }
         speed = 4;

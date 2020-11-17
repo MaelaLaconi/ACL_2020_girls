@@ -1,10 +1,7 @@
-package model.etat.floor;
-
-import model.etat.Hero;
+package model.etat.elements;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
-import java.io.File;
 import java.io.IOException;
 
 
@@ -17,8 +14,6 @@ public class MagicStep extends Floor{
     public MagicStep(Point p, int w, int h) throws IOException {
         super(p, w, h);
         bufferedImage = ImageIO.read(getClass().getResourceAsStream("/images/magic.png"));
-
-       // bufferedImage = ImageIO.read(new File("resources/images/magic.png"));
         isActivate = false;
     }
 
@@ -37,8 +32,6 @@ public class MagicStep extends Floor{
      */
     public void desactivate() throws IOException {
         bufferedImage = ImageIO.read(getClass().getResourceAsStream("/images/magicStepIn.png"));
-
-        //bufferedImage = ImageIO.read(new File("resources/images/magicStepIn.png"));
     }
 
 

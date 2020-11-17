@@ -1,11 +1,13 @@
 package model.etat.monstres;
 
 import model.PacmanPainter;
+import model.astar.Node;
 import model.etat.Labyrinthe;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.util.List;
 import java.util.Random;
 
 /**
@@ -27,6 +29,7 @@ public abstract class Monster {
     private int step ;
     private boolean moving;
     private int counterGhost;
+    private int count ;
 
     public Monster(Point point, int width, int height){
         this.positions = point;
@@ -37,6 +40,7 @@ public abstract class Monster {
         this.moving=true;
         counterGhost = 0 ;
         step = 1 ;
+        count = 0 ;
     }
 
 
@@ -94,7 +98,6 @@ public abstract class Monster {
         counterGhost++ ;
         if(step == DROITE) {
             if ( positions.x==PacmanPainter.WIDTH) {
-                System.out.println("here");
                  positions.x = 0 ;
             } else {
                 positions.x += speed;
@@ -137,11 +140,9 @@ public abstract class Monster {
 
     /**
      *  move guardian monster toward the hero
-     * @param labyrinthe
-     * @param wallWidth
-     * @param wallHeight
-     */
-    public void moveGuardianMonster(Labyrinthe labyrinthe, int wallWidth, int wallHeight){
+     *
+     * */
+    public void moveGuardianMonster(){
         Random rand = new Random();
         step = rand.nextInt(4-1+1) + 1;
 
@@ -185,7 +186,16 @@ public abstract class Monster {
         }
     }
 
-    public void setIndexIm(int indexIm) {
+
+    public void moveGuardianMonster(List<Node> path){
+        if (path.size()>1) {
+            positions.y = Labyrinthe.WIDTH * path.get(0).getRow();
+            positions.x = Labyrinthe.HEIGHT * path.get(0).getCol();
+        }
+
+    }
+
+        public void setIndexIm(int indexIm) {
         this.indexIm = indexIm;
     }
 
@@ -199,10 +209,19 @@ public abstract class Monster {
     }
 
     /**
-     * for trap step (the monster doesn't move some times
+     * for trap step (the monster doesn't move some times)
      */
     public void suspend(){
         moving=false;
+    }
+
+    public void nextFrame(){
+        if (indexIm>nbFrame-1){
+            indexIm=0;
+        }
+        else {
+            indexIm++;
+        }
     }
 
     public boolean isMoving() {
@@ -235,15 +254,6 @@ public abstract class Monster {
 
     public  boolean monstreGuardianMonster(){
         return false;
-    }
-
-    public void nextFrame(){
-        if (indexIm>nbFrame-1){
-            indexIm=0;
-        }
-        else {
-            indexIm++;
-        }
     }
 
     public void setStep(int step) {

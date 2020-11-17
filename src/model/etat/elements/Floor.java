@@ -1,4 +1,4 @@
-package model.etat.floor;
+package model.etat.elements;
 
 
 
@@ -51,9 +51,11 @@ public abstract class Floor {
     public boolean isSafe(){
         return false;
     }
-   public void setBufferedImage(BufferedImage bufferedImage) {
+
+    public void setBufferedImage(BufferedImage bufferedImage) {
         this.bufferedImage = bufferedImage;
     }
+
     public boolean isAtDoor(){
         return false;
     }
@@ -64,11 +66,12 @@ public abstract class Floor {
 
     public boolean isNormalStep(){ return false;}
 
-
     public abstract boolean isActivate();
 
-   public boolean isTrapStep(){ return false ;}
+    public boolean isTrapStep(){ return false ;}
+
     public abstract void desactivate() throws IOException;
+
     public boolean isTeleportStep(){
         return false;
     }

@@ -3,16 +3,18 @@ package model;
 import engine.Cmd;
 import engine.Game;
 import engine.GameEngineGraphical;
-import model.etat.Damage;
-import model.etat.Hero;
+import model.astar.AStar;
+import model.astar.Node;
+
 import model.etat.Labyrinthe;
-import model.etat.Power;
+
 import model.etat.diamonds.BlueDiamond;
 import model.etat.diamonds.RedDiamond;
-import model.etat.floor.MagicStep;
-import model.etat.floor.Safe;
-import model.etat.floor.TeleportStep;
-import model.etat.floor.TrapStep;
+import model.etat.elements.*;
+import model.etat.hero.Damage;
+import model.etat.hero.Hero;
+import model.etat.hero.Power;
+
 
 import javax.imageio.ImageIO;
 import javax.sound.sampled.AudioInputStream;
@@ -23,9 +25,13 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.*;
+import java.util.List;
 import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 import static java.lang.Thread.sleep;
 import static model.Menu.launcher;
@@ -55,11 +61,8 @@ public class PacmanGame implements Game {
 	public PacmanGame(BufferedReader helpReader) throws IOException {
 		lab = new Labyrinthe();
 		hero = new Hero();
-		//BufferedReader helpReader;
-		//this.source=source;
 		nbLife =hero.getNbLife();
 		try {
-			//helpReader = new BufferedReader(new FileReader(this.source));
 			String ligne;
 			while ((ligne = helpReader.readLine()) != null) {
 				lab.generate(ligne);
@@ -77,6 +80,7 @@ public class PacmanGame implements Game {
 			}
 		};
 		timer.schedule(decount, 100, 1000);
+		lab.setH(hero);
 	}
 
 
@@ -183,7 +187,6 @@ public class PacmanGame implements Game {
 				helpReader.close();
 			} catch (IOException e) {
 			}
-
 		}
 
 		//if we are on a magical step
@@ -273,6 +276,37 @@ public class PacmanGame implements Game {
 			}
 		}
 
+		Runnable moveGuardian = new Runnable() {
+			@Override
+			public void run() {
+				int[][] blocksArray = lab.getBlocksArray();
+				Floor f = lab.getFloor(hero);
+				int x = f.getPosition().y/ lab.HEIGHT ;
+				int y = f.getPosition().x/ lab.WIDTH ;
+				//System.out.println("Hero :x "+x+" y "+y);
+				Node initialNode = new Node(x, y);
+
+				x = lab.getGuardianPos().y/ lab.HEIGHT ;
+				y = lab.getGuardianPos().x/ lab.WIDTH ;
+				//System.out.println("Monstre draw: "+x +" "+y);
+
+				Node finalNode = new Node(lab.getGuardianPos().y/ lab.HEIGHT, lab.getGuardianPos().x/ lab.WIDTH);
+				int rows = lab.getLine()/lab.HEIGHT ;
+				int cols = lab.getColumn()/lab.WIDTH ;
+
+
+				AStar aStar = new AStar(rows, cols, initialNode, finalNode);
+
+				aStar.setBlocks(blocksArray);
+				List<Node> path = aStar.findPath();
+				lab.getGuardianMonster().moveGuardianMonster(path);
+			}
+		};
+		ScheduledExecutorService executorService = Executors.newScheduledThreadPool(1) ;
+		executorService.scheduleAtFixedRate(moveGuardian, 3, 5, TimeUnit.SECONDS) ;
+
+
+
 
 		nbLife =hero.getNbLife();
 	}
@@ -312,6 +346,7 @@ public class PacmanGame implements Game {
 		}
 	}
 
+
 	/**
 	 * the game is finished if the hero doesn't have any life left ,
 	 * or if the time is null
@@ -324,13 +359,20 @@ public class PacmanGame implements Game {
 		JLabel label;
 
 		if (lab.collisionMonster(hero.getPosition().x, hero.getPosition().y) && !hero.isSaiyan()) {
-			if (hero.getNbLife()>0 && hero.getImunise()==false){
-				hero.subLife();
+			if (hero.getNbLife()>0 && !hero.getImunise()){
+				if(hero.getHealth().getHp()<=0){
+					hero.subLife();
+					hero.getHealth().setHp(hero.getHealth().getHealth());
+				}
+				else{
+					hero.getHealth().damage(1);
+				}
+
 				hero.setImunise(true);
 				hero.isImunise();
 				return false;
 			}
-			if (hero.getImunise()==true){
+			if (hero.getImunise()){
 				return false;
 			}
 			label = new JLabel("LE MOOOOOOOOOOOONSTRE VOUS A DEVORE");
@@ -348,7 +390,7 @@ public class PacmanGame implements Game {
 			}
 			return true ;
 		}
-		if(hero.getTime() == 0){
+		if(hero.getTime() <= 0){
 			label = new JLabel("Temps écoulé");
 			panel.add(label);
 			frame.setContentPane(panel);
@@ -382,5 +424,9 @@ public class PacmanGame implements Game {
 	}
 	public Labyrinthe getLab() {
 		return lab;
+	}
+
+	public Hero getHero() {
+		return hero;
 	}
 }

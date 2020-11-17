@@ -1,9 +1,8 @@
-package model.etat.floor;
+package model.etat.elements;
 
 
 import javax.imageio.ImageIO;
 import java.awt.*;
-import java.io.File;
 import java.io.IOException;
 
 public class Door extends Floor {
@@ -12,8 +11,6 @@ public class Door extends Floor {
     public Door(Point p, int w, int h) throws IOException {
         super(p, w, h);
         bufferedImage = ImageIO.read(getClass().getResourceAsStream("/images/doorclosed.png"));
-
-        //bufferedImage = ImageIO.read(new File("resources/images/doorclosed.png"));
         isOpen = false;
     }
 
