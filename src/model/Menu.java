@@ -1,7 +1,7 @@
 package model;
 
 
-import model.etat.Hero;
+import model.etat.hero.Hero;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;

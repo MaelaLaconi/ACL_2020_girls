@@ -1,10 +1,7 @@
-package model.etat.floor;
-
-import model.etat.Hero;
+package model.etat.elements;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
-import java.io.File;
 import java.io.IOException;
 
 

@@ -5,13 +5,16 @@ import engine.Game;
 import engine.GameEngineGraphical;
 import model.astar.AStar;
 import model.astar.Node;
-import model.etat.Damage;
-import model.etat.Hero;
+
 import model.etat.Labyrinthe;
-import model.etat.Power;
+
 import model.etat.diamonds.BlueDiamond;
 import model.etat.diamonds.RedDiamond;
-import model.etat.floor.*;
+import model.etat.elements.*;
+import model.etat.hero.Damage;
+import model.etat.hero.Hero;
+import model.etat.hero.Power;
+
 
 import javax.imageio.ImageIO;
 import javax.sound.sampled.AudioInputStream;
@@ -357,7 +360,14 @@ public class PacmanGame implements Game {
 
 		if (lab.collisionMonster(hero.getPosition().x, hero.getPosition().y) && !hero.isSaiyan()) {
 			if (hero.getNbLife()>0 && !hero.getImunise()){
-				hero.subLife();
+				if(hero.getHealth().getHp()<=0){
+					hero.subLife();
+					hero.getHealth().setHp(hero.getHealth().getHealth());
+				}
+				else{
+					hero.getHealth().damage(1);
+				}
+
 				hero.setImunise(true);
 				hero.isImunise();
 				return false;

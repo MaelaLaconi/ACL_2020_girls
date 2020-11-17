@@ -1,9 +1,8 @@
-package model.etat.floor;
+package model.etat.elements;
 
 
 import javax.imageio.ImageIO;
 import java.awt.*;
-import java.io.File;
 import java.io.IOException;
 
 public class Door extends Floor {

@@ -1,7 +1,9 @@
-package model;
+package test;
 
 import engine.Cmd;
-import model.etat.Hero;
+
+import model.PacmanGame;
+import model.etat.hero.Hero;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -13,7 +15,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 
-import static org.junit.jupiter.api.Assertions.*;
 
 class PacmanGameTest {
     private Hero hero ;

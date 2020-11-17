@@ -1,9 +1,11 @@
 package model.astar;
 
 import model.PacmanGame;
-import model.etat.Hero;
+
 import model.etat.Labyrinthe;
-import model.etat.floor.Floor;
+
+import model.etat.elements.Floor;
+import model.etat.hero.Hero;
 import start.Main;
 
 import java.io.BufferedReader;

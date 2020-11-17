@@ -1,12 +1,7 @@
 package model.etat.diamonds;
 
-import model.etat.Hero;
-import model.etat.diamonds.Diamond;
-import model.etat.floor.Floor;
-
 import javax.imageio.ImageIO;
 import java.awt.*;
-import java.io.File;
 import java.io.IOException;
 
 public class RedDiamond extends Diamond {

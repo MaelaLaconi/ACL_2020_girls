@@ -5,13 +5,13 @@ import model.astar.Node;
 import model.etat.diamonds.Diamond;
 import model.etat.diamonds.BlueDiamond;
 import model.etat.diamonds.RedDiamond;
-import model.etat.floor.*;
+import model.etat.elements.*;
+import model.etat.hero.Hero;
 import model.etat.monstres.GhostMonster;
 import model.etat.monstres.GuardianMonster;
 import model.etat.monstres.Monster;
 import model.etat.monstres.NormalMonster;
 
-import javax.swing.text.Position;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;

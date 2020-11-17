@@ -1,4 +1,4 @@
-package model.etat;
+package model.etat.hero;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -24,6 +24,8 @@ public class Hero {
     public static int UP = 3 ;
     public static int DOWN = 4 ;
     private boolean imunise;
+    private BufferedImage lifeBar;
+    private Health health;
 
     public Hero() throws IOException {
         position = new Point(0,0);
@@ -31,12 +33,14 @@ public class Hero {
         height = 40;
         indexPhoto=0;
         im=new BufferedImage[100];
+        lifeBar = ImageIO.read(getClass().getResourceAsStream("/images/lifebar.png"));
         init();
 
         time = 60 ;
         saiyan = false ;
         nbLife =3;
         imunise=false;
+        this.health= new Health(5,this);
     }
 
     /**
@@ -104,6 +108,15 @@ public class Hero {
     public void draw(BufferedImage im){
         Graphics2D crayon = (Graphics2D) im.getGraphics();
         crayon.drawImage(this.im[indexPhoto],position.x-(width/2),position.y-(height/2),width,height,null);
+
+        //ici lidée c'est que une fois touché on enelve de la taille de la taille de l'image
+        float ratioVieVieMax = (float) this.getHealth().getHp() / (float) this.getHealth().getHealth();
+        crayon.drawImage(
+                lifeBar,
+                position.x-(width/2) ,position.y-(height/2) + 2,
+                (int)(width * ratioVieVieMax),height/4,
+                null
+        );
     }
 
     public void move(int x, int y){
@@ -236,5 +249,7 @@ public class Hero {
         }
     }
 
-
+    public Health getHealth() {
+        return health;
+    }
 }
