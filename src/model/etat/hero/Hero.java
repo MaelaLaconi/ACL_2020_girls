@@ -110,11 +110,11 @@ public class Hero {
         crayon.drawImage(this.im[indexPhoto],position.x-(width/2),position.y-(height/2),width,height,null);
 
         //ici lidée c'est que une fois touché on enelve de la taille de la taille de l'image
-        float ratioVieVieMax = (float) this.getHealth().getHp() / (float) this.getHealth().getHealth();
+        float damage = (float) this.getHealth().getHp() / (float) this.getHealth().getHealth();
         crayon.drawImage(
                 lifeBar,
                 position.x-(width/2) ,position.y-(height/2) + 2,
-                (int)(width * ratioVieVieMax),height/4,
+                (int)(width * damage),height/4,
                 null
         );
     }
