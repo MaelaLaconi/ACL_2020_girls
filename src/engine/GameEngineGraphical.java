@@ -87,7 +87,6 @@ public class GameEngineGraphical {
 			}
 		}
 		while (!this.game.isFinished() && launcher) {
-
 					clip.start();
 					// drawing of the screen every 0.016s = 16.6ms
 					if (System.currentTimeMillis() - fpsCap > (1000 / 60)) {

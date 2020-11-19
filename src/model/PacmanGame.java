@@ -144,122 +144,130 @@ public class PacmanGame implements Game {
 
 	private void update() throws IOException, UnsupportedAudioFileException, LineUnavailableException {
 		this.teleport=true;
-		if(lab.getFloor(hero).isTeleportStep()){
-			for (TeleportStep teleportStep : lab.getListTeleportStep()) {
-				if ((teleportStep.getX()<lab.getFloor(hero).getPosition().x || teleportStep.getX()>lab.getFloor(hero).getPosition().x + lab.getFloor(hero).getWidth()) && (teleportStep.getY()<lab.getFloor(hero).getPosition().y || teleportStep.getY()>lab.getFloor(hero).getPosition().y + lab.getFloor(hero).getHeight()) && teleport) {
-					hero.setPosition(teleportStep.getPosition());
-					teleport = false;
+		if(lab.getFloor(hero)!=null) {
+			if (lab.getFloor(hero).isTeleportStep()) {
+				for (TeleportStep teleportStep : lab.getListTeleportStep()) {
+					if ((teleportStep.getX() < lab.getFloor(hero).getPosition().x || teleportStep.getX() > lab.getFloor(hero).getPosition().x + lab.getFloor(hero).getWidth()) && (teleportStep.getY() < lab.getFloor(hero).getPosition().y || teleportStep.getY() > lab.getFloor(hero).getPosition().y + lab.getFloor(hero).getHeight()) && teleport) {
+						hero.setPosition(teleportStep.getPosition());
+						teleport = false;
+					}
+				}
+
+			}
+			//if we drink the potions
+			if (lab.getFloor(hero).isPotion()) {
+				Potions p = (Potions) lab.getFloor(hero);
+				hero.getHealth().setHp(5);
+				p.drinkPotion();
+
+			}
+			//if we are at the door and we already took the safe
+			if (lab.getFloor(hero).isAtDoor() && lab.getStage().openDoor()) {
+				GameEngineGraphical.clip.close();
+				AudioInputStream ais = AudioSystem.getAudioInputStream(new File("resources/music/victory.wav"));
+				GameEngineGraphical.clip = AudioSystem.getClip();
+				GameEngineGraphical.clip.open(ais);
+				GameEngineGraphical.clip.start();
+				try {
+					sleep(4000);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+				ais = AudioSystem.getAudioInputStream(new File("resources/music/music.wav"));
+				GameEngineGraphical.clip = AudioSystem.getClip();
+				GameEngineGraphical.clip.open(ais);
+				GameEngineGraphical.clip.start();
+				Random rand = new Random();
+				int numeroLab = rand.nextInt(5 - 1 + 1) + 1;
+
+				this.hero.setPosition(new Point(this.hero.getPosition().x / 2, this.hero.getPosition().y / 2));
+				hero.normalTransform(); //on redeviens normal a chanque nouveau map
+				hero.setTime(hero.getTime() + 20);// on lui rajoute 20sec à chaque nouvel map
+				BufferedReader helpReader;
+				InputStream inputStream = getClass().getResourceAsStream("/lab/lab" + numeroLab + ".txt");
+				this.lab = new Labyrinthe();
+				try {
+					helpReader = new BufferedReader(new InputStreamReader(inputStream));
+					String ligne;
+					while ((ligne = helpReader.readLine()) != null) {
+						this.lab.generate(ligne);
+					}
+					helpReader.close();
+				} catch (IOException e) {
 				}
 			}
 
-		}
-		//if we are at the door and we already took the safe
-		if(lab.getFloor(hero).isAtDoor() && lab.getStage().openDoor() ){
-			GameEngineGraphical.clip.close();
-			AudioInputStream ais = AudioSystem.getAudioInputStream(new File("resources/music/victory.wav"));
-			GameEngineGraphical.clip = AudioSystem.getClip();
-			GameEngineGraphical.clip.open(ais);
-			GameEngineGraphical.clip.start();
-			try {
-				sleep(4000);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
-			ais = AudioSystem.getAudioInputStream(new File("resources/music/music.wav"));
-			GameEngineGraphical.clip = AudioSystem.getClip();
-			GameEngineGraphical.clip.open(ais);
-			GameEngineGraphical.clip.start();
-			Random rand= new Random();
-			int numeroLab = rand.nextInt(5-1+1)+1;
-
-			this.hero.setPosition(new Point(this.hero.getPosition().x/2,this.hero.getPosition().y/2));
-			hero.normalTransform(); //on redeviens normal a chanque nouveau map
-			hero.setTime(hero.getTime()+20);// on lui rajoute 20sec à chaque nouvel map
-			BufferedReader helpReader;
-			InputStream inputStream = getClass().getResourceAsStream("/lab/lab"+numeroLab+".txt") ;
-			this.lab=new Labyrinthe();
-			try {
-				helpReader = new BufferedReader(new InputStreamReader(inputStream));
-				String ligne;
-				while ((ligne = helpReader.readLine()) != null) {
-					this.lab.generate(ligne);
+			//if we are on a magical step
+			if (lab.getFloor(hero).isMagicalStep()) {
+				MagicStep magicStep = (MagicStep) lab.getFloor(hero);
+				if (!magicStep.isActivate()) {
+					Power power = Power.randomPower();
+					switch (power) {
+						case TIME:
+							System.out.println("TEMPS GAGNE");
+							hero.addTime();
+							break;
+						case SUSPEND:
+							System.out.println("SUSPENTION");
+							lab.suspendMonster(5);
+							break;
+						case LIFE:
+							System.out.println("VIE GAGNE");
+							hero.addLife();
+							break;
+						case SAIYAN:
+							System.out.println("MODE SAIYAN");
+							hero.saiyanTransform();
+							break;
+					}
+					magicStep.activate();
 				}
-				helpReader.close();
-			} catch (IOException e) {
 			}
-		}
 
-		//if we are on a magical step
-		if (lab.getFloor(hero).isMagicalStep()) {
-			MagicStep magicStep = (MagicStep) lab.getFloor(hero);
-			if (!magicStep.isActivate()) {
-				Power power = Power.randomPower();
-				switch (power) {
-					case TIME:
-						System.out.println("TEMPS GAGNE");
-						hero.addTime();
-						break;
-					case SUSPEND:
-						System.out.println("SUSPENTION");
-						lab.suspendMonster(5);
-						break;
-					case LIFE:
-						System.out.println("VIE GAGNE");
-						hero.addLife();
-						break;
-					case SAIYAN:
-						System.out.println("MODE SAIYAN");
-						hero.saiyanTransform();
-						break;
+			//if we are on a trap step
+			if (lab.getFloor(hero).isTrapStep()) {
+				TrapStep trapStep = (TrapStep) lab.getFloor(hero);
+				if (!trapStep.isActivate()) {
+					Damage damage = Damage.randomDamage();
+					switch (damage) {
+						case TIME:
+							System.out.println("TEEEEEEEEEEMPS");
+							hero.subTime();
+							break;
+						case LIFE:
+							System.out.println("VIEEEEEEEEEEE");
+							hero.subLife();
+							break;
+						case SCORE:
+							System.out.println("SCOOOOOOOOOOOOORE");
+							if (score - 5 >= 0) {
+								score -= 5;
+							} else {
+								score = 0;
+							}
+							break;
+					}
+					trapStep.activate();
+
 				}
-				magicStep.activate();
-			}
-		}
-
-		//if we are on a trap step
-		if (lab.getFloor(hero).isTrapStep()) {
-			TrapStep trapStep = (TrapStep) lab.getFloor(hero);
-			if (!trapStep.isActivate()) {
-				Damage damage = Damage.randomDamage();
-				switch (damage) {
-					case TIME:
-						System.out.println("TEEEEEEEEEEMPS");
-						hero.subTime();
-						break;
-					case LIFE:
-						System.out.println("VIEEEEEEEEEEE");
-						hero.subLife();
-						break;
-					case SCORE:
-						System.out.println("SCOOOOOOOOOOOOORE");
-						if (score - 5 >= 0) {
-							score -= 5;
-						} else {
-							score = 0;
-						}
-						break;
-				}
-				trapStep.activate();
 
 			}
 
-		}
-
-		//if we are on the safe
-		if (lab.getFloor(hero).isSafe()) {
-			if (!this.lab.getStage().openDoor()) {
-				this.lab.getStage().setBufferedImage(ImageIO.read(getClass().getResourceAsStream("/images/dooropen.png")));
-				this.lab.getStage().setOpen(true);
-				Safe safe = (Safe) lab.getFloor(hero);
-				if (!safe.isCollected()) {
-					score=score+20;
-					safe.collected();
+			//if we are on the safe
+			if (lab.getFloor(hero).isSafe()) {
+				if (!this.lab.getStage().openDoor()) {
+					this.lab.getStage().setBufferedImage(ImageIO.read(getClass().getResourceAsStream("/images/dooropen.png")));
+					this.lab.getStage().setOpen(true);
+					Safe safe = (Safe) lab.getFloor(hero);
+					if (!safe.isCollected()) {
+						score = score + 20;
+						safe.collected();
+					}
 				}
 			}
 		}
-
 		//if we are on a diamond
-		if( lab.getDiamond(hero)!=null){
+		if(lab.getDiamond(hero)!=null){
 			if (!lab.getDiamond(hero).isRedDiamond() && lab.getDiamond(hero)instanceof RedDiamond) {
 				RedDiamond redDiamond = (RedDiamond) lab.getDiamond(hero);
 				if (!redDiamond.isPicked()) {
@@ -359,8 +367,8 @@ public class PacmanGame implements Game {
 		JLabel label;
 
 		if (lab.collisionMonster(hero.getPosition().x, hero.getPosition().y) && !hero.isSaiyan()) {
-			if (hero.getNbLife()>0 && !hero.getImunise()){
-				if(hero.getHealth().getHp()<=0){
+			if (hero.getNbLife()>=0 && !hero.getImunise()){
+				if(hero.getHealth().getHp()<=0 ){
 					hero.subLife();
 					hero.getHealth().setHp(hero.getHealth().getHealth());
 				}

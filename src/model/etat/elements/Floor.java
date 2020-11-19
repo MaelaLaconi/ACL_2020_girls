@@ -75,6 +75,7 @@ public abstract class Floor {
     public boolean isTeleportStep(){
         return false;
     }
+    public boolean isPotion(){ return false;}
 
     public int getWidth() {
         return width;

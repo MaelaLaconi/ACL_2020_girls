@@ -1,7 +1,6 @@
 package model.etat;
 
-import model.astar.AStar;
-import model.astar.Node;
+
 import model.etat.diamonds.Diamond;
 import model.etat.diamonds.BlueDiamond;
 import model.etat.diamonds.RedDiamond;
@@ -48,8 +47,8 @@ public class Labyrinthe {
         listMonsters.add(new GhostMonster(new Point(300,500),35   ,35));
         listMonsters.add(new GhostMonster(new Point(500,600),35   ,35));
         listDiamonds =new ArrayList<>();
-        listDiamonds.add(new BlueDiamond(new Point(200,300),35   ,35));
-        listDiamonds.add(new RedDiamond(new Point(450,150),30   ,30));
+        //listDiamonds.add(new BlueDiamond(new Point(200,300),35   ,35));
+        //listDiamonds.add(new RedDiamond(new Point(450,150),30   ,30));
         listFloors = new ArrayList<>();
         listTeleportStep=new ArrayList<>();
         line = 0;
@@ -95,10 +94,21 @@ public class Labyrinthe {
                     this.stage=new Door(new Point(column, line), WIDTH, HEIGHT);
                     listFloors.add(stage);
                     break;
+
+                //drinking potions
+                case 'd':
+                    listFloors.add(new Potions(new Point(column, line), WIDTH, HEIGHT));
+                    break;
                 //Teleport Step
                 case 'p' :
                     listFloors.add(new TeleportStep(new Point(column, line), WIDTH, HEIGHT));
                     listTeleportStep.add(new TeleportStep(new Point(column, line), WIDTH, HEIGHT));
+                    break;
+                case 'b':
+                    listDiamonds.add(new BlueDiamond(new Point(column, line),WIDTH, HEIGHT));
+                    break;
+                case 'r':
+                    listDiamonds.add(new RedDiamond(new Point(column, line),WIDTH, HEIGHT));
                     break;
 
             }
