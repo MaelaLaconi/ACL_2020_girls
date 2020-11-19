@@ -25,7 +25,8 @@ public class Node {
     }
 
     public void calculateHeuristic(Node finalNode) {
-        this.h = Math.abs(finalNode.getRow() - getRow()) + Math.abs(finalNode.getCol() - getCol());
+       // this.h = Math.abs(finalNode.getRow() - getRow()) + Math.abs(finalNode.getCol() - getCol());
+        this.h = Math.abs(finalNode.getRow() - getRow() +finalNode.getCol() - getCol());
     }
 
     public void setNodeData(Node currentNode, int cost) {

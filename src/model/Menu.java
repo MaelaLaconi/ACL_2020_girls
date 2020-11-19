@@ -97,32 +97,24 @@ public class Menu  {
                                 choices.setBackground(new Color(247, 227, 177 ));
                                 JLabel character = new JLabel("Choose your character : ");
                                 JButton belle = new JButton(new ImageIcon("resources/images/belle/bellesFly4.png"));
-                                JButton bulle=new JButton(new ImageIcon("resources/images/bulle/bulleD5.png"));
                                 belle.addActionListener(new ActionListener() {
                                     public void actionPerformed(ActionEvent arg0) {
                                         Hero.character="Belle";
-
                                     }
                                 });
+
+                                JButton bulle = new JButton(new ImageIcon("resources/images/bulle/bulleD.png"));
                                 bulle.addActionListener(new ActionListener() {
-                                    @Override
-                                    public void actionPerformed(ActionEvent e) {
+                                    public void actionPerformed(ActionEvent arg0) {
                                         Hero.character="Bulle";
                                     }
                                 });
-
                                 JLabel difficulty = new JLabel("Choose difficulty : ");
                                 JTextField level = new JTextField(2);
                                 JButton submit = new JButton("Ok");
                                 choices.add(character);
                                 choices.add(belle);
                                 choices.add(bulle);
-                                submit.addActionListener(new ActionListener() {
-                                    @Override
-                                    public void actionPerformed(ActionEvent e) {
-
-                                    }
-                                });
                               //  choices.setLayout(new BoxLayout(choices, BoxLayout.Y_AXIS));
                                 choices.add(difficulty);
                                 choices.add(level);

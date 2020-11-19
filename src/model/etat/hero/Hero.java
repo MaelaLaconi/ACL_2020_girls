@@ -10,11 +10,19 @@ import java.util.TimerTask;
 
 public class Hero {
 
+    public static String getCharacter() {
+        return character;
+    }
+
+    public static void setCharacter(String character) {
+        Hero.character = character;
+    }
+
     public static String character="Belle";
     private Point position;
     public static int width;
     public static int height;
-    private BufferedImage im[];
+    private BufferedImage im[],imBulle[];
     private int time ;
     private boolean saiyan;
     private int nbLife;
@@ -33,6 +41,7 @@ public class Hero {
         height = 40;
         indexPhoto=0;
         im=new BufferedImage[100];
+        imBulle=new BufferedImage[100];
         lifeBar = ImageIO.read(getClass().getResourceAsStream("/images/lifebar.png"));
         init();
 
@@ -73,24 +82,24 @@ public class Hero {
                     im[i - 1] = ImageIO.read(getClass().getResourceAsStream("/images/belle/saiyanG.png"));
                 }
             }
-           /* case "Bulle":
-                for (int i = 1; i <= 12; i++) {
-                    if (i <= 4) {
-                        im[i - 1] = ImageIO.read(getClass().getResourceAsStream("/images/bulle/bulleD.png"));
+           case "Bulle":
+                for (int i = 1; i <= 14; i++) {
+                    if (i <= 5) {
+                        imBulle[i - 1] = ImageIO.read(getClass().getResourceAsStream("/images/bulle/bulleD"+i+".png"));
                     }
-                    if (i == 5) {
-                        im[i - 1] = ImageIO.read(getClass().getResourceAsStream("/images/bulle/bulleup.png"));
-                    } else if (i == 6) {
-                        im[i - 1] = ImageIO.read(getClass().getResourceAsStream("/images/bulle/bullDown.png"));
-                    } else if (i > 6 && i <= 10) {
-                        int j = i - 6;
-                        im[i - 1] = ImageIO.read(getClass().getResourceAsStream("/images/bulle/bulleG.png"));
-                    } else if (i == 11) {
-                        im[i - 1] = ImageIO.read(getClass().getResourceAsStream("/images/belle/saiyanD.png"));
-                    } else if (i == 12) {
-                        im[i - 1] = ImageIO.read(getClass().getResourceAsStream("/images/belle/saiyanG.png"));
+                    if (i == 6) {
+                        imBulle[i - 1] = ImageIO.read(getClass().getResourceAsStream("/images/bulle/bulleup.png"));
+                    } else if (i == 7) {
+                        imBulle[i - 1] = ImageIO.read(getClass().getResourceAsStream("/images/bulle/bullDown.png"));
+                    } else if (i > 7 && i <= 12) {
+                        int j = i - 7;
+                        imBulle[i - 1] = ImageIO.read(getClass().getResourceAsStream("/images/bulle/bulleG"+j+".png"));
+                    } else if (i == 13) {
+                        imBulle[i - 1] = ImageIO.read(getClass().getResourceAsStream("/images/belle/saiyanD.png"));
+                    } else if (i == 14) {
+                        imBulle[i - 1] = ImageIO.read(getClass().getResourceAsStream("/images/belle/saiyanG.png"));
                     }
-                }*/
+                }
         }
     }
 
@@ -208,44 +217,79 @@ public class Hero {
     }
 
     public void nextFrame(int direction){
-        if (direction == RIGHT){
-            if (indexPhoto>=3){
-                indexPhoto=0;
-            }
-            else {
-                indexPhoto++;
-            }
+        switch (character) {
+            case "Belle":
+                if (direction == RIGHT) {
+                    if (indexPhoto >= 3) {
+                        indexPhoto = 0;
+                    } else {
+                        indexPhoto++;
+                    }
 
-        }
-        if (direction == LEFT){
-            if (indexPhoto>=9){
-                indexPhoto=6;
-            }
-            else if (indexPhoto<6){
-                indexPhoto=6;
-            }
-            else {
-                indexPhoto++;
-            }
+                }
+                if (direction == LEFT) {
+                    if (indexPhoto >= 9) {
+                        indexPhoto = 6;
+                    } else if (indexPhoto < 6) {
+                        indexPhoto = 6;
+                    } else {
+                        indexPhoto++;
+                    }
 
 
-        }
-        if (direction == UP){
-            if (indexPhoto!=4){
-                indexPhoto=4;
-            }
-        }
-        else if (direction == DOWN){
-            indexPhoto=5;
-        }
+                }
+                if (direction == UP) {
+                    if (indexPhoto != 4) {
+                        indexPhoto = 4;
+                    }
+                } else if (direction == DOWN) {
+                    indexPhoto = 5;
+                }
 
-        if (saiyan){
-            if (direction == RIGHT){
-                indexPhoto = 10 ;
-            }
-            if (direction == LEFT){
-                indexPhoto = 11 ;
-            }
+                if (saiyan) {
+                    if (direction == RIGHT) {
+                        indexPhoto = 10;
+                    }
+                    if (direction == LEFT) {
+                        indexPhoto = 11;
+                    }
+                }
+            /*case "Bulle":
+                if (direction == RIGHT) {
+                    if (indexPhoto >= 4) {
+                        indexPhoto = 0;
+                    } else {
+                        indexPhoto++;
+                    }
+
+                }
+                if (direction == LEFT) {
+                    if (indexPhoto >= 11) {
+                        indexPhoto = 6;
+                    } else if (indexPhoto < 6) {
+                        indexPhoto = 6;
+                    } else {
+                        indexPhoto++;
+                    }
+
+
+                }
+                if (direction == UP) {
+                    if (indexPhoto != 5) {
+                        indexPhoto = 5;
+                    }
+                } else if (direction == DOWN) {
+                    indexPhoto = 6;
+                }
+
+                if (saiyan) {
+                    if (direction == RIGHT) {
+                        indexPhoto = 12;
+                    }
+                    if (direction == LEFT) {
+                        indexPhoto = 13;
+                    }
+                }*/
         }
     }
 

@@ -7,25 +7,37 @@ import java.io.File;
 import java.io.IOException;
 
 public class GuardianMonster  extends Monster {
-    private BufferedImage[] bufferedImages;
+    private int indexImG=0,indexIm=0;
     public GuardianMonster(Point point, int width, int height) throws IOException {
         super(point, width, height);
-        bufferedImages=new BufferedImage[100];
-        nbFrame=8;
-        for (int i=1;i<=8;i++) {
-            if (i<=4) {
-                bufferedImage[i - 1] = ImageIO.read(getClass().getResourceAsStream("/images/mechants/mojoD" +i + ".png")) ;
-            }
-            if (i>4){
-                int j= i-4;
-                bufferedImage[i - 1] = ImageIO.read(getClass().getResourceAsStream("/images/mechants/mojoG" + j + ".png")) ;
+        speed = 4;
+        initFrame();
+    }
+
+    @Override
+    public void draw(BufferedImage im) {
+        Graphics2D crayon = (Graphics2D) im.getGraphics();
+        if (listedepoints.size()>2) {
+            if (positions.x < listedepoints.get(listedepoints.size() - 2)) {
+                    crayon.drawImage(bufferedImage[7], positions.x - (width / 2), positions.y - (height / 2), width+10, height+10, null);
+                    indexIm=3;
+            } else if (listedepoints.get(listedepoints.size() - 2) < positions.x) {
+                    crayon.drawImage(bufferedImage[3], positions.x - (width / 2), positions.y - (height / 2), width+10, height+10, null);
+                    indexIm=7;
+
+            } else {
+                crayon.drawImage(bufferedImage[indexIm], positions.x - (width / 2), positions.y - (height / 2), width+10, height+10, null);
             }
         }
-        speed = 4;
+        else {
+            crayon.drawImage(bufferedImage[7], positions.x - (width / 2), positions.y - (height / 2), width+10, height+10, null);
+        }
+
     }
 
     @Override
     public boolean monstreGuardianMonster() {
         return true;
     }
+
 }

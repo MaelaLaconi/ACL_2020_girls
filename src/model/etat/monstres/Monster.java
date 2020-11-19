@@ -4,9 +4,12 @@ import model.PacmanPainter;
 import model.astar.Node;
 import model.etat.Labyrinthe;
 
+import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
@@ -24,12 +27,18 @@ public abstract class Monster {
     protected int height;
     protected Point positions;
     protected int speed;
+    protected ArrayList<Integer> listedepoints;
+    public BufferedImage[] getBufferedImage() {
+        return bufferedImage;
+    }
+
     protected BufferedImage[] bufferedImage;
     protected int indexIm,nbFrame;
     private int step ;
     private boolean moving;
     private int counterGhost;
     private int count ;
+    protected Point positionprec;
 
     public Monster(Point point, int width, int height){
         this.positions = point;
@@ -41,6 +50,8 @@ public abstract class Monster {
         counterGhost = 0 ;
         step = 1 ;
         count = 0 ;
+        listedepoints=new ArrayList<>();
+        listedepoints.add(point.x);
     }
 
 
@@ -151,7 +162,7 @@ public abstract class Monster {
                 positions.x = 0 ;
             } else {
                 positions.x += speed;
-                nextFrame();
+
             }
         }
 
@@ -160,7 +171,7 @@ public abstract class Monster {
                 positions.x=PacmanPainter.WIDTH;
             } else {
                 positions.x -= speed;
-                nextFrame();
+
             }
         }
 
@@ -170,7 +181,7 @@ public abstract class Monster {
 
             } else {
                 positions.y -= speed;
-                nextFrame();
+
             }
 
         }
@@ -181,16 +192,19 @@ public abstract class Monster {
             }
             else{
                 positions.y += speed;
-                nextFrame();
+
             }
         }
     }
 
 
     public void moveGuardianMonster(List<Node> path){
+        listedepoints.add(positions.x);
+        System.out.println(positions.x+" "+positions.y);
         if (path.size()>1) {
-            positions.y = Labyrinthe.WIDTH * path.get(0).getRow();
-            positions.x = Labyrinthe.HEIGHT * path.get(0).getCol();
+
+            positions.y = Labyrinthe.WIDTH * path.get(((path.size()-2))).getRow();
+            positions.x = Labyrinthe.HEIGHT * path.get(((path.size()-2))).getCol();
         }
 
     }
@@ -200,13 +214,11 @@ public abstract class Monster {
     }
 
     /**
-     *  draw the monster on the screen
+     * draw the monster on the screen
+     *
      * @param im
      */
-    public void draw(BufferedImage im) {
-        Graphics2D crayon = (Graphics2D) im.getGraphics();
-        crayon.drawImage(this.bufferedImage[indexIm], positions.x-(width/2), positions.y-(height/2),width,height,null);
-    }
+    public abstract void draw(BufferedImage im) ;
 
     /**
      * for trap step (the monster doesn't move some times)
@@ -215,14 +227,6 @@ public abstract class Monster {
         moving=false;
     }
 
-    public void nextFrame(){
-        if (indexIm>nbFrame-1){
-            indexIm=0;
-        }
-        else {
-            indexIm++;
-        }
-    }
 
     public boolean isMoving() {
         return moving;
@@ -243,7 +247,16 @@ public abstract class Monster {
     public Point getPosition() {
         return positions;
     }
-
+    public void initFrame() throws IOException {
+        for (int i=1;i<=8;i++){
+            if (i<=4){
+            bufferedImage[i-1]= ImageIO.read(getClass().getResourceAsStream("/images/mechants/mojoD"+i+".png"));
+            }
+            else {
+                bufferedImage[i-1]= ImageIO.read(getClass().getResourceAsStream("/images/mechants/mojoG"+(i-4)+".png"));
+            }
+        }
+    }
     public int getWidth() {
         return width;
     }

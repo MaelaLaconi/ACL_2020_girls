@@ -1,6 +1,8 @@
 package engine;
 
 
+import model.etat.hero.Hero;
+
 /**
  * @author Horatiu Cirstea, Vincent Thomas
  *
