@@ -116,7 +116,7 @@ public class Hero {
     public void draw(BufferedImage im){
         Graphics2D crayon = (Graphics2D) im.getGraphics();
         if(character.equals("Belle")){
-          
+
             crayon.drawImage(this.im[indexPhoto], position.x - (width / 2), position.y - (height / 2), width, height, null);
         }
         else{
