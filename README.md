@@ -61,7 +61,7 @@ Ce placer au dessus de src.
 
 >java -jar ACL_2020_girls-1.0-SNAPSHOT.jar 
 
-##But et règles du jeu :
+## But et règles du jeu :
 
 
 ![alt text](https://github.com/MaelaLaconi/ACL_2020_girls/tree/main/resources/images/readMe/welcome.png?raw=true)
