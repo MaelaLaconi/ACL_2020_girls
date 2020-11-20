@@ -2,12 +2,6 @@ package model.astar;
 
 import java.util.*;
 
-/**
- * A Star Algorithm
- *
- * @author Marcelo Surriabre
- * @version 2.1, 2017-02-23
- */
 public class AStar {
     private static int DEFAULT_HV_COST = 10; // Horizontal - Vertical Cost
     private static int DEFAULT_DIAGONAL_COST = 14;

@@ -36,7 +36,7 @@ public class GameEngineGraphical {
 	 * l'interface graphique
 	 */
 	private GraphicalInterface gui;
-	public static Clip clip;
+	//public static Clip clip;
 
 
 	/**
@@ -69,14 +69,14 @@ public class GameEngineGraphical {
 
 		// creation de l'interface graphique
 		long  fpsCap = System.currentTimeMillis();
-		AudioInputStream ais = AudioSystem.getAudioInputStream(new File("resources/music/music.wav"));
+		/*AudioInputStream ais = AudioSystem.getAudioInputStream(new File("resources/music/music.wav"));
 		clip = AudioSystem.getClip();
-		clip.open(ais);
+		clip.open(ais);*/
 		Menu menu = new Menu();
 		boolean test=false;
 		while(!test) {
 			if (!launcher) {
-				System.out.println("");
+				System.out.print("");
 			}
 			else{
 				menu.getFrame().dispose();
@@ -87,7 +87,7 @@ public class GameEngineGraphical {
 			}
 		}
 		while (!this.game.isFinished() && launcher) {
-					clip.start();
+					//clip.start();
 					// drawing of the screen every 0.016s = 16.6ms
 					if (System.currentTimeMillis() - fpsCap > (1000 / 60)) {
 						// demande controle utilisateur

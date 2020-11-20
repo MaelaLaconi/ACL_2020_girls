@@ -11,13 +11,14 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.net.URISyntaxException;
 
 
 /**
  * lancement du moteur avec le jeu
  */
 public class Main {
-	public static void main(String[] args) throws InterruptedException, IOException, LineUnavailableException, UnsupportedAudioFileException {
+	public static void main(String[] args) throws IOException, LineUnavailableException, UnsupportedAudioFileException, URISyntaxException, InterruptedException {
 
 		//Le labyrinthe est généré à partir d’un fichier
 

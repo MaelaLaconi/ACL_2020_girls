@@ -165,20 +165,20 @@ public class PacmanGame implements Game {
 			}
 			//if we are at the door and we already took the safe
 			if (lab.getFloor(hero).isAtDoor() && lab.getStage().openDoor()) {
-				GameEngineGraphical.clip.close();
+				/*GameEngineGraphical.clip.close();
 				AudioInputStream ais = AudioSystem.getAudioInputStream(new File("resources/music/victory.wav"));
 				GameEngineGraphical.clip = AudioSystem.getClip();
 				GameEngineGraphical.clip.open(ais);
-				GameEngineGraphical.clip.start();
+				GameEngineGraphical.clip.start();*/
 				try {
 					sleep(4000);
 				} catch (InterruptedException e) {
 					e.printStackTrace();
 				}
-				ais = AudioSystem.getAudioInputStream(new File("resources/music/music.wav"));
+				/*ais = AudioSystem.getAudioInputStream(new File("resources/music/music.wav"));
 				GameEngineGraphical.clip = AudioSystem.getClip();
 				GameEngineGraphical.clip.open(ais);
-				GameEngineGraphical.clip.start();
+				GameEngineGraphical.clip.start();*/
 				Random rand = new Random();
 				int numeroLab = rand.nextInt(5 - 1 + 1) + 1;
 

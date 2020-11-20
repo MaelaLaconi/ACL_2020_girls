@@ -1,0 +1,15 @@
+model/etat/hero/Damage.class
+model/etat/hero/Health.class
+model/etat/elements/TeleportStep.class
+model/etat/hero/Hero.class
+model/etat/hero/Power.class
+model/etat/elements/NormalStep.class
+test/PacmanGameTest.class
+model/etat/elements/Wall.class
+model/etat/elements/Potions.class
+model/etat/elements/Floor.class
+model/etat/elements/Door.class
+model/etat/elements/Safe.class
+model/etat/elements/TrapStep.class
+model/etat/elements/MagicStep.class
+model/etat/hero/Hero$1.class
