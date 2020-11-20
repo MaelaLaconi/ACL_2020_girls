@@ -90,12 +90,21 @@ Mais attention ! Si le héro se déplace sur un trap step (box avec une tête de
 Les labythintes sont générés à partir d'un fichier .txt. Ce fichier est constitué de plusieurs lettres, chacune d'elle représentant un objet différent :
 
 w : mûr (wall)
+
 n : sol basique (normal stap)
+
 m : case bonus (magic step)
+
 t : trésor
+
 s : case malus (trap step)
+
 c : porte
+
 d : potion
+
 p : portail de téléportation
+
 b : diamant bleu
+
 r : diamant rouge
