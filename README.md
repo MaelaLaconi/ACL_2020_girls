@@ -71,8 +71,7 @@ Au lancement du jeu, on arrive sur la plage d'acceuil. Sur cette page, nous pouv
 quitter ou bien aller dans le menu option pour choisir le personnage que l'on veut incarner (soit Belle ou Bulle). Dans cette même fenêtre, on peut choisir le 
 niveau de difficulté que l'on veut pour la partie.
 
-
-![alt text](https://github.com/MaelaLaconi/ACL_2020_girls/tree/main/resources/images/readMe/mainLaby.jpeg?raw=true)
+<img src="https://github.com/MaelaLaconi/ACL_2020_girls/blob/main/resources/images/readMe/mainLaby.jpeg">
 
 
 Lorsque que l'on clique sur "Start Game", la partie se lance. Le héro a un chrono de 60 secondes et de 3 vies, une fois ce temps épuisé ou bien l'intégralité de ses vies, il meurt (fin de la partie).
