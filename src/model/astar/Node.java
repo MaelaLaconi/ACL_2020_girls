@@ -2,12 +2,6 @@ package model.astar;
 
 import java.awt.*;
 
-/**
- * Node Class
- *
- * @author Marcelo Surriabre
- * @version 2.0, 2018-02-23
- */
 public class Node {
 
     private int g;

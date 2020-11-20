@@ -83,7 +83,6 @@ public class Labyrinthe {
                     guardianPos = new Point(column, line) ;
                     guardianMonster = new GuardianMonster(guardianPos,35   ,35) ;
                     listMonsters.add(guardianMonster);
-                    System.out.println("Pos : "+guardianPos.x +" "+guardianPos.y);
                     break;
                 //Trap Step
                case 's' : //skull trapStep

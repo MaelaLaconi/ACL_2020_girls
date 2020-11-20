@@ -96,14 +96,14 @@ public class Menu  {
                                 JPanel choices = new JPanel();
                                 choices.setBackground(new Color(247, 227, 177 ));
                                 JLabel character = new JLabel("Choose your character : ");
-                                JButton belle = new JButton(new ImageIcon("resources/images/belle/bellesFly4.png"));
+                                JButton belle = new JButton(new ImageIcon(getClass().getResource("/images/belle/bellesFly4.png")));
                                 belle.addActionListener(new ActionListener() {
                                     public void actionPerformed(ActionEvent arg0) {
                                         Hero.character="Belle";
                                     }
                                 });
 
-                                JButton bulle = new JButton(new ImageIcon("resources/images/bulle/bulleD1.png"));
+                                JButton bulle = new JButton(new ImageIcon(getClass().getResource("/images/bulle/bulleD1.png")));
                                 bulle.addActionListener(new ActionListener() {
                                     public void actionPerformed(ActionEvent arg0) {
                                         Hero.character="Bulle";
@@ -184,10 +184,10 @@ public class Menu  {
             super.paintComponent(g);
             Graphics2D g2d = (Graphics2D) g.create();
             try {
-                img = ImageIO.read(new File("resources/images/hero.png"));
-                img2=ImageIO.read(new File("resources/images/fantome.png"));
-                img3=ImageIO.read(new File("resources/images/fantome2.png"));
-                img4=ImageIO.read(new File("resources/images/mechants/mojoG3.png"));
+                img = ImageIO.read(getClass().getResourceAsStream("/images/hero.png"));
+                img2=ImageIO.read(getClass().getResourceAsStream("/images/fantome.png"));
+                img3=ImageIO.read(getClass().getResourceAsStream("/images/fantome2.png"));
+                img4=ImageIO.read(getClass().getResourceAsStream("/images/mechants/mojoG3.png"));
 
             } catch (IOException e) {
                 e.printStackTrace();

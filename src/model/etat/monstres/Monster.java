@@ -200,9 +200,7 @@ public abstract class Monster {
 
     public void moveGuardianMonster(List<Node> path){
         listedepoints.add(positions.x);
-        System.out.println(positions.x+" "+positions.y);
         if (path.size()>1) {
-
             positions.y = Labyrinthe.WIDTH * path.get(((path.size()-2))).getRow();
             positions.x = Labyrinthe.HEIGHT * path.get(((path.size()-2))).getCol();
         }
