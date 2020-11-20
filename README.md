@@ -64,7 +64,7 @@ Ce placer au dessus de src.
 ## But et règles du jeu :
 
 
-![alt text](https://github.com/MaelaLaconi/ACL_2020_girls/tree/main/resources/images/readMe/welcome.png?raw=true)
+<img src="https://github.com/MaelaLaconi/ACL_2020_girls/blob/main/resources/images/readMe/welcome.png" width="500">
 
 
 Au lancement du jeu, on arrive sur la plage d'acceuil. Sur cette page, nous pouvons soit commencer la partie,
@@ -72,7 +72,7 @@ quitter ou bien aller dans le menu option pour choisir le personnage que l'on ve
 niveau de difficulté que l'on veut pour la partie.
 
 
-![alt text](https://github.com/MaelaLaconi/ACL_2020_girls/tree/main/resources/images/readMe/mainLaby.jpeg?raw=true)
+<img src="https://github.com/MaelaLaconi/ACL_2020_girls/blob/main/resources/images/readMe/mainLaby.jpeg" width="500">
 
 
 Lorsque que l'on clique sur "Start Game", la partie se lance. Le héro a un chrono de 60 secondes et de 3 vies, une fois ce temps épuisé ou bien l'intégralité de ses vies, il meurt (fin de la partie).
