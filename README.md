@@ -64,7 +64,7 @@ Ce placer au dessus de src.
 ## But et règles du jeu :
 
 
-![alt text](https://github.com/MaelaLaconi/ACL_2020_girls/tree/main/resources/images/readMe/welcome.png?raw=true)
+<img src="https://github.com/MaelaLaconi/ACL_2020_girls/blob/main/resources/images/readMe/welcome.png">
 
 
 Au lancement du jeu, on arrive sur la plage d'acceuil. Sur cette page, nous pouvons soit commencer la partie,
