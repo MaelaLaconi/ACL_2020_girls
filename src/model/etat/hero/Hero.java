@@ -4,7 +4,6 @@ import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
-import java.util.Date;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -116,7 +115,13 @@ public class Hero {
      */
     public void draw(BufferedImage im){
         Graphics2D crayon = (Graphics2D) im.getGraphics();
-        crayon.drawImage(this.im[indexPhoto],position.x-(width/2),position.y-(height/2),width,height,null);
+        if(character.equals("Belle")){
+            System.out.println("here");
+            crayon.drawImage(this.im[indexPhoto], position.x - (width / 2), position.y - (height / 2), width, height, null);
+        }
+        else{
+            crayon.drawImage(this.imBulle[indexPhoto], position.x - (width / 2), position.y - (height / 2), width, height, null);
+        }
 
         //ici lidée c'est que une fois touché on enelve de la taille de la taille de l'image
         float damage = (float) this.getHealth().getHp() / (float) this.getHealth().getHealth();
@@ -254,7 +259,7 @@ public class Hero {
                         indexPhoto = 11;
                     }
                 }
-            /*case "Bulle":
+            case "Bulle":
                 if (direction == RIGHT) {
                     if (indexPhoto >= 4) {
                         indexPhoto = 0;
@@ -289,7 +294,7 @@ public class Hero {
                     if (direction == LEFT) {
                         indexPhoto = 13;
                     }
-                }*/
+                }
         }
     }
 

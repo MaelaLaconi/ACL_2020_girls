@@ -103,7 +103,7 @@ public class Menu  {
                                     }
                                 });
 
-                                JButton bulle = new JButton(new ImageIcon("resources/images/bulle/bulleD.png"));
+                                JButton bulle = new JButton(new ImageIcon("resources/images/bulle/bulleD1.png"));
                                 bulle.addActionListener(new ActionListener() {
                                     public void actionPerformed(ActionEvent arg0) {
                                         Hero.character="Bulle";
