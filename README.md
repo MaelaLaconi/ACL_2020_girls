@@ -63,6 +63,10 @@ Ce placer au dessus de src.
 
 ##But et règles du jeu :
 
+
+![alt text](https://github.com/MaelaLaconi/ACL_2020_girls/tree/main/resources/images/readMe/welcome.png?raw=true)
+
+
 Au lancement du jeu, on arrive sur la plage d'acceuil. Sur cette page, nous pouvons soit commencer la partie,
 quitter ou bien aller dans le menu option pour choisir le personnage que l'on veut incarner (soit Belle ou Bulle). Dans cette même fenêtre, on peut choisir le 
 niveau de difficulté que l'on veut pour la partie.
