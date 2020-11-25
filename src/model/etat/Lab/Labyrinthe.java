@@ -1,4 +1,4 @@
-package model.etat;
+package model.etat.Lab;
 
 
 import model.etat.diamonds.Diamond;
@@ -36,19 +36,15 @@ public class Labyrinthe {
     private int nbWall ;
     private Point guardianPos ;
     private GuardianMonster guardianMonster ;
+    private Difficulty difficulty;
 
     public static final int WIDTH = 50;
     public static final int HEIGHT = 50;
 
     public Labyrinthe() throws IOException {
-        listMonsters = new ArrayList<>();
-        listMonsters.add(new NormalMonster(new Point(100,100),35   ,35));
-        listMonsters.add(new GhostMonster(new Point(400,400),35   ,35));
-        listMonsters.add(new GhostMonster(new Point(300,500),35   ,35));
-        listMonsters.add(new GhostMonster(new Point(500,600),35   ,35));
+        difficulty=new Difficulty();
+        listMonsters = difficulty.getListMonsters();
         listDiamonds =new ArrayList<>();
-        //listDiamonds.add(new BlueDiamond(new Point(200,300),35   ,35));
-        //listDiamonds.add(new RedDiamond(new Point(450,150),30   ,30));
         listFloors = new ArrayList<>();
         listTeleportStep=new ArrayList<>();
         line = 0;
@@ -339,4 +335,7 @@ public class Labyrinthe {
         return nbWall ;
     }
 
+    public void setListMonsters(Collection<Monster> listMonsters) {
+        this.listMonsters = listMonsters;
+    }
 }

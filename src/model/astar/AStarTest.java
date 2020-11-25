@@ -2,7 +2,7 @@ package model.astar;
 
 import model.PacmanGame;
 
-import model.etat.Labyrinthe;
+import model.etat.Lab.Labyrinthe;
 
 import model.etat.elements.Floor;
 import model.etat.hero.Hero;

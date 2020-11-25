@@ -1,6 +1,7 @@
 package model;
 
 
+import model.etat.Lab.Difficulty;
 import model.etat.hero.Hero;
 
 import javax.imageio.ImageIO;
@@ -12,10 +13,8 @@ import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.*;
 import java.util.List;
-import java.util.Map;
 
 
 public class Menu  {
@@ -60,6 +59,7 @@ public class Menu  {
 
         private MenuItemPainter painter;
         private Map<String, Rectangle> menuBounds;
+        private JComboBox niveau;
 
         public TestPane()  {
 
@@ -110,14 +110,28 @@ public class Menu  {
                                     }
                                 });
                                 JLabel difficulty = new JLabel("Choose difficulty : ");
-                                JTextField level = new JTextField(2);
+                                Object[] elements = new Object[]{"1", "2", "3", "4", "5"};
+                                niveau = new JComboBox(elements);
                                 JButton submit = new JButton("Ok");
                                 choices.add(character);
                                 choices.add(belle);
                                 choices.add(bulle);
-                              //  choices.setLayout(new BoxLayout(choices, BoxLayout.Y_AXIS));
                                 choices.add(difficulty);
-                                choices.add(level);
+                                submit.addActionListener(new ActionListener() {
+                                    public void actionPerformed(ActionEvent arg0) {
+                                        Difficulty.level= (String) niveau.getSelectedItem();
+                                        System.out.println(niveau.getSelectedItem());
+                                        option.dispose();
+
+                                    }
+                                });
+
+
+
+
+
+
+                                choices.add(niveau);
                                 choices.add(submit);
                                 option.add(choices);
                                 option.pack();

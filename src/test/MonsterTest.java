@@ -1,6 +1,6 @@
 package test;
 
-import model.etat.Labyrinthe;
+import model.etat.Lab.Labyrinthe;
 import model.etat.monstres.Monster;
 import model.etat.monstres.NormalMonster;
 import org.junit.jupiter.api.AfterEach;
@@ -9,8 +9,6 @@ import org.junit.jupiter.api.Test;
 
 import java.awt.*;
 import java.io.IOException;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 class MonsterTest {
     private Monster monster;

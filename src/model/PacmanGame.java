@@ -2,11 +2,11 @@ package model;
 
 import engine.Cmd;
 import engine.Game;
-import engine.GameEngineGraphical;
 import model.astar.AStar;
 import model.astar.Node;
 
-import model.etat.Labyrinthe;
+import model.etat.Lab.Difficulty;
+import model.etat.Lab.Labyrinthe;
 
 import model.etat.diamonds.BlueDiamond;
 import model.etat.diamonds.RedDiamond;
@@ -17,8 +17,6 @@ import model.etat.hero.Power;
 
 
 import javax.imageio.ImageIO;
-import javax.sound.sampled.AudioInputStream;
-import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.*;
@@ -54,6 +52,8 @@ public class PacmanGame implements Game {
 	private int nbLife;
 	private boolean teleport;
 	private int sec,inst;
+	private Difficulty difficulty;
+	private boolean done=true;
 	/**
 	 * constructeur avec fichier source pour le help
 	 *
@@ -61,6 +61,7 @@ public class PacmanGame implements Game {
 	public PacmanGame(BufferedReader helpReader) throws IOException {
 		lab = new Labyrinthe();
 		hero = new Hero();
+		difficulty = new Difficulty();
 		nbLife =hero.getNbLife();
 		sec=0;
 		inst=0;
@@ -145,6 +146,10 @@ public class PacmanGame implements Game {
 	}
 
 	private void update() throws IOException, UnsupportedAudioFileException, LineUnavailableException {
+		if(!Difficulty.level.equals("1") && done){
+			lab.setListMonsters(difficulty.getListMonsters());
+			done=false;
+		}
 		this.teleport=true;
 		if(lab.getFloor(hero)!=null) {
 			if (lab.getFloor(hero).isTeleportStep()) {

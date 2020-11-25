@@ -2,12 +2,11 @@ package model.etat.monstres;
 
 import model.PacmanPainter;
 import model.astar.Node;
-import model.etat.Labyrinthe;
+import model.etat.Lab.Labyrinthe;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
