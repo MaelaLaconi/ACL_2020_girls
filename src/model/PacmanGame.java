@@ -11,6 +11,7 @@ import model.etat.Lab.Labyrinthe;
 
 import model.etat.diamonds.BlueDiamond;
 import model.etat.diamonds.RedDiamond;
+import model.etat.diamonds.YellowDiamond;
 import model.etat.elements.*;
 import model.etat.hero.Damage;
 import model.etat.hero.Hero;
@@ -310,6 +311,13 @@ public class PacmanGame implements Game {
 					blueDiamond.picked();
 				}
 			}
+			else if(!lab.getDiamond(hero).isYellowDiamond()&& lab.getDiamond(hero)instanceof YellowDiamond){
+				YellowDiamond yellowDiamond = (YellowDiamond) lab.getDiamond(hero);
+				if (!yellowDiamond.isPicked()) {
+					score += 20;
+					yellowDiamond.picked();
+				}
+			}
 		}
 		if(sec==50 && inst>0) {
 			Runnable moveGuardian = new Runnable() {
@@ -429,7 +437,8 @@ public class PacmanGame implements Game {
 			return true ;
 		}
 		if(hero.getTime() <= 0){
-			label = new JLabel("Temps écoulé");
+			label = new JLabel("Temps écoulé " +
+					"Votre score est de : " + score);
 			panel.add(label);
 			frame.setContentPane(panel);
 			frame.pack();

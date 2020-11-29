@@ -16,7 +16,7 @@ public class Potions  extends Floor{
      */
     public Potions(Point p, int w, int h) throws IOException {
         super(p, w, h);
-        bufferedImage = ImageIO.read(getClass().getResourceAsStream("/images/potionHp.png"));
+        bufferedImage = ImageIO.read(getClass().getResourceAsStream("/images/potions/potionHp.png"));
         isCollected = false;
     }
 

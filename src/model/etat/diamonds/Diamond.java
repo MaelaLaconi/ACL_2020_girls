@@ -71,5 +71,8 @@ public abstract class Diamond {
     public boolean isRedDiamond() {
         return false;
     }
+    public boolean isYellowDiamond(){
+        return false;
+    }
 
     }

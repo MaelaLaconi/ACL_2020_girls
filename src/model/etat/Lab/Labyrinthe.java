@@ -5,6 +5,7 @@ import model.attack.Attack;
 import model.etat.diamonds.BlueDiamond;
 import model.etat.diamonds.Diamond;
 import model.etat.diamonds.RedDiamond;
+import model.etat.diamonds.YellowDiamond;
 import model.etat.elements.*;
 import model.etat.hero.Hero;
 import model.etat.monstres.GuardianMonster;
@@ -105,6 +106,10 @@ public class Labyrinthe {
                 case 'r':
                     listDiamonds.add(new RedDiamond(new Point(column, line),WIDTH, HEIGHT));
                     break;
+                case 'y':
+                    listDiamonds.add(new YellowDiamond(new Point(column, line),WIDTH, HEIGHT));
+                    break;
+
 
             }
             column += WIDTH;

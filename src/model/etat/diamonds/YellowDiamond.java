@@ -4,7 +4,7 @@ import javax.imageio.ImageIO;
 import java.awt.*;
 import java.io.IOException;
 
-public class BlueDiamond extends Diamond {
+public class YellowDiamond extends Diamond {
     /**
      * Constructeur Floor
      *
@@ -13,9 +13,9 @@ public class BlueDiamond extends Diamond {
      * @param h
      */
 
-    public BlueDiamond(Point p, int w, int h) throws IOException {
+    public YellowDiamond(Point p, int w, int h) throws IOException {
         super(p, w, h);
-        bufferedImage = ImageIO.read(getClass().getResourceAsStream("/images/diamonds/bleu.png"));
+        bufferedImage = ImageIO.read(getClass().getResourceAsStream("/images/diamonds/yellow.png"));
     }
 
 
@@ -25,6 +25,9 @@ public class BlueDiamond extends Diamond {
         return false;
     }
     public boolean isRedDiamond() {
+        return false;
+    }
+    public boolean isYellowDiamond(){
         return false;
     }
 
