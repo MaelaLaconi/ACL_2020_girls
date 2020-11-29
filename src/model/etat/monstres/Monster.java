@@ -38,6 +38,7 @@ public abstract class Monster {
     private int counterGhost;
     private int count ;
     protected Point positionprec;
+    private boolean alive;
 
     public Monster(Point point, int width, int height){
         this.positions = point;
@@ -51,6 +52,7 @@ public abstract class Monster {
         count = 0 ;
         listedepoints=new ArrayList<>();
         listedepoints.add(point.x);
+        alive=true;
     }
 
 
@@ -108,7 +110,7 @@ public abstract class Monster {
         counterGhost++ ;
         if(step == DROITE) {
             if ( positions.x==PacmanPainter.WIDTH) {
-                 positions.x = 0 ;
+                positions.x = 0 ;
             } else {
                 positions.x += speed;
             }
@@ -118,7 +120,7 @@ public abstract class Monster {
             if(positions.x==0) {
                 positions.x=PacmanPainter.WIDTH;
             } else {
-                    positions.x -= speed;
+                positions.x -= speed;
             }
         }
 
@@ -133,7 +135,7 @@ public abstract class Monster {
 
         else if(step == BAS) {
             if(positions.y >= PacmanPainter.HEIGHT){
-                    positions.y =0;
+                positions.y =0;
             }
             else{
                 positions.y += speed;
@@ -206,7 +208,7 @@ public abstract class Monster {
 
     }
 
-        public void setIndexIm(int indexIm) {
+    public void setIndexIm(int indexIm) {
         this.indexIm = indexIm;
     }
 
@@ -247,7 +249,7 @@ public abstract class Monster {
     public void initFrame() throws IOException {
         for (int i=1;i<=8;i++){
             if (i<=4){
-            bufferedImage[i-1]= ImageIO.read(getClass().getResourceAsStream("/images/mechants/mojoD"+i+".png"));
+                bufferedImage[i-1]= ImageIO.read(getClass().getResourceAsStream("/images/mechants/mojoD"+i+".png"));
             }
             else {
                 bufferedImage[i-1]= ImageIO.read(getClass().getResourceAsStream("/images/mechants/mojoG"+(i-4)+".png"));

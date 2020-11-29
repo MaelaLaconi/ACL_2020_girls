@@ -5,6 +5,7 @@ import engine.Game;
 import model.astar.AStar;
 import model.astar.Node;
 
+import model.attack.AttackIce;
 import model.etat.Lab.Difficulty;
 import model.etat.Lab.Labyrinthe;
 
@@ -14,6 +15,7 @@ import model.etat.elements.*;
 import model.etat.hero.Damage;
 import model.etat.hero.Hero;
 import model.etat.hero.Power;
+import model.etat.monstres.NormalMonster;
 
 
 import javax.imageio.ImageIO;
@@ -54,6 +56,8 @@ public class PacmanGame implements Game {
 	private int sec,inst;
 	private Difficulty difficulty;
 	private boolean done=true;
+	private boolean test=false;
+
 	/**
 	 * constructeur avec fichier source pour le help
 	 *
@@ -65,6 +69,7 @@ public class PacmanGame implements Game {
 		nbLife =hero.getNbLife();
 		sec=0;
 		inst=0;
+
 		try {
 			String ligne;
 			while ((ligne = helpReader.readLine()) != null) {
@@ -95,33 +100,40 @@ public class PacmanGame implements Game {
 	 * @return
 	 */
 	public void evolve(Cmd commande) {
-		switch (commande){
+		switch (commande) {
 			case UP:
-				if(collision(0, -speed)) {
+				if (collision(0, -speed)) {
 					hero.move(0, -speed);
 					hero.nextFrame(hero.UP);
 				}
 				break;
 			case DOWN:
-				if(collision(0, speed)) {
+				if (collision(0, speed)) {
 					hero.move(0, speed);
 					hero.nextFrame(hero.DOWN);
 				}
 				break;
 			case LEFT:
-				if(collision(-speed, 0)) {
+				if (collision(-speed, 0)) {
 					hero.move(-speed, 0);
 					hero.nextFrame(hero.LEFT);
 				}
 				break;
 			case RIGHT:
-				if(collision(speed,0)) {
+				if (collision(speed, 0)) {
 					hero.move(speed, 0);
 					hero.nextFrame(hero.RIGHT);
 				}
 				break;
+			case SPACE:
+					test=true;
+
+
+				break;
 		}
-	}
+
+		}
+
 
 	public void draw(BufferedImage im) throws IOException, LineUnavailableException, UnsupportedAudioFileException {
 		lab.draw(im);
@@ -142,6 +154,7 @@ public class PacmanGame implements Game {
 			dx1=dx2+5;
 			dx2=dx1+60;
 		}
+
 		update();
 	}
 
@@ -150,6 +163,14 @@ public class PacmanGame implements Game {
 			lab.setListMonsters(difficulty.getListMonsters());
 			done=false;
 		}
+
+		if(test){
+			lab.getListAttack().add(new AttackIce(new Point(hero.getPosition().x+10, hero.getPosition().y+10), 35, 35));
+			test=false;
+		}
+
+
+
 		this.teleport=true;
 		if(lab.getFloor(hero)!=null) {
 			if (lab.getFloor(hero).isTeleportStep()) {

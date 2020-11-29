@@ -64,6 +64,12 @@ public class PacmanController implements GameController {
 			case 'U':
 				this.commandeEnCours = Cmd.UP;
 				break;
+			case KeyEvent.VK_SPACE:
+			case 'a':
+			case 'A':
+				this.commandeEnCours = Cmd.SPACE;
+				break;
+
 		}
 
 

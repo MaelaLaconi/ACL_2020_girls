@@ -1,22 +1,20 @@
 package model.etat.Lab;
 
 
-import model.etat.diamonds.Diamond;
+import model.attack.Attack;
 import model.etat.diamonds.BlueDiamond;
+import model.etat.diamonds.Diamond;
 import model.etat.diamonds.RedDiamond;
 import model.etat.elements.*;
 import model.etat.hero.Hero;
-import model.etat.monstres.GhostMonster;
 import model.etat.monstres.GuardianMonster;
 import model.etat.monstres.Monster;
-import model.etat.monstres.NormalMonster;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -29,6 +27,7 @@ public class Labyrinthe {
     private Collection<Monster> listMonsters;
     private Collection<Diamond> listDiamonds;
     private Collection<TeleportStep> listTeleportStep;
+    private Collection<Attack> listAttack;
     private Door stage;
     private int line, column;
     private int[][] blocksArray ;
@@ -47,6 +46,7 @@ public class Labyrinthe {
         listDiamonds =new ArrayList<>();
         listFloors = new ArrayList<>();
         listTeleportStep=new ArrayList<>();
+        listAttack=new ArrayList<>();
         line = 0;
         nbWall = 0 ;
     }
@@ -81,7 +81,7 @@ public class Labyrinthe {
                     listMonsters.add(guardianMonster);
                     break;
                 //Trap Step
-               case 's' : //skull trapStep
+                case 's' : //skull trapStep
                     listFloors.add(new TrapStep(new Point(column, line), WIDTH, HEIGHT));
                     break;
                 //Door
@@ -128,11 +128,16 @@ public class Labyrinthe {
             }
             if(monster.isMoving() && monster.monstreGuardianMonster()){
                 //monster.moveGuardianMonster();
-
-
             }
             monster.draw(im);
         }
+        for(Attack attack : listAttack){
+            if(!attack.isDestryo()) {
+                attack.move(this, WIDTH, HEIGHT);
+                attack.draw(im);
+            }
+        }
+
     }
 
     /**
@@ -151,7 +156,7 @@ public class Labyrinthe {
                 return floor ;
             }*/
             if(floor.getPosition().x <= x && floor.getPosition().x+WIDTH >= x
-            && floor.getPosition().y <= y && floor.getPosition().y+HEIGHT >= y){
+                    && floor.getPosition().y <= y && floor.getPosition().y+HEIGHT >= y){
                 return floor;
             }
         }
@@ -337,5 +342,13 @@ public class Labyrinthe {
 
     public void setListMonsters(Collection<Monster> listMonsters) {
         this.listMonsters = listMonsters;
+    }
+
+    public Collection<Monster> getListMonsters() {
+        return listMonsters;
+    }
+
+    public Collection<Attack> getListAttack() {
+        return listAttack;
     }
 }
