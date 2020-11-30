@@ -13,10 +13,7 @@ import model.etat.diamonds.BlueDiamond;
 import model.etat.diamonds.RedDiamond;
 import model.etat.diamonds.YellowDiamond;
 import model.etat.elements.*;
-import model.etat.elements.potions.PotionSaiyan;
-import model.etat.elements.potions.PotionSlow;
-import model.etat.elements.potions.PotionWall;
-import model.etat.elements.potions.Potions;
+import model.etat.elements.potions.*;
 import model.etat.hero.Damage;
 import model.etat.hero.Hero;
 import model.etat.hero.Power;
@@ -208,8 +205,8 @@ public class PacmanGame implements Game {
 
 			}
 			//if we drink the potions
-			if (lab.getFloor(hero).isPotion()) {
-				Potions p = (Potions) lab.getFloor(hero);
+			if (lab.getFloor(hero).isHpPotion()) {
+				PotionHp p = (PotionHp) lab.getFloor(hero);
 				hero.getHealth().setHp(5);
 				p.drinkPotion();
 			}
@@ -228,7 +225,7 @@ public class PacmanGame implements Game {
 
 			if (lab.getFloor(hero).isSlowPotion()) {
 				PotionSlow p = (PotionSlow) lab.getFloor(hero);
-				speed -=2;
+				speed = 3;
 				p.drinkPotion();
 			}
 			//if we are at the door and we already took the safe
