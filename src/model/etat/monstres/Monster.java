@@ -2,7 +2,7 @@ package model.etat.monstres;
 
 import model.PacmanPainter;
 import model.astar.Node;
-import model.etat.Lab.Labyrinthe;
+import model.etat.lab.Labyrinthe;
 
 import javax.imageio.ImageIO;
 import java.awt.*;

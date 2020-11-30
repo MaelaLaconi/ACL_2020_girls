@@ -1,6 +1,6 @@
 package test;
 
-import model.etat.Lab.Labyrinthe;
+import model.etat.lab.Labyrinthe;
 import model.etat.monstres.Monster;
 import model.etat.monstres.NormalMonster;
 import org.junit.jupiter.api.AfterEach;

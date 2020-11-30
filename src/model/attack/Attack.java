@@ -1,11 +1,10 @@
 package model.attack;
 
-import model.etat.Lab.Labyrinthe;
+import model.etat.lab.Labyrinthe;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
-import java.util.Random;
 
 public abstract class Attack { public static int HAUT = 4 ;
     public static int BAS = 2 ;

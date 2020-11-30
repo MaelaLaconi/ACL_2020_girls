@@ -1,4 +1,4 @@
-package model.etat.Lab;
+package model.etat.lab;
 
 import model.etat.monstres.GhostMonster;
 import model.etat.monstres.Monster;

@@ -6,8 +6,8 @@ import model.astar.AStar;
 import model.astar.Node;
 
 import model.attack.AttackIce;
-import model.etat.Lab.Difficulty;
-import model.etat.Lab.Labyrinthe;
+import model.etat.lab.Difficulty;
+import model.etat.lab.Labyrinthe;
 
 import model.etat.diamonds.BlueDiamond;
 import model.etat.diamonds.RedDiamond;

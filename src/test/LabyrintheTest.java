@@ -1,6 +1,6 @@
 package test;
 
-import model.etat.Lab.Labyrinthe;
+import model.etat.lab.Labyrinthe;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 

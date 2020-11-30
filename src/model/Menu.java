@@ -1,7 +1,7 @@
 package model;
 
 
-import model.etat.Lab.Difficulty;
+import model.etat.lab.Difficulty;
 import model.etat.hero.Hero;
 import start.Main;
 

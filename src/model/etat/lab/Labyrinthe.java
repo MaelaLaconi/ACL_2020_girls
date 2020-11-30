@@ -1,4 +1,4 @@
-package model.etat.Lab;
+package model.etat.lab;
 
 
 import model.attack.Attack;
