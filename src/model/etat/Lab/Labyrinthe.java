@@ -7,6 +7,7 @@ import model.etat.diamonds.Diamond;
 import model.etat.diamonds.RedDiamond;
 import model.etat.diamonds.YellowDiamond;
 import model.etat.elements.*;
+import model.etat.elements.potions.PotionHp;
 import model.etat.hero.Hero;
 import model.etat.monstres.GuardianMonster;
 import model.etat.monstres.Monster;
@@ -93,7 +94,7 @@ public class Labyrinthe {
 
                 //drinking potions
                 case 'd':
-                    listFloors.add(new Potions(new Point(column, line), WIDTH, HEIGHT));
+                    listFloors.add(new PotionHp(new Point(column, line), WIDTH, HEIGHT));
                     break;
                 //Teleport Step
                 case 'p' :

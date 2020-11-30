@@ -3,16 +3,17 @@ package model;
 
 import model.etat.Lab.Difficulty;
 import model.etat.hero.Hero;
+import start.Main;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
+import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.geom.AffineTransform;
 import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 import java.util.*;
 import java.util.List;
 
@@ -20,6 +21,7 @@ import java.util.List;
 public class Menu  {
     public static boolean launcher=false;
     private JFrame frame;
+    private int score ;
     public Menu(){
 
 
@@ -34,18 +36,54 @@ public class Menu  {
 
                        frame = new JFrame("Pac Women");
                        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-                       JLabel welcome = new JLabel("Welcome");
+                       /*JLabel welcome = new JLabel("Welcome");
                        welcome.setFont(new Font("Serif", Font.PLAIN, 44));
-                       welcome.setForeground(Color.white);
+                       welcome.setForeground(Color.white);*/
                        TestPane testPane = new TestPane();
-
-                       testPane.add(welcome);
+                       //testPane.add(welcome);
                        testPane.setBackground(new Color(247, 227, 177 ));
                        frame.add(testPane);
+                       score = 0 ;
+                       InputStream inputStream = Main.class.getResourceAsStream("/score.txt") ;
+                       try {
+                           BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
+                           String line = reader.readLine();
+                           while (line != null)                 // read the score file line by line
+                           {
+                               try {
+                                   score = Integer.parseInt(line.trim());   // parse each line as an int
+
+                               } catch (NumberFormatException e1) {
+                                   // ignore invalid scores
+                                   //System.err.println("ignoring invalid score: " + line);
+                               }
+                               line = reader.readLine();
+                           }
+                           reader.close();
+
+                       } catch (IOException ex) {
+                           System.err.println("ERROR reading scores from file");
+                       }
+
+                       JLabel bestScore = new JLabel("Meilleur score : "+score);
+                       JLabel team = new JLabel("Ⓡ Team Girls");
+                       team.setFont(new Font("Serif", Font.ITALIC, 15));
+                       bestScore.setFont(new Font("Serif", Font.PLAIN, 30));
+                       bestScore.setForeground(new Color(166, 0, 0));
+                       JPanel infos = new JPanel(new BorderLayout());
+                       Border blackline = BorderFactory.createLineBorder(Color.black);
+                       infos.setBorder(blackline);
+                       infos.setBackground(new Color(56, 123, 93));
+                       infos.add(bestScore, BorderLayout.WEST);
+                       infos.add(team, BorderLayout.EAST);
+                       testPane.setLayout(new BorderLayout());
+                       testPane.add(infos, BorderLayout.SOUTH);
+
 
                        frame.pack();
                        frame.setLocationRelativeTo(null);
                        frame.setVisible(true);
+                       frame.setResizable(false);
                    }
                });
        }

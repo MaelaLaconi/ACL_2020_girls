@@ -1,12 +1,12 @@
-package model.etat.elements;
+package model.etat.elements.potions;
+
+import model.etat.elements.Floor;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.io.IOException;
 
-public class Potions  extends Floor{
-    private boolean isCollected;
-
+public class PotionHp extends Floor {
     /**
      * Constructeur Potions
      *
@@ -14,43 +14,37 @@ public class Potions  extends Floor{
      * @param w
      * @param h
      */
-    public Potions(Point p, int w, int h) throws IOException {
+    public PotionHp(Point p, int w, int h) throws IOException {
         super(p, w, h);
         bufferedImage = ImageIO.read(getClass().getResourceAsStream("/images/potions/potionHp.png"));
-        isCollected = false;
     }
-
-
-    /**
-     * Function that will add hp to the hero
-     *
-     */
-    public void drinkPotion() throws IOException {
-        isCollected = true;
-        bufferedImage = ImageIO.read(getClass().getResourceAsStream("/images/floor.png"));
-
-
-    }
-
-
 
     @Override
-    public boolean isPotion(){ return true;}
     public boolean isCollected() {
         return false;
     }
+
+    @Override
     public boolean openDoor() {
         return false;
     }
 
+    @Override
     public boolean isMagicalFloor() {
         return false;
     }
 
+    @Override
     public boolean isActivate() {
         return false;
     }
+
+    @Override
     public void desactivate() throws IOException {
 
     }
+
+    @Override
+    public boolean isHpPotion(){return true ;}
+
 }
