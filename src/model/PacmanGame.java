@@ -13,10 +13,10 @@ import model.etat.diamonds.BlueDiamond;
 import model.etat.diamonds.RedDiamond;
 import model.etat.diamonds.YellowDiamond;
 import model.etat.elements.*;
+import model.etat.elements.potions.Potions;
 import model.etat.hero.Damage;
 import model.etat.hero.Hero;
 import model.etat.hero.Power;
-import model.etat.monstres.NormalMonster;
 
 
 import javax.imageio.ImageIO;

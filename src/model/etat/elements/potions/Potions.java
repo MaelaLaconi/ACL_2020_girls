@@ -1,10 +1,12 @@
-package model.etat.elements;
+package model.etat.elements.potions;
+
+import model.etat.elements.Floor;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.io.IOException;
 
-public class Potions  extends Floor{
+public class Potions  extends Floor {
     private boolean isCollected;
 
     /**
@@ -28,14 +30,17 @@ public class Potions  extends Floor{
     public void drinkPotion() throws IOException {
         isCollected = true;
         bufferedImage = ImageIO.read(getClass().getResourceAsStream("/images/floor.png"));
-
-
     }
 
 
 
     @Override
     public boolean isPotion(){ return true;}
+    public boolean isHpPotion(){return false ;}
+    public boolean isSlowPotion(){return false ;}
+    public boolean isWallPotion(){return false ;}
+    public boolean isSaiyanPotion(){return false ;}
+
     public boolean isCollected() {
         return false;
     }

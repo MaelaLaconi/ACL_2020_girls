@@ -7,6 +7,7 @@ import model.etat.diamonds.Diamond;
 import model.etat.diamonds.RedDiamond;
 import model.etat.diamonds.YellowDiamond;
 import model.etat.elements.*;
+import model.etat.elements.potions.Potions;
 import model.etat.hero.Hero;
 import model.etat.monstres.GuardianMonster;
 import model.etat.monstres.Monster;
