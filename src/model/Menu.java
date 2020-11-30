@@ -3,6 +3,7 @@ package model;
 
 import model.etat.Lab.Difficulty;
 import model.etat.hero.Hero;
+import start.Main;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -11,8 +12,7 @@ import java.awt.event.*;
 import java.awt.geom.AffineTransform;
 import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 import java.util.*;
 import java.util.List;
 
@@ -20,6 +20,7 @@ import java.util.List;
 public class Menu  {
     public static boolean launcher=false;
     private JFrame frame;
+    private int score ;
     public Menu(){
 
 
@@ -42,7 +43,33 @@ public class Menu  {
                        testPane.add(welcome);
                        testPane.setBackground(new Color(247, 227, 177 ));
                        frame.add(testPane);
+                        score = 0 ;
+                       InputStream inputStream = Main.class.getResourceAsStream("/score.txt") ;
+                       try {
+                           BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
+                           String line = reader.readLine();
+                           while (line != null)                 // read the score file line by line
+                           {
+                               try {
+                                   score = Integer.parseInt(line.trim());   // parse each line as an int
 
+                               } catch (NumberFormatException e1) {
+                                   // ignore invalid scores
+                                   //System.err.println("ignoring invalid score: " + line);
+                               }
+                               line = reader.readLine();
+                           }
+                           reader.close();
+
+                       } catch (IOException ex) {
+                           System.err.println("ERROR reading scores from file");
+                       }
+
+                       JLabel bestScore = new JLabel("Meilleur score : "+score);
+                       bestScore.setFont(new Font("Serif", Font.PLAIN, 44));
+                       bestScore.setForeground(Color.red);
+                       //bestScore.setBounds(50,50, 50, 20);
+                       testPane.add(bestScore);
                        frame.pack();
                        frame.setLocationRelativeTo(null);
                        frame.setVisible(true);
