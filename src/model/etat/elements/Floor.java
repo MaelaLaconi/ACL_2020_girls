@@ -2,6 +2,7 @@ package model.etat.elements;
 
 
 
+import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
@@ -84,4 +85,14 @@ public abstract class Floor {
     public int getHeight() {
         return height;
     }
+
+    public boolean isHpPotion(){return false ;}
+    public boolean isSlowPotion(){return false ;}
+    public boolean isWallPotion(){return false ;}
+    public boolean isSaiyanPotion(){return false ;}
+
+    public void drinkPotion() throws IOException {
+        bufferedImage = ImageIO.read(getClass().getResourceAsStream("/images/floor.png"));
+    }
+
 }

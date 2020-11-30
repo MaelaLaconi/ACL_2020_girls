@@ -13,6 +13,9 @@ import model.etat.diamonds.BlueDiamond;
 import model.etat.diamonds.RedDiamond;
 import model.etat.diamonds.YellowDiamond;
 import model.etat.elements.*;
+import model.etat.elements.potions.PotionSaiyan;
+import model.etat.elements.potions.PotionSlow;
+import model.etat.elements.potions.PotionWall;
 import model.etat.elements.potions.Potions;
 import model.etat.hero.Damage;
 import model.etat.hero.Hero;
@@ -103,27 +106,48 @@ public class PacmanGame implements Game {
 	public void evolve(Cmd commande) {
 		switch (commande) {
 			case UP:
-				if (collision(0, -speed)) {
-					hero.move(0, -speed);
-					hero.nextFrame(hero.UP);
+				if(hero.isNoWalls()){
+					hero.moveNoCollision(3,speed);
+				}
+				else {
+					if (collision(0, -speed)) {
+						hero.move(0, -speed);
+						hero.nextFrame(hero.UP);
+					}
 				}
 				break;
 			case DOWN:
-				if (collision(0, speed)) {
-					hero.move(0, speed);
-					hero.nextFrame(hero.DOWN);
+				if(hero.isNoWalls()){
+					hero.moveNoCollision(4,speed);
+				}
+				else {
+					if (collision(0, speed)) {
+						hero.move(0, speed);
+						hero.nextFrame(hero.DOWN);
+					}
 				}
 				break;
 			case LEFT:
-				if (collision(-speed, 0)) {
-					hero.move(-speed, 0);
-					hero.nextFrame(hero.LEFT);
+				if(hero.isNoWalls()){
+					hero.moveNoCollision(2,speed);
+				}
+				else {
+
+					if (collision(-speed, 0)) {
+						hero.move(-speed, 0);
+						hero.nextFrame(hero.LEFT);
+					}
 				}
 				break;
 			case RIGHT:
-				if (collision(speed, 0)) {
-					hero.move(speed, 0);
-					hero.nextFrame(hero.RIGHT);
+				if(hero.isNoWalls()){
+					hero.moveNoCollision(1,speed);
+				}else {
+
+					if (collision(speed, 0)) {
+						hero.move(speed, 0);
+						hero.nextFrame(hero.RIGHT);
+					}
 				}
 				break;
 			case SPACE:
@@ -188,7 +212,24 @@ public class PacmanGame implements Game {
 				Potions p = (Potions) lab.getFloor(hero);
 				hero.getHealth().setHp(5);
 				p.drinkPotion();
+			}
 
+			if (lab.getFloor(hero).isSaiyanPotion()) {
+				PotionSaiyan p = (PotionSaiyan) lab.getFloor(hero);
+				hero.saiyanTransform();
+				p.drinkPotion();
+			}
+
+			if (lab.getFloor(hero).isWallPotion()) {
+				PotionWall p = (PotionWall) lab.getFloor(hero);
+				hero.setNoWalls(true);
+				p.drinkPotion();
+			}
+
+			if (lab.getFloor(hero).isSlowPotion()) {
+				PotionSlow p = (PotionSlow) lab.getFloor(hero);
+				speed -=2;
+				p.drinkPotion();
 			}
 			//if we are at the door and we already took the safe
 			if (lab.getFloor(hero).isAtDoor() && lab.getStage().openDoor()) {
@@ -212,6 +253,9 @@ public class PacmanGame implements Game {
 				this.hero.setPosition(new Point(this.hero.getPosition().x / 2, this.hero.getPosition().y / 2));
 				hero.normalTransform(); //on redeviens normal a chanque nouveau map
 				hero.setTime(hero.getTime() + 20);// on lui rajoute 20sec à chaque nouvel map
+				hero.setNoWalls(false);  //on ne peut plus passer a travers les murs
+				speed = 5 ; //on reinitialise la vitesse du hero
+
 				BufferedReader helpReader;
 				InputStream inputStream = getClass().getResourceAsStream("/lab/lab" + numeroLab + ".txt");
 				this.lab = new Labyrinthe();

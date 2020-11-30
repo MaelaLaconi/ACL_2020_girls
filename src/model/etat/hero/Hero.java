@@ -1,9 +1,12 @@
 package model.etat.hero;
 
+import model.PacmanPainter;
+
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -21,12 +24,15 @@ public class Hero {
     public static int LEFT = 2 ;
     public static int UP = 3 ;
     public static int DOWN = 4 ;
+
     private boolean imunise;
+    private boolean noWalls ;
     private BufferedImage lifeBar;
     private Health health;
     private int direction;
 
     public Hero() throws IOException {
+        noWalls = false ;
         position = new Point(0,0);
         width = 30;
         height = 40;
@@ -179,6 +185,8 @@ public class Hero {
     }
 
 
+
+
     /**
      * the hero loose a life
      */
@@ -298,5 +306,50 @@ public class Hero {
 
     public int getDirection() {
         return direction;
+    }
+
+    public void moveNoCollision(int step, int speed){
+        if(step == RIGHT) {
+            if ( position.x== PacmanPainter.WIDTH) {
+                position.x = 0 ;
+            } else {
+                position.x += speed;
+            }
+        }
+
+        else if(step == LEFT) {
+            if(position.x==0) {
+                position.x=PacmanPainter.WIDTH;
+            } else {
+                position.x -= speed;
+            }
+        }
+
+        else if(step == UP) {
+            if (position.y <= 0) {
+                position.y = PacmanPainter.HEIGHT;
+            } else {
+                position.y -= speed;
+            }
+
+        }
+
+        else if(step == DOWN) {
+            if(position.y >= PacmanPainter.HEIGHT){
+                position.y =0;
+            }
+            else{
+                position.y += speed;
+            }
+        }
+        nextFrame(step);
+    }
+
+    public boolean isNoWalls() {
+        return noWalls;
+    }
+
+    public void setNoWalls(boolean noWalls) {
+        this.noWalls = noWalls;
     }
 }
