@@ -17,7 +17,10 @@ import model.etat.monstres.Monster;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Timer;
@@ -54,6 +57,92 @@ public class Labyrinthe {
         line = 0;
         nbWall = 0 ;
     }
+
+    /**
+     * Generate Lab from file
+     * @param
+     * @throws IOException
+     */
+    public void generate() throws IOException {
+        BufferedReader helpReader;
+        InputStream inputStream = getClass().getResourceAsStream("/lab/lab.txt");
+        try {
+            helpReader = new BufferedReader(new InputStreamReader(inputStream));
+            String ligne;
+            while ((ligne = helpReader.readLine()) != null) {
+                column = 0;
+                for (char ch : ligne.toCharArray()) {
+                    switch (ch) {
+                        //Wall
+                        case 'w':
+                            listFloors.add(new Wall(new Point(column, line), WIDTH, HEIGHT));
+                            nbWall++;
+                            break;
+                        //Normal Step
+                        case 'n':
+                            listFloors.add(new NormalStep(new Point(column, line), WIDTH, HEIGHT));
+                            break;
+                        //Magic Step
+                        case 'm':
+                            listFloors.add(new MagicStep(new Point(column, line), WIDTH, HEIGHT));
+                            break;
+                        //Safe
+                        case 't':
+                            listFloors.add(new Safe(new Point(column, line), WIDTH, HEIGHT));
+                            guardianPos = new Point(column, line);
+                            guardianMonster = new GuardianMonster(guardianPos, 35, 35);
+                            listMonsters.add(guardianMonster);
+                            break;
+                        //Trap Step
+                        case 's': //skull trapStep
+                            listFloors.add(new TrapStep(new Point(column, line), WIDTH, HEIGHT));
+                            break;
+                        //Door
+                        case 'c':
+                            this.stage = new Door(new Point(column, line), WIDTH, HEIGHT);
+                            listFloors.add(stage);
+                            break;
+
+                        //drinking potions
+                        case 'd':
+                            listFloors.add(new PotionHp(new Point(column, line), WIDTH, HEIGHT));
+                            break;
+                        case 'e':
+                            listFloors.add(new PotionSlow(new Point(column, line), WIDTH, HEIGHT));
+                            break;
+                        case 'f':
+                            listFloors.add(new PotionWall(new Point(column, line), WIDTH, HEIGHT));
+                            break;
+                        case 'g':
+                            listFloors.add(new PotionSaiyan(new Point(column, line), WIDTH, HEIGHT));
+                            break;
+                        //Teleport Step
+                        case 'p':
+                            listFloors.add(new TeleportStep(new Point(column, line), WIDTH, HEIGHT));
+                            listTeleportStep.add(new TeleportStep(new Point(column, line), WIDTH, HEIGHT));
+                            break;
+                        case 'b':
+                            listDiamonds.add(new BlueDiamond(new Point(column, line), WIDTH, HEIGHT));
+                            break;
+                        case 'r':
+                            listDiamonds.add(new RedDiamond(new Point(column, line), WIDTH, HEIGHT));
+                            break;
+                        case 'y':
+                            listDiamonds.add(new YellowDiamond(new Point(column, line), WIDTH, HEIGHT));
+                            break;
+
+
+                    }
+                    column += WIDTH;
+                }
+                line += HEIGHT;
+            }
+            helpReader.close();
+        } catch (IOException e) {
+        }
+
+    }
+
 
     /**
      * Generate Lab from file

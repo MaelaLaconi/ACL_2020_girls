@@ -21,7 +21,9 @@ import java.util.List;
 public class Menu  {
     public static boolean launcher=false;
     private JFrame frame;
-    private int score ;
+    private int score=0; ;
+    private  JLabel bestScore;
+    private TestPane testPane;
     public Menu(){
 
 
@@ -36,33 +38,11 @@ public class Menu  {
 
                        frame = new JFrame("Pac Women");
                        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-                       TestPane testPane = new TestPane();
+                       testPane = new TestPane();
 
                        testPane.setBackground(new Color(247, 227, 177 ));
                        frame.add(testPane);
-                       score = 0 ;
-                       InputStream inputStream = Main.class.getResourceAsStream("/score.txt") ;
-                       try {
-                           BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
-                           String line = reader.readLine();
-                           while (line != null)                 // read the score file line by line
-                           {
-                               try {
-                                   score = Integer.parseInt(line.trim());   // parse each line as an int
-
-                               } catch (NumberFormatException e1) {
-                                   // ignore invalid scores
-                                   //System.err.println("ignoring invalid score: " + line);
-                               }
-                               line = reader.readLine();
-                           }
-                           reader.close();
-
-                       } catch (IOException ex) {
-                           System.err.println("ERROR reading scores from file");
-                       }
-
-                       JLabel bestScore = new JLabel("Meilleur score : "+score);
+                       bestScore = new JLabel("Meilleur score : "+getScore());
                        JLabel team = new JLabel("Ⓡ Team Girls");
                        team.setFont(new Font("Serif", Font.ITALIC, 15));
                        bestScore.setFont(new Font("Serif", Font.PLAIN, 30));
@@ -375,7 +355,46 @@ public class Menu  {
 
     }
 
+    public void setScore(int score) {
+        if (score > this.score){
+            this.bestScore = new JLabel("Meilleur score : "+score);
+            this.score = score;
+        }
 
+    }
+    public void update(){
+        frame.dispose();
+        frame = new JFrame("Pac Women");
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        testPane = new TestPane();
+
+        testPane.setBackground(new Color(247, 227, 177 ));
+        frame.add(testPane);
+        bestScore = new JLabel("Meilleur score : "+getScore());
+        JLabel team = new JLabel("Ⓡ Team Girls");
+        team.setFont(new Font("Serif", Font.ITALIC, 15));
+        bestScore.setFont(new Font("Serif", Font.PLAIN, 30));
+        bestScore.setForeground(new Color(166, 0, 0));
+        JPanel infos = new JPanel(new BorderLayout());
+        Border blackline = BorderFactory.createLineBorder(Color.black);
+        infos.setBorder(blackline);
+        infos.setBackground(new Color(56, 123, 93));
+        infos.add(bestScore, BorderLayout.WEST);
+        infos.add(team, BorderLayout.EAST);
+        testPane.setLayout(new BorderLayout());
+        testPane.add(infos, BorderLayout.SOUTH);
+
+
+        frame.pack();
+        frame.setLocationRelativeTo(null);
+        frame.setVisible(true);
+        frame.setResizable(false);
+
+    }
+
+    public int getScore() {
+        return score;
+    }
 
     public JFrame getFrame() {
         return frame;

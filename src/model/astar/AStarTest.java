@@ -21,7 +21,7 @@ public class AStarTest {
         Labyrinthe laby ;
         InputStream inputStream = Main.class.getResourceAsStream("/lab/labTest.txt") ;
         BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
-        PacmanGame game= new PacmanGame(reader);
+        PacmanGame game= new PacmanGame();
         laby = game.getLab() ;
         int[][] blocksArray = laby.getBlocksArray();
 

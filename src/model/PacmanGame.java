@@ -48,7 +48,7 @@ import static model.Menu.launcher;
  *
  */
 public class PacmanGame implements Game {
-	public static Hero hero;
+	private Hero hero;
 	private Labyrinthe lab;
 	private int speed = 5;
 	private int score;
@@ -68,7 +68,7 @@ public class PacmanGame implements Game {
 	 * constructeur avec fichier source pour le help
 	 *
 	 */
-	public PacmanGame(BufferedReader helpReader) throws IOException {
+	public PacmanGame() throws IOException {
 		lab = new Labyrinthe();
 		hero = new Hero();
 		difficulty = new Difficulty();
@@ -76,14 +76,15 @@ public class PacmanGame implements Game {
 		sec=0;
 		inst=0;
 
-		try {
+		lab.generate();
+		/*try {
 			String ligne;
 			while ((ligne = helpReader.readLine()) != null) {
 				lab.generate(ligne);
 			}
 			helpReader.close();
 		} catch (IOException e) {
-		}
+		}*/
 		hero.setPosition(new Point(lab.getWidth()/3, lab.getHeight()/3));
 		score=0;
 		Timer timer = new Timer();
@@ -95,6 +96,8 @@ public class PacmanGame implements Game {
 		};
 		timer.schedule(decount, 100, 1000);
 	}
+
+
 
 
 	@Override
@@ -196,6 +199,7 @@ public class PacmanGame implements Game {
 		while (iterator.hasNext()) {
 			Monster monster = (Monster) iterator.next();
 			if (!monster.isAlive()) {
+				score+=20;
 				iterator.remove();
 			}
 		}
@@ -539,6 +543,14 @@ public class PacmanGame implements Game {
 
 	public Hero getHero() {
 		return hero;
+	}
+
+	public void setHero(Hero hero) {
+		this.hero = hero;
+	}
+
+	public void setScore(int score) {
+		this.score = score;
 	}
 
 	@Override

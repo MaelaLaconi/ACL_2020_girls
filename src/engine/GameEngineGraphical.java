@@ -2,12 +2,15 @@ package engine;
 
 import model.Menu;
 import model.PacmanGame;
+import model.PacmanPainter;
 import model.etat.hero.Health;
+import model.etat.hero.Hero;
+import start.Main;
 
 import javax.crypto.spec.PSource;
 import javax.sound.sampled.*;
-import java.io.File;
-import java.io.IOException;
+import java.awt.*;
+import java.io.*;
 
 import static model.Menu.launcher;
 
@@ -39,6 +42,8 @@ public class GameEngineGraphical {
 	 */
 	private GraphicalInterface gui;
 	//public static Clip clip;
+	private int bestScore;
+	private Menu menu;
 
 
 	/**
@@ -61,7 +66,13 @@ public class GameEngineGraphical {
 		this.game = game;
 		this.gamePainter = gamePainter;
 		this.gameController = gameController;
+		this.menu = new Menu();
+		bestScore=0;
+	}
 
+	public void update() throws IOException {
+		this.game=new PacmanGame();
+		this.gamePainter=new PacmanPainter((PacmanGame) game);
 	}
 
 	/**
@@ -74,7 +85,7 @@ public class GameEngineGraphical {
 		/*AudioInputStream ais = AudioSystem.getAudioInputStream(new File("resources/music/music.wav"));
 		clip = AudioSystem.getClip();
 		clip.open(ais);*/
-		Menu menu = new Menu();
+
 		boolean test = false;
 		while(true){
 			while (!test) {
@@ -83,13 +94,13 @@ public class GameEngineGraphical {
 				} else {
 					menu.getFrame().dispose();
 					test = true;
-
 					this.gui = new GraphicalInterface(this.gamePainter, this.gameController);
 
 				}
 				}
 			while(launcher){
 				if (!this.game.isFinished()) {
+
 					//clip.start();
 					// drawing of the screen every 0.016s = 16.6ms
 					if (System.currentTimeMillis() - fpsCap > (1000 / 60)) {
@@ -104,13 +115,16 @@ public class GameEngineGraphical {
 					}
 
 				} else {
+					menu.setScore(game.getBestScore());
+					menu.update();
 					this.gui.getF().dispose();
 					test=false;
+					update();
 					launcher = false;
-					menu.getFrame().setVisible(true);
-					PacmanGame.hero.setTime(60);
-					PacmanGame.hero.setNbLife(3);
-					PacmanGame.hero.setHealth(new Health(5,PacmanGame.hero));
+
+
+
+
 
 				}
 			}
