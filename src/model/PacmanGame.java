@@ -17,6 +17,7 @@ import model.etat.elements.potions.*;
 import model.etat.hero.Damage;
 import model.etat.hero.Hero;
 import model.etat.hero.Power;
+import model.etat.monstres.Monster;
 
 
 import javax.imageio.ImageIO;
@@ -181,6 +182,16 @@ public class PacmanGame implements Game {
 	}
 
 	private void update() throws IOException, UnsupportedAudioFileException, LineUnavailableException {
+		//Si monstre attaqué il est tué
+		Iterator iterator = lab.getListMonsters().iterator();
+		while (iterator.hasNext()) {
+			Monster monster = (Monster) iterator.next();
+			if (!monster.isAlive()) {
+				iterator.remove();
+			}
+		}
+
+
 		if(!Difficulty.level.equals("1") && done){
 			lab.setListMonsters(difficulty.getListMonsters());
 			done=false;

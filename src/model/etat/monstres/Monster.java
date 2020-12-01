@@ -2,6 +2,7 @@ package model.etat.monstres;
 
 import model.PacmanPainter;
 import model.astar.Node;
+import model.attack.Attack;
 import model.etat.lab.Labyrinthe;
 
 import javax.imageio.ImageIO;
@@ -39,6 +40,7 @@ public abstract class Monster {
     private int count ;
     protected Point positionprec;
     private boolean alive;
+    private Attack attack;
 
     public Monster(Point point, int width, int height){
         this.positions = point;
@@ -270,5 +272,22 @@ public abstract class Monster {
 
     public void setStep(int step) {
         this.step = step;
+    }
+
+    public boolean checkCollision(Attack attack){
+        this.attack=attack;
+        boolean bottom = this.positions.y + this.height/2  < this.attack.getPositions().y - this.attack.getHeight()/2  ;
+        boolean  top = this.positions.y - this.height/2  > this.attack.getPositions().y + this.attack.getHeight()/2;
+        boolean right = this.positions.x + this.width/2  < this.attack.getPositions().x - this.attack.getWidth()/2;
+        boolean left = this.positions.x - this.width/2 > this.attack.getPositions().x + this.attack.getWidth()/2;
+        return !top && !right && !left && !bottom;
+    }
+
+    public boolean isAlive() {
+        return alive;
+    }
+
+    public void setAlive(boolean alive) {
+        this.alive = alive;
     }
 }

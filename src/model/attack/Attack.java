@@ -1,6 +1,7 @@
 package model.attack;
 
 import model.etat.lab.Labyrinthe;
+import model.etat.monstres.Monster;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -47,9 +48,13 @@ public abstract class Attack { public static int HAUT = 4 ;
      */
 
     public void move(Labyrinthe labyrinthe, int wallWidth, int wallHeight){
+        int x=0,y=0;
        if(step == DROITE) {
+
             if(!labyrinthe.isWall(positions.x + speed + wallWidth/2, positions.y)){
-                positions.x += speed;
+                positions.x += Math.min(speed,labyrinthe.WIDTH);
+
+
             }
             else {
                destryo = true;
@@ -58,7 +63,9 @@ public abstract class Attack { public static int HAUT = 4 ;
 
         else if(step == GAUCHE) {
             if(!labyrinthe.isWall(positions.x - speed - wallWidth/2, positions.y)){
-                positions.x -= speed;
+                positions.x -=  Math.min(speed,labyrinthe.WIDTH);
+                System.out.println("lance gauche");
+
             }
             else {
                 destryo = true;
@@ -67,7 +74,7 @@ public abstract class Attack { public static int HAUT = 4 ;
 
         else if(step == HAUT) {
             if(!labyrinthe.isWall(positions.x, positions.y - speed - wallHeight/2)){
-                positions.y -= speed;
+                positions.y -=  Math.min(speed,labyrinthe.HEIGHT);
             }
             else {
                 destryo = true;
@@ -76,13 +83,25 @@ public abstract class Attack { public static int HAUT = 4 ;
 
         else if(step == BAS) {
             if(!labyrinthe.isWall(positions.x, positions.y + speed + wallHeight/2)){
-                positions.y += speed;
+                positions.y +=  Math.min(speed,labyrinthe.HEIGHT);
             }
             else {
                 destryo = true;
             }
         }
+        for(Monster monster : labyrinthe.getListMonsters()){
+            if (monster.checkCollision(this) ){
+                monster.setAlive(false);
+                destryo = true;
+
+
+            }
+        }
     }
+
+
+
+
 
 
 
@@ -104,5 +123,9 @@ public abstract class Attack { public static int HAUT = 4 ;
 
     public boolean isDestryo() {
         return destryo;
+    }
+
+    public Point getPositions() {
+        return positions;
     }
 }
