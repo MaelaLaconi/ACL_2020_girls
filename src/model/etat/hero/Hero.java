@@ -31,7 +31,7 @@ public class Hero {
     private boolean noWalls ;
     private BufferedImage lifeBar;
     private Health health;
-    private int direction;
+    public static int direction;
 
     public Hero() throws IOException {
         noWalls = false ;
@@ -307,9 +307,6 @@ public class Hero {
         return health;
     }
 
-    public int getDirection() {
-        return direction;
-    }
 
     public void moveNoCollision(int step, int speed){
         if(step == RIGHT) {
@@ -356,4 +353,11 @@ public class Hero {
         this.noWalls = noWalls;
     }
 
+    public void setNbLife(int nbLife) {
+        this.nbLife = nbLife;
+    }
+
+    public void setHealth(Health health) {
+        this.health = health;
+    }
 }

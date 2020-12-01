@@ -1,6 +1,8 @@
 package engine;
 
 import model.Menu;
+import model.PacmanGame;
+import model.etat.hero.Health;
 
 import javax.crypto.spec.PSource;
 import javax.sound.sampled.*;
@@ -38,8 +40,6 @@ public class GameEngineGraphical {
 	private GraphicalInterface gui;
 	//public static Clip clip;
 
-	private int bestScore ;
-
 
 	/**
 	 * launcher
@@ -61,7 +61,6 @@ public class GameEngineGraphical {
 		this.game = game;
 		this.gamePainter = gamePainter;
 		this.gameController = gameController;
-		bestScore = 0 ;
 
 	}
 
@@ -71,25 +70,26 @@ public class GameEngineGraphical {
 	public void run() throws InterruptedException, IOException, LineUnavailableException, UnsupportedAudioFileException {
 
 		// creation de l'interface graphique
-		long  fpsCap = System.currentTimeMillis();
+		long fpsCap = System.currentTimeMillis();
 		/*AudioInputStream ais = AudioSystem.getAudioInputStream(new File("resources/music/music.wav"));
 		clip = AudioSystem.getClip();
 		clip.open(ais);*/
 		Menu menu = new Menu();
-		boolean test=false;
-		while(!test) {
-			if (!launcher) {
-				System.out.print("");
-			}
-			else{
-				menu.getFrame().dispose();
-				test=true;
-				//this.game.getHero().setTime(60);
-				this.gui = new GraphicalInterface(this.gamePainter, this.gameController);
+		boolean test = false;
+		while(true){
+			while (!test) {
+				if (!launcher) {
+					System.out.print("");
+				} else {
+					menu.getFrame().dispose();
+					test = true;
 
-			}
-		}
-		while (!this.game.isFinished() && launcher) {
+					this.gui = new GraphicalInterface(this.gamePainter, this.gameController);
+
+				}
+				}
+			while(launcher){
+				if (!this.game.isFinished()) {
 					//clip.start();
 					// drawing of the screen every 0.016s = 16.6ms
 					if (System.currentTimeMillis() - fpsCap > (1000 / 60)) {
@@ -103,12 +103,18 @@ public class GameEngineGraphical {
 						fpsCap = System.currentTimeMillis();
 					}
 
+				} else {
+					this.gui.getF().dispose();
+					test=false;
+					launcher = false;
+					menu.getFrame().setVisible(true);
+					PacmanGame.hero.setTime(60);
+					PacmanGame.hero.setNbLife(3);
+					PacmanGame.hero.setHealth(new Health(5,PacmanGame.hero));
+
 				}
-		bestScore = game.getBestScore();
-		menu.setScore(bestScore);
-		System.exit(0);
-
-
+			}
+		}
 	}
 		}
 

@@ -1,5 +1,6 @@
 package model.attack;
 
+import model.etat.hero.Hero;
 import model.etat.lab.Labyrinthe;
 import model.etat.monstres.Monster;
 
@@ -8,12 +9,10 @@ import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
 public abstract class Attack {
-    public static int HAUT = 3 ;
-    public static int BAS = 4 ;
-    public static int GAUCHE = 2 ;
-    public static int DROITE = 1 ;
-
-
+    private int HAUT = 4 ;
+    private  int BAS = 3 ;
+    private  int GAUCHE = 2 ;
+    private  int DROITE = 1 ;
     protected int width;
     protected int height;
     protected Point positions;
@@ -26,7 +25,7 @@ public abstract class Attack {
     protected BufferedImage[] bufferedImage;
     protected int indexIm,nbFrame;
     private boolean destryo;
-    public static int step=2 ;
+    private int step=1;
 
     public Attack(Point point, int width, int height){
         this.positions = point;
@@ -37,6 +36,7 @@ public abstract class Attack {
         listedepoints =new ArrayList<>();
         listedepoints.add(point.x);
         destryo = false;
+        step=Hero.direction;
     }
 
 
@@ -48,6 +48,7 @@ public abstract class Attack {
      */
 
     public void move(Labyrinthe labyrinthe, int wallWidth, int wallHeight){
+        final int direction =Hero.direction;
        if(step == DROITE) {
            if(labyrinthe.isWall(positions.x + speed + wallWidth/2, positions.y)){
                destryo = true;
@@ -130,7 +131,5 @@ public abstract class Attack {
         return positions;
     }
 
-    public void setStep(int step) {
-        this.step = step;
-    }
+
 }

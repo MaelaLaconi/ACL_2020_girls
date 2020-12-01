@@ -21,14 +21,7 @@ import java.util.List;
 public class Menu  {
     public static boolean launcher=false;
     private JFrame frame;
-    private int score =0 ;
-
-    public void setScore(int score) {
-        if (score > this.score){
-            this.score = score;
-        }
-    }
-
+    private int score ;
     public Menu(){
 
 
@@ -43,14 +36,11 @@ public class Menu  {
 
                        frame = new JFrame("Pac Women");
                        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-                       JLabel welcome = new JLabel("Welcome");
-                       welcome.setFont(new Font("Serif", Font.PLAIN, 44));
-                       welcome.setForeground(Color.white);
                        TestPane testPane = new TestPane();
-                       testPane.add(welcome);
+
                        testPane.setBackground(new Color(247, 227, 177 ));
                        frame.add(testPane);
-                       /*score = 0 ;
+                       score = 0 ;
                        InputStream inputStream = Main.class.getResourceAsStream("/score.txt") ;
                        try {
                            BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
@@ -71,7 +61,7 @@ public class Menu  {
                        } catch (IOException ex) {
                            System.err.println("ERROR reading scores from file");
                        }
-                        */
+
                        JLabel bestScore = new JLabel("Meilleur score : "+score);
                        JLabel team = new JLabel("Ⓡ Team Girls");
                        team.setFont(new Font("Serif", Font.ITALIC, 15));
@@ -113,6 +103,7 @@ public class Menu  {
             menuItems = new ArrayList<>(25);
             menuItems.add("Start Game");
             menuItems.add("Options");
+            menuItems.add("Help");
             menuItems.add("Exit");
             selectMenuItem = menuItems.get(0);
 
@@ -133,6 +124,14 @@ public class Menu  {
                             }
                             else if(text.equals("Exit")){
                                   System.exit(0);
+
+                            }
+                            else if(text.equals("Help")){
+                                JFrame help=new JFrame();
+                                help.add(new JLabel(new ImageIcon(getClass().getResource("/images/helpOption.png"))));
+                                help.pack();
+                                help.setLocationRelativeTo(null);
+                                help.setVisible(true);
 
                             }
                             else{

@@ -48,7 +48,7 @@ import static model.Menu.launcher;
  *
  */
 public class PacmanGame implements Game {
-	private Hero hero;
+	public static Hero hero;
 	private Labyrinthe lab;
 	private int speed = 5;
 	private int score;
@@ -110,7 +110,7 @@ public class PacmanGame implements Game {
 				if(hero.isNoWalls()){
 					hero.moveNoCollision(3,speed);
 					Attack.speed=speed;
-					Attack.step=3;
+
 
 				}
 				else {
@@ -123,7 +123,6 @@ public class PacmanGame implements Game {
 			case DOWN:
 				if(hero.isNoWalls()){
 					hero.moveNoCollision(4,speed);
-					Attack.step=4;
 					Attack.speed=speed;
 				}
 				else {
@@ -136,7 +135,6 @@ public class PacmanGame implements Game {
 			case LEFT:
 				if(hero.isNoWalls()){
 					hero.moveNoCollision(2,speed);
-					Attack.step=2;
 					Attack.speed=speed;
 				}
 				else {
@@ -150,7 +148,6 @@ public class PacmanGame implements Game {
 			case RIGHT:
 				if(hero.isNoWalls()){
 					hero.moveNoCollision(1,speed);
-					Attack.step=1;
 					Attack.speed=speed;
 				}else {
 
@@ -495,6 +492,7 @@ public class PacmanGame implements Game {
 			//Pause for 1 seconds
 			try {
 				sleep(1000);
+				frame.dispose();
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
@@ -513,6 +511,7 @@ public class PacmanGame implements Game {
 			//Pause for 1 seconds
 			try {
 				sleep(1000);
+				frame.dispose();
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
