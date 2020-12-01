@@ -294,9 +294,7 @@ public class PacmanGame implements Game {
 			if (lab.getFloor(hero).isMagicalStep()) {
 				MagicStep magicStep = (MagicStep) lab.getFloor(hero);
 				if (!magicStep.isActivate()) {
-					Power power = Power.SAIYAN;
-
-					//					Power power = Power.randomPower();
+					Power power = Power.randomPower();
 					switch (power) {
 						case TIME:
 							System.out.println("TEMPS GAGNE");
