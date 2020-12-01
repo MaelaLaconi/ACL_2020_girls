@@ -23,7 +23,7 @@ class PacmanGameTest {
     void setUp() throws IOException {
         InputStream inputStream = getClass().getResourceAsStream("/lab/lab.txt") ;
         BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
-        pacmanGame = new PacmanGame(reader) ;
+        pacmanGame = new PacmanGame() ;
         hero = pacmanGame.getHero() ;
     }
 

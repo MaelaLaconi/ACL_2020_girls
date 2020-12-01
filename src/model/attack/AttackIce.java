@@ -1,16 +1,16 @@
-package model.etat.monstres;
+package model.attack;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
-public class NormalMonster extends Monster {
+public class AttackIce extends Attack {
 
-    public NormalMonster(Point point, int width, int height) throws IOException{
+    public AttackIce(Point point, int width, int height) throws IOException {
         super(point, width, height);
         nbFrame=1;
-        bufferedImage[0] = ImageIO.read(getClass().getResourceAsStream("/images/monstre.png"));
+        bufferedImage[0] = ImageIO.read(getClass().getResourceAsStream("/images/attack.png"));
         speed = 3;
     }
 
@@ -20,8 +20,5 @@ public class NormalMonster extends Monster {
         crayon.drawImage(this.bufferedImage[indexIm], positions.x-(width/2), positions.y-(height/2),width,height,null);
     }
 
-    @Override
-    public boolean monstreNormal() {
-        return true;
-    }
+
 }

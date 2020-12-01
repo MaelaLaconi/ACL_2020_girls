@@ -1,26 +1,29 @@
 package model;
 
 
+import model.etat.lab.Difficulty;
 import model.etat.hero.Hero;
+import start.Main;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
+import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.geom.AffineTransform;
 import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
+import java.io.*;
+import java.util.*;
 import java.util.List;
-import java.util.Map;
 
 
 public class Menu  {
     public static boolean launcher=false;
     private JFrame frame;
+    private int score=0; ;
+    private  JLabel bestScore;
+    private TestPane testPane;
     public Menu(){
 
 
@@ -35,18 +38,29 @@ public class Menu  {
 
                        frame = new JFrame("Pac Women");
                        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-                       JLabel welcome = new JLabel("Welcome");
-                       welcome.setFont(new Font("Serif", Font.PLAIN, 44));
-                       welcome.setForeground(Color.white);
-                       TestPane testPane = new TestPane();
+                       testPane = new TestPane();
 
-                       testPane.add(welcome);
                        testPane.setBackground(new Color(247, 227, 177 ));
                        frame.add(testPane);
+                       bestScore = new JLabel("Meilleur score : "+getScore());
+                       JLabel team = new JLabel("Ⓡ Team Girls");
+                       team.setFont(new Font("Serif", Font.ITALIC, 15));
+                       bestScore.setFont(new Font("Serif", Font.PLAIN, 30));
+                       bestScore.setForeground(new Color(166, 0, 0));
+                       JPanel infos = new JPanel(new BorderLayout());
+                       Border blackline = BorderFactory.createLineBorder(Color.black);
+                       infos.setBorder(blackline);
+                       infos.setBackground(new Color(56, 123, 93));
+                       infos.add(bestScore, BorderLayout.WEST);
+                       infos.add(team, BorderLayout.EAST);
+                       testPane.setLayout(new BorderLayout());
+                       testPane.add(infos, BorderLayout.SOUTH);
+
 
                        frame.pack();
                        frame.setLocationRelativeTo(null);
                        frame.setVisible(true);
+                       frame.setResizable(false);
                    }
                });
        }
@@ -60,6 +74,7 @@ public class Menu  {
 
         private MenuItemPainter painter;
         private Map<String, Rectangle> menuBounds;
+        private JComboBox niveau;
 
         public TestPane()  {
 
@@ -68,6 +83,7 @@ public class Menu  {
             menuItems = new ArrayList<>(25);
             menuItems.add("Start Game");
             menuItems.add("Options");
+            menuItems.add("Help");
             menuItems.add("Exit");
             selectMenuItem = menuItems.get(0);
 
@@ -90,6 +106,14 @@ public class Menu  {
                                   System.exit(0);
 
                             }
+                            else if(text.equals("Help")){
+                                JFrame help=new JFrame();
+                                help.add(new JLabel(new ImageIcon(getClass().getResource("/images/helpOption.png"))));
+                                help.pack();
+                                help.setLocationRelativeTo(null);
+                                help.setVisible(true);
+
+                            }
                             else{
                                 JFrame option=new JFrame("Options");
                                 option.setSize(300, 300);
@@ -110,14 +134,28 @@ public class Menu  {
                                     }
                                 });
                                 JLabel difficulty = new JLabel("Choose difficulty : ");
-                                JTextField level = new JTextField(2);
+                                Object[] elements = new Object[]{"1", "2", "3", "4", "5"};
+                                niveau = new JComboBox(elements);
                                 JButton submit = new JButton("Ok");
                                 choices.add(character);
                                 choices.add(belle);
                                 choices.add(bulle);
-                              //  choices.setLayout(new BoxLayout(choices, BoxLayout.Y_AXIS));
                                 choices.add(difficulty);
-                                choices.add(level);
+                                submit.addActionListener(new ActionListener() {
+                                    public void actionPerformed(ActionEvent arg0) {
+                                        Difficulty.level= (String) niveau.getSelectedItem();
+                                        System.out.println(niveau.getSelectedItem());
+                                        option.dispose();
+
+                                    }
+                                });
+
+
+
+
+
+
+                                choices.add(niveau);
                                 choices.add(submit);
                                 option.add(choices);
                                 option.pack();
@@ -317,7 +355,46 @@ public class Menu  {
 
     }
 
+    public void setScore(int score) {
+        if (score > this.score){
+            this.bestScore = new JLabel("Meilleur score : "+score);
+            this.score = score;
+        }
 
+    }
+    public void update(){
+        frame.dispose();
+        frame = new JFrame("Pac Women");
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        testPane = new TestPane();
+
+        testPane.setBackground(new Color(247, 227, 177 ));
+        frame.add(testPane);
+        bestScore = new JLabel("Meilleur score : "+getScore());
+        JLabel team = new JLabel("Ⓡ Team Girls");
+        team.setFont(new Font("Serif", Font.ITALIC, 15));
+        bestScore.setFont(new Font("Serif", Font.PLAIN, 30));
+        bestScore.setForeground(new Color(166, 0, 0));
+        JPanel infos = new JPanel(new BorderLayout());
+        Border blackline = BorderFactory.createLineBorder(Color.black);
+        infos.setBorder(blackline);
+        infos.setBackground(new Color(56, 123, 93));
+        infos.add(bestScore, BorderLayout.WEST);
+        infos.add(team, BorderLayout.EAST);
+        testPane.setLayout(new BorderLayout());
+        testPane.add(infos, BorderLayout.SOUTH);
+
+
+        frame.pack();
+        frame.setLocationRelativeTo(null);
+        frame.setVisible(true);
+        frame.setResizable(false);
+
+    }
+
+    public int getScore() {
+        return score;
+    }
 
     public JFrame getFrame() {
         return frame;

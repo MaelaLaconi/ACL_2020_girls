@@ -1,10 +1,9 @@
 package test;
 
-import model.etat.Labyrinthe;
+import model.etat.lab.Labyrinthe;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
-import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 

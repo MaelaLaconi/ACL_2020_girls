@@ -1,22 +1,28 @@
-package model.etat;
+package model.etat.lab;
 
 
-import model.etat.diamonds.Diamond;
+import model.attack.Attack;
 import model.etat.diamonds.BlueDiamond;
+import model.etat.diamonds.Diamond;
 import model.etat.diamonds.RedDiamond;
+import model.etat.diamonds.YellowDiamond;
 import model.etat.elements.*;
+import model.etat.elements.potions.PotionHp;
+import model.etat.elements.potions.PotionSaiyan;
+import model.etat.elements.potions.PotionSlow;
+import model.etat.elements.potions.PotionWall;
 import model.etat.hero.Hero;
-import model.etat.monstres.GhostMonster;
 import model.etat.monstres.GuardianMonster;
 import model.etat.monstres.Monster;
-import model.etat.monstres.NormalMonster;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -29,31 +35,114 @@ public class Labyrinthe {
     private Collection<Monster> listMonsters;
     private Collection<Diamond> listDiamonds;
     private Collection<TeleportStep> listTeleportStep;
+    private Collection<Attack> listAttack;
     private Door stage;
     private int line, column;
     private int[][] blocksArray ;
-    private Hero h ;
     private int nbWall ;
     private Point guardianPos ;
     private GuardianMonster guardianMonster ;
+    private Difficulty difficulty;
 
     public static final int WIDTH = 50;
     public static final int HEIGHT = 50;
 
     public Labyrinthe() throws IOException {
-        listMonsters = new ArrayList<>();
-        listMonsters.add(new NormalMonster(new Point(100,100),35   ,35));
-        listMonsters.add(new GhostMonster(new Point(400,400),35   ,35));
-        listMonsters.add(new GhostMonster(new Point(300,500),35   ,35));
-        listMonsters.add(new GhostMonster(new Point(500,600),35   ,35));
+        difficulty=new Difficulty();
+        listMonsters = difficulty.getListMonsters();
         listDiamonds =new ArrayList<>();
-        //listDiamonds.add(new BlueDiamond(new Point(200,300),35   ,35));
-        //listDiamonds.add(new RedDiamond(new Point(450,150),30   ,30));
         listFloors = new ArrayList<>();
         listTeleportStep=new ArrayList<>();
+        listAttack=new ArrayList<>();
         line = 0;
         nbWall = 0 ;
     }
+
+    /**
+     * Generate Lab from file
+     * @param
+     * @throws IOException
+     */
+    public void generate() throws IOException {
+        BufferedReader helpReader;
+        InputStream inputStream = getClass().getResourceAsStream("/lab/lab.txt");
+        try {
+            helpReader = new BufferedReader(new InputStreamReader(inputStream));
+            String ligne;
+            while ((ligne = helpReader.readLine()) != null) {
+                column = 0;
+                for (char ch : ligne.toCharArray()) {
+                    switch (ch) {
+                        //Wall
+                        case 'w':
+                            listFloors.add(new Wall(new Point(column, line), WIDTH, HEIGHT));
+                            nbWall++;
+                            break;
+                        //Normal Step
+                        case 'n':
+                            listFloors.add(new NormalStep(new Point(column, line), WIDTH, HEIGHT));
+                            break;
+                        //Magic Step
+                        case 'm':
+                            listFloors.add(new MagicStep(new Point(column, line), WIDTH, HEIGHT));
+                            break;
+                        //Safe
+                        case 't':
+                            listFloors.add(new Safe(new Point(column, line), WIDTH, HEIGHT));
+                            guardianPos = new Point(column, line);
+                            guardianMonster = new GuardianMonster(guardianPos, 35, 35);
+                            listMonsters.add(guardianMonster);
+                            break;
+                        //Trap Step
+                        case 's': //skull trapStep
+                            listFloors.add(new TrapStep(new Point(column, line), WIDTH, HEIGHT));
+                            break;
+                        //Door
+                        case 'c':
+                            this.stage = new Door(new Point(column, line), WIDTH, HEIGHT);
+                            listFloors.add(stage);
+                            break;
+
+                        //drinking potions
+                        case 'd':
+                            listFloors.add(new PotionHp(new Point(column, line), WIDTH, HEIGHT));
+                            break;
+                        case 'e':
+                            listFloors.add(new PotionSlow(new Point(column, line), WIDTH, HEIGHT));
+                            break;
+                        case 'f':
+                            listFloors.add(new PotionWall(new Point(column, line), WIDTH, HEIGHT));
+                            break;
+                        case 'g':
+                            listFloors.add(new PotionSaiyan(new Point(column, line), WIDTH, HEIGHT));
+                            break;
+                        //Teleport Step
+                        case 'p':
+                            listFloors.add(new TeleportStep(new Point(column, line), WIDTH, HEIGHT));
+                            listTeleportStep.add(new TeleportStep(new Point(column, line), WIDTH, HEIGHT));
+                            break;
+                        case 'b':
+                            listDiamonds.add(new BlueDiamond(new Point(column, line), WIDTH, HEIGHT));
+                            break;
+                        case 'r':
+                            listDiamonds.add(new RedDiamond(new Point(column, line), WIDTH, HEIGHT));
+                            break;
+                        case 'y':
+                            listDiamonds.add(new YellowDiamond(new Point(column, line), WIDTH, HEIGHT));
+                            break;
+
+
+                    }
+                    column += WIDTH;
+                }
+                line += HEIGHT;
+            }
+            helpReader.close();
+        } catch (IOException e) {
+        }
+
+    }
+
 
     /**
      * Generate Lab from file
@@ -85,7 +174,7 @@ public class Labyrinthe {
                     listMonsters.add(guardianMonster);
                     break;
                 //Trap Step
-               case 's' : //skull trapStep
+                case 's' : //skull trapStep
                     listFloors.add(new TrapStep(new Point(column, line), WIDTH, HEIGHT));
                     break;
                 //Door
@@ -96,7 +185,16 @@ public class Labyrinthe {
 
                 //drinking potions
                 case 'd':
-                    listFloors.add(new Potions(new Point(column, line), WIDTH, HEIGHT));
+                    listFloors.add(new PotionHp(new Point(column, line), WIDTH, HEIGHT));
+                    break;
+                case 'e':
+                    listFloors.add(new PotionSlow(new Point(column, line), WIDTH, HEIGHT));
+                    break;
+                case 'f':
+                    listFloors.add(new PotionWall(new Point(column, line), WIDTH, HEIGHT));
+                    break;
+                case 'g':
+                    listFloors.add(new PotionSaiyan(new Point(column, line), WIDTH, HEIGHT));
                     break;
                 //Teleport Step
                 case 'p' :
@@ -109,6 +207,10 @@ public class Labyrinthe {
                 case 'r':
                     listDiamonds.add(new RedDiamond(new Point(column, line),WIDTH, HEIGHT));
                     break;
+                case 'y':
+                    listDiamonds.add(new YellowDiamond(new Point(column, line),WIDTH, HEIGHT));
+                    break;
+
 
             }
             column += WIDTH;
@@ -132,11 +234,16 @@ public class Labyrinthe {
             }
             if(monster.isMoving() && monster.monstreGuardianMonster()){
                 //monster.moveGuardianMonster();
-
-
             }
             monster.draw(im);
         }
+        for(Attack attack : listAttack){
+            if(!attack.isDestryo()) {
+                attack.move(this, WIDTH, HEIGHT);
+                attack.draw(im);
+            }
+        }
+
     }
 
     /**
@@ -155,7 +262,7 @@ public class Labyrinthe {
                 return floor ;
             }*/
             if(floor.getPosition().x <= x && floor.getPosition().x+WIDTH >= x
-            && floor.getPosition().y <= y && floor.getPosition().y+HEIGHT >= y){
+                    && floor.getPosition().y <= y && floor.getPosition().y+HEIGHT >= y){
                 return floor;
             }
         }
@@ -315,9 +422,7 @@ public class Labyrinthe {
         return blocksArray;
     }
 
-    public void setH(Hero h) {
-        this.h = h;
-    }
+
 
     public Point getGuardianPos() {
         return guardianPos;
@@ -339,4 +444,15 @@ public class Labyrinthe {
         return nbWall ;
     }
 
+    public void setListMonsters(Collection<Monster> listMonsters) {
+        this.listMonsters = listMonsters;
+    }
+
+    public Collection<Monster> getListMonsters() {
+        return listMonsters;
+    }
+
+    public Collection<Attack> getListAttack() {
+        return listAttack;
+    }
 }

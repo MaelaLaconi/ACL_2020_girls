@@ -71,6 +71,7 @@ Au lancement du jeu, on arrive sur la plage d'acceuil. Sur cette page, nous pouv
 quitter ou bien aller dans le menu option pour choisir le personnage que l'on veut incarner (soit Belle ou Bulle). Dans cette même fenêtre, on peut choisir le 
 niveau de difficulté que l'on veut pour la partie.
 
+
 <img src="https://github.com/MaelaLaconi/ACL_2020_girls/blob/main/resources/images/readMe/mainLaby.jpeg" width="500">
 
 
@@ -84,3 +85,26 @@ le trésor pour que la porte de sortie s'ouvre. Une fois la porte ouverte, il pe
 Chacun rapport des points qui s'ajoute au score du héro. Deux portails de téléportations sont dans le labyrinthe, lorsque le héro va dessus, il apparaît au niveau du deuxième portail.
 Mais attention ! Si le héro se déplace sur un trap step (box avec une tête de mort dessus), il gagne un malus. Il peut perdre soit une vie, soit du temps ou bien des points.
 
+## Construction d'un labyrinthe
+
+Les labythintes sont générés à partir d'un fichier .txt. Ce fichier est constitué de plusieurs lettres, chacune d'elle représentant un objet différent :
+
+w : mûr (wall)
+
+n : sol basique (normal stap)
+
+m : case bonus (magic step)
+
+t : trésor
+
+s : case malus (trap step)
+
+c : porte
+
+d : potion
+
+p : portail de téléportation
+
+b : diamant bleu
+
+r : diamant rouge

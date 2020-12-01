@@ -2,7 +2,7 @@ package model.astar;
 
 import model.PacmanGame;
 
-import model.etat.Labyrinthe;
+import model.etat.lab.Labyrinthe;
 
 import model.etat.elements.Floor;
 import model.etat.hero.Hero;
@@ -21,7 +21,7 @@ public class AStarTest {
         Labyrinthe laby ;
         InputStream inputStream = Main.class.getResourceAsStream("/lab/labTest.txt") ;
         BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
-        PacmanGame game= new PacmanGame(reader);
+        PacmanGame game= new PacmanGame();
         laby = game.getLab() ;
         int[][] blocksArray = laby.getBlocksArray();
 

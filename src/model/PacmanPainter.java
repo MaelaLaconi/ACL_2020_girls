@@ -55,4 +55,7 @@ public class PacmanPainter implements GamePainter {
 		return HEIGHT;
 	}
 
+	public PacmanGame getPacmanGame() {
+		return pacmanGame;
+	}
 }

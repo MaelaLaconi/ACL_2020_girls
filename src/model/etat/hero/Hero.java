@@ -1,22 +1,18 @@
 package model.etat.hero;
 
+import model.PacmanPainter;
+import model.etat.lab.Labyrinthe;
+
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.util.Iterator;
+import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
 
 public class Hero {
-
-    public static String getCharacter() {
-        return character;
-    }
-
-    public static void setCharacter(String character) {
-        Hero.character = character;
-    }
-
     public static String character="Belle";
     private Point position;
     public static int width;
@@ -30,11 +26,15 @@ public class Hero {
     public static int LEFT = 2 ;
     public static int UP = 3 ;
     public static int DOWN = 4 ;
+
     private boolean imunise;
+    private boolean noWalls ;
     private BufferedImage lifeBar;
     private Health health;
+    public static int direction;
 
     public Hero() throws IOException {
+        noWalls = false ;
         position = new Point(0,0);
         width = 30;
         height = 40;
@@ -64,24 +64,24 @@ public class Hero {
     public void init() throws IOException {
         switch (character) {
             case "Belle":
-            for (int i = 1; i <= 12; i++) {
-                if (i <= 4) {
-                    im[i - 1] = ImageIO.read(getClass().getResourceAsStream("/images/belle/bellesFly" + i + ".png"));
+                for (int i = 1; i <= 12; i++) {
+                    if (i <= 4) {
+                        im[i - 1] = ImageIO.read(getClass().getResourceAsStream("/images/belle/bellesFly" + i + ".png"));
+                    }
+                    if (i == 5) {
+                        im[i - 1] = ImageIO.read(getClass().getResourceAsStream("/images/belle/belleup.png"));
+                    } else if (i == 6) {
+                        im[i - 1] = ImageIO.read(getClass().getResourceAsStream("/images/belle/belledown.png"));
+                    } else if (i > 6 && i <= 10) {
+                        int j = i - 6;
+                        im[i - 1] = ImageIO.read(getClass().getResourceAsStream("/images/belle/bellesFlyG" + j + ".png"));
+                    } else if (i == 11) {
+                        im[i - 1] = ImageIO.read(getClass().getResourceAsStream("/images/belle/saiyanD.png"));
+                    } else if (i == 12) {
+                        im[i - 1] = ImageIO.read(getClass().getResourceAsStream("/images/belle/saiyanG.png"));
+                    }
                 }
-                if (i == 5) {
-                    im[i - 1] = ImageIO.read(getClass().getResourceAsStream("/images/belle/belleup.png"));
-                } else if (i == 6) {
-                    im[i - 1] = ImageIO.read(getClass().getResourceAsStream("/images/belle/belledown.png"));
-                } else if (i > 6 && i <= 10) {
-                    int j = i - 6;
-                    im[i - 1] = ImageIO.read(getClass().getResourceAsStream("/images/belle/bellesFlyG" + j + ".png"));
-                } else if (i == 11) {
-                    im[i - 1] = ImageIO.read(getClass().getResourceAsStream("/images/belle/saiyanD.png"));
-                } else if (i == 12) {
-                    im[i - 1] = ImageIO.read(getClass().getResourceAsStream("/images/belle/saiyanG.png"));
-                }
-            }
-           case "Bulle":
+            case "Bulle":
                 for (int i = 1; i <= 14; i++) {
                     if (i <= 5) {
                         imBulle[i - 1] = ImageIO.read(getClass().getResourceAsStream("/images/bulle/bulleD"+i+".png"));
@@ -116,7 +116,6 @@ public class Hero {
     public void draw(BufferedImage im){
         Graphics2D crayon = (Graphics2D) im.getGraphics();
         if(character.equals("Belle")){
-
             crayon.drawImage(this.im[indexPhoto], position.x - (width / 2), position.y - (height / 2), width, height, null);
         }
         else{
@@ -187,6 +186,8 @@ public class Hero {
     }
 
 
+
+
     /**
      * the hero loose a life
      */
@@ -206,8 +207,8 @@ public class Hero {
     public void isImunise(){
         TimerTask task = new TimerTask() {
             public void run() {
-               // System.out.println("Task performed on: " + new Date() + "n" +
-                 //       "Thread's name: " + Thread.currentThread().getName());
+                // System.out.println("Task performed on: " + new Date() + "n" +
+                //       "Thread's name: " + Thread.currentThread().getName());
                 setImunise(false);
             }
         };
@@ -222,6 +223,7 @@ public class Hero {
     }
 
     public void nextFrame(int direction){
+        this.direction=direction;
         switch (character) {
             case "Belle":
                 if (direction == RIGHT) {
@@ -259,6 +261,7 @@ public class Hero {
                         indexPhoto = 11;
                     }
                 }
+                break;
             case "Bulle":
                 if (direction == RIGHT) {
                     if (indexPhoto >= 4) {
@@ -295,11 +298,66 @@ public class Hero {
                         indexPhoto = 13;
                     }
                 }
+                break;
         }
     }
 
-    
+
     public Health getHealth() {
         return health;
+    }
+
+
+    public void moveNoCollision(int step, int speed){
+        if(step == RIGHT) {
+            if ( position.x== PacmanPainter.WIDTH) {
+                position.x = 0 ;
+            } else {
+                position.x += speed;
+            }
+        }
+
+        else if(step == LEFT) {
+            if(position.x==0) {
+                position.x=PacmanPainter.WIDTH;
+            } else {
+                position.x -= speed;
+            }
+        }
+
+        else if(step == UP) {
+            if (position.y <= 0) {
+                position.y = PacmanPainter.HEIGHT;
+            } else {
+                position.y -= speed;
+            }
+
+        }
+
+        else if(step == DOWN) {
+            if(position.y >= PacmanPainter.HEIGHT){
+                position.y =0;
+            }
+            else{
+                position.y += speed;
+            }
+        }
+        nextFrame(step);
+    }
+
+    public boolean isNoWalls() {
+        return noWalls;
+    }
+
+    public void setNoWalls(boolean noWalls) {
+        this.noWalls = noWalls;
+    }
+
+    public void setNbLife(int nbLife) {
+        this.nbLife = nbLife;
+    }
+
+    public void setHealth(Health health) {
+        this.health = health;
     }
 }

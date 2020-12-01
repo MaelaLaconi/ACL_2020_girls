@@ -2,12 +2,12 @@ package model.etat.monstres;
 
 import model.PacmanPainter;
 import model.astar.Node;
-import model.etat.Labyrinthe;
+import model.attack.Attack;
+import model.etat.lab.Labyrinthe;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -39,6 +39,8 @@ public abstract class Monster {
     private int counterGhost;
     private int count ;
     protected Point positionprec;
+    private boolean alive;
+    private Attack attack;
 
     public Monster(Point point, int width, int height){
         this.positions = point;
@@ -52,6 +54,7 @@ public abstract class Monster {
         count = 0 ;
         listedepoints=new ArrayList<>();
         listedepoints.add(point.x);
+        alive=true;
     }
 
 
@@ -109,7 +112,7 @@ public abstract class Monster {
         counterGhost++ ;
         if(step == DROITE) {
             if ( positions.x==PacmanPainter.WIDTH) {
-                 positions.x = 0 ;
+                positions.x = 0 ;
             } else {
                 positions.x += speed;
             }
@@ -119,7 +122,7 @@ public abstract class Monster {
             if(positions.x==0) {
                 positions.x=PacmanPainter.WIDTH;
             } else {
-                    positions.x -= speed;
+                positions.x -= speed;
             }
         }
 
@@ -134,7 +137,7 @@ public abstract class Monster {
 
         else if(step == BAS) {
             if(positions.y >= PacmanPainter.HEIGHT){
-                    positions.y =0;
+                positions.y =0;
             }
             else{
                 positions.y += speed;
@@ -207,7 +210,7 @@ public abstract class Monster {
 
     }
 
-        public void setIndexIm(int indexIm) {
+    public void setIndexIm(int indexIm) {
         this.indexIm = indexIm;
     }
 
@@ -248,7 +251,7 @@ public abstract class Monster {
     public void initFrame() throws IOException {
         for (int i=1;i<=8;i++){
             if (i<=4){
-            bufferedImage[i-1]= ImageIO.read(getClass().getResourceAsStream("/images/mechants/mojoD"+i+".png"));
+                bufferedImage[i-1]= ImageIO.read(getClass().getResourceAsStream("/images/mechants/mojoD"+i+".png"));
             }
             else {
                 bufferedImage[i-1]= ImageIO.read(getClass().getResourceAsStream("/images/mechants/mojoG"+(i-4)+".png"));
@@ -269,5 +272,22 @@ public abstract class Monster {
 
     public void setStep(int step) {
         this.step = step;
+    }
+
+    public boolean checkCollision(Attack attack){
+        this.attack=attack;
+        boolean bottom = this.positions.y + this.height/2  < this.attack.getPositions().y - this.attack.getHeight()/2  ;
+        boolean  top = this.positions.y - this.height/2  > this.attack.getPositions().y + this.attack.getHeight()/2;
+        boolean right = this.positions.x + this.width/2  < this.attack.getPositions().x - this.attack.getWidth()/2;
+        boolean left = this.positions.x - this.width/2 > this.attack.getPositions().x + this.attack.getWidth()/2;
+        return !top && !right && !left && !bottom;
+    }
+
+    public boolean isAlive() {
+        return alive;
+    }
+
+    public void setAlive(boolean alive) {
+        this.alive = alive;
     }
 }
