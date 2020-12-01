@@ -1,11 +1,13 @@
 package model.etat.hero;
 
 import model.PacmanPainter;
+import model.etat.lab.Labyrinthe;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.util.Iterator;
 import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -352,4 +354,5 @@ public class Hero {
     public void setNoWalls(boolean noWalls) {
         this.noWalls = noWalls;
     }
+
 }

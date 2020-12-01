@@ -5,6 +5,7 @@ import engine.Game;
 import model.astar.AStar;
 import model.astar.Node;
 
+import model.attack.Attack;
 import model.attack.AttackIce;
 import model.etat.lab.Difficulty;
 import model.etat.lab.Labyrinthe;
@@ -33,6 +34,7 @@ import java.util.Timer;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
+import java.util.regex.Pattern;
 
 import static java.lang.Thread.sleep;
 import static model.Menu.launcher;
@@ -106,6 +108,9 @@ public class PacmanGame implements Game {
 			case UP:
 				if(hero.isNoWalls()){
 					hero.moveNoCollision(3,speed);
+					Attack.speed=speed;
+					Attack.step=3;
+
 				}
 				else {
 					if (collision(0, -speed)) {
@@ -117,6 +122,8 @@ public class PacmanGame implements Game {
 			case DOWN:
 				if(hero.isNoWalls()){
 					hero.moveNoCollision(4,speed);
+					Attack.step=4;
+					Attack.speed=speed;
 				}
 				else {
 					if (collision(0, speed)) {
@@ -128,6 +135,8 @@ public class PacmanGame implements Game {
 			case LEFT:
 				if(hero.isNoWalls()){
 					hero.moveNoCollision(2,speed);
+					Attack.step=2;
+					Attack.speed=speed;
 				}
 				else {
 
@@ -140,6 +149,8 @@ public class PacmanGame implements Game {
 			case RIGHT:
 				if(hero.isNoWalls()){
 					hero.moveNoCollision(1,speed);
+					Attack.step=1;
+					Attack.speed=speed;
 				}else {
 
 					if (collision(speed, 0)) {
