@@ -8,6 +8,9 @@ import model.etat.diamonds.RedDiamond;
 import model.etat.diamonds.YellowDiamond;
 import model.etat.elements.*;
 import model.etat.elements.potions.PotionHp;
+import model.etat.elements.potions.PotionSaiyan;
+import model.etat.elements.potions.PotionSlow;
+import model.etat.elements.potions.PotionWall;
 import model.etat.hero.Hero;
 import model.etat.monstres.GuardianMonster;
 import model.etat.monstres.Monster;
@@ -33,7 +36,6 @@ public class Labyrinthe {
     private Door stage;
     private int line, column;
     private int[][] blocksArray ;
-    private Hero h ;
     private int nbWall ;
     private Point guardianPos ;
     private GuardianMonster guardianMonster ;
@@ -95,6 +97,15 @@ public class Labyrinthe {
                 //drinking potions
                 case 'd':
                     listFloors.add(new PotionHp(new Point(column, line), WIDTH, HEIGHT));
+                    break;
+                case 'e':
+                    listFloors.add(new PotionSlow(new Point(column, line), WIDTH, HEIGHT));
+                    break;
+                case 'f':
+                    listFloors.add(new PotionWall(new Point(column, line), WIDTH, HEIGHT));
+                    break;
+                case 'g':
+                    listFloors.add(new PotionSaiyan(new Point(column, line), WIDTH, HEIGHT));
                     break;
                 //Teleport Step
                 case 'p' :
@@ -322,9 +333,7 @@ public class Labyrinthe {
         return blocksArray;
     }
 
-    public void setH(Hero h) {
-        this.h = h;
-    }
+
 
     public Point getGuardianPos() {
         return guardianPos;

@@ -43,7 +43,7 @@ public class Menu  {
                        //testPane.add(welcome);
                        testPane.setBackground(new Color(247, 227, 177 ));
                        frame.add(testPane);
-                       score = 0 ;
+                       /*score = 0 ;
                        InputStream inputStream = Main.class.getResourceAsStream("/score.txt") ;
                        try {
                            BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
@@ -65,16 +65,16 @@ public class Menu  {
                            System.err.println("ERROR reading scores from file");
                        }
 
-                       JLabel bestScore = new JLabel("Meilleur score : "+score);
+                       JLabel bestScore = new JLabel("Meilleur score : "+score);*/
                        JLabel team = new JLabel("Ⓡ Team Girls");
                        team.setFont(new Font("Serif", Font.ITALIC, 15));
-                       bestScore.setFont(new Font("Serif", Font.PLAIN, 30));
-                       bestScore.setForeground(new Color(166, 0, 0));
+                      // bestScore.setFont(new Font("Serif", Font.PLAIN, 30));
+                       //bestScore.setForeground(new Color(166, 0, 0));
                        JPanel infos = new JPanel(new BorderLayout());
                        Border blackline = BorderFactory.createLineBorder(Color.black);
                        infos.setBorder(blackline);
                        infos.setBackground(new Color(56, 123, 93));
-                       infos.add(bestScore, BorderLayout.WEST);
+                      // infos.add(bestScore, BorderLayout.WEST);
                        infos.add(team, BorderLayout.EAST);
                        testPane.setLayout(new BorderLayout());
                        testPane.add(infos, BorderLayout.SOUTH);

@@ -92,7 +92,6 @@ public class PacmanGame implements Game {
 			}
 		};
 		timer.schedule(decount, 100, 1000);
-		lab.setH(hero);
 	}
 
 
