@@ -37,6 +37,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.regex.Pattern;
 
 import static java.lang.Thread.sleep;
+import static javax.imageio.ImageIO.read;
 import static model.Menu.launcher;
 
 /**
@@ -61,6 +62,7 @@ public class PacmanGame implements Game {
 	private Difficulty difficulty;
 	private boolean done=true;
 	private boolean test=false;
+	private int maxScore ;
 
 	/**
 	 * constructeur avec fichier source pour le help
@@ -177,10 +179,10 @@ public class PacmanGame implements Game {
 		infosBar.setColor(Color.black);
 		infosBar.drawString("Time: "+hero.getTime(), sizeOfPolice+ lab.WIDTH, (sizeOfPolice/2 + lab.HEIGHT)/2);
 		infosBar.drawString("Scores: "+score, lab.getWidth()-((sizeOfPolice+ lab.WIDTH)*2), (sizeOfPolice/2 + lab.HEIGHT)/2);
-		BufferedImage imageCoeur = ImageIO.read(getClass().getResourceAsStream("/images/coeur.png"));
+		BufferedImage imageCoeur = read(getClass().getResourceAsStream("/images/coeur.png"));
 
 		int dx1=450; int dx2=510;
-		BufferedImage imgRed=new BufferedImage(50,60,imageCoeur.getType());
+		//BufferedImage imgRed=new BufferedImage(50,60,imageCoeur.getType());
 		infosBar.setRenderingHint(RenderingHints.KEY_INTERPOLATION,RenderingHints.VALUE_INTERPOLATION_BILINEAR);
 		for(int i = 0; i< nbLife; i++){
 			infosBar.drawImage(imageCoeur,dx1,0,dx2,50,0,0,imageCoeur.getWidth(),imageCoeur.getHeight(),null);
@@ -292,7 +294,9 @@ public class PacmanGame implements Game {
 			if (lab.getFloor(hero).isMagicalStep()) {
 				MagicStep magicStep = (MagicStep) lab.getFloor(hero);
 				if (!magicStep.isActivate()) {
-					Power power = Power.randomPower();
+					Power power = Power.SAIYAN;
+
+					//					Power power = Power.randomPower();
 					switch (power) {
 						case TIME:
 							System.out.println("TEMPS GAGNE");
@@ -347,7 +351,7 @@ public class PacmanGame implements Game {
 			//if we are on the safe
 			if (lab.getFloor(hero).isSafe()) {
 				if (!this.lab.getStage().openDoor()) {
-					this.lab.getStage().setBufferedImage(ImageIO.read(getClass().getResourceAsStream("/images/dooropen.png")));
+					this.lab.getStage().setBufferedImage(read(getClass().getResourceAsStream("/images/dooropen.png")));
 					this.lab.getStage().setOpen(true);
 					Safe safe = (Safe) lab.getFloor(hero);
 					if (!safe.isCollected()) {
@@ -496,6 +500,7 @@ public class PacmanGame implements Game {
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
+
 			return true ;
 		}
 		if(hero.getTime() <= 0){
@@ -537,5 +542,10 @@ public class PacmanGame implements Game {
 
 	public Hero getHero() {
 		return hero;
+	}
+
+	@Override
+	public int getBestScore(){
+		return score ;
 	}
 }

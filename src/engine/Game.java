@@ -1,6 +1,7 @@
 package engine;
 
 
+import model.Menu;
 import model.etat.hero.Hero;
 
 /**
@@ -10,6 +11,7 @@ import model.etat.hero.Hero;
  *         height
  */
 public interface Game {
+	
 
 	/**
 	 * methode qui contient l'evolution du jeu en fonction de la commande
@@ -23,4 +25,6 @@ public interface Game {
 	 * @return true si et seulement si le jeu est fini
 	 */
 	public boolean isFinished();
+
+	public int getBestScore();
 }

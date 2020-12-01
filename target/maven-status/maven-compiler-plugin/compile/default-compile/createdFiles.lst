@@ -7,7 +7,6 @@ model/PacmanPainter.class
 model/Menu$TestPane$1$2.class
 model/etat/monstres/NormalMonster.class
 model/attack/AttackIce.class
-model/etat/Lab/Labyrinthe.class
 model/etat/elements/TeleportStep.class
 model/Menu$1.class
 model/etat/hero/Hero.class
@@ -28,7 +27,6 @@ model/etat/monstres/Monster.class
 test/PacmanGameTest.class
 model/Menu$TestPane$MenuAction.class
 model/etat/elements/Wall.class
-model/etat/elements/Potions.class
 model/attack/Attack.class
 model/etat/diamonds/BlueDiamond.class
 model/Menu$TestPane$1$3.class
@@ -44,8 +42,6 @@ start/Main.class
 model/PacmanGame$1.class
 model/etat/elements/TrapStep.class
 model/etat/monstres/GuardianMonster.class
-model/etat/Lab/Labyrinthe$1.class
-model/etat/Lab/Difficulty.class
 model/etat/diamonds/RedDiamond.class
 model/etat/elements/MagicStep.class
 model/Menu$TestPane$1$1.class

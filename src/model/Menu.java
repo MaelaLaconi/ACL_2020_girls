@@ -21,7 +21,14 @@ import java.util.List;
 public class Menu  {
     public static boolean launcher=false;
     private JFrame frame;
-    private int score ;
+    private int score =0 ;
+
+    public void setScore(int score) {
+        if (score > this.score){
+            this.score = score;
+        }
+    }
+
     public Menu(){
 
 
@@ -36,11 +43,11 @@ public class Menu  {
 
                        frame = new JFrame("Pac Women");
                        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-                       /*JLabel welcome = new JLabel("Welcome");
+                       JLabel welcome = new JLabel("Welcome");
                        welcome.setFont(new Font("Serif", Font.PLAIN, 44));
-                       welcome.setForeground(Color.white);*/
+                       welcome.setForeground(Color.white);
                        TestPane testPane = new TestPane();
-                       //testPane.add(welcome);
+                       testPane.add(welcome);
                        testPane.setBackground(new Color(247, 227, 177 ));
                        frame.add(testPane);
                        /*score = 0 ;
@@ -64,17 +71,17 @@ public class Menu  {
                        } catch (IOException ex) {
                            System.err.println("ERROR reading scores from file");
                        }
-
-                       JLabel bestScore = new JLabel("Meilleur score : "+score);*/
+                        */
+                       JLabel bestScore = new JLabel("Meilleur score : "+score);
                        JLabel team = new JLabel("Ⓡ Team Girls");
                        team.setFont(new Font("Serif", Font.ITALIC, 15));
-                      // bestScore.setFont(new Font("Serif", Font.PLAIN, 30));
-                       //bestScore.setForeground(new Color(166, 0, 0));
+                       bestScore.setFont(new Font("Serif", Font.PLAIN, 30));
+                       bestScore.setForeground(new Color(166, 0, 0));
                        JPanel infos = new JPanel(new BorderLayout());
                        Border blackline = BorderFactory.createLineBorder(Color.black);
                        infos.setBorder(blackline);
                        infos.setBackground(new Color(56, 123, 93));
-                      // infos.add(bestScore, BorderLayout.WEST);
+                       infos.add(bestScore, BorderLayout.WEST);
                        infos.add(team, BorderLayout.EAST);
                        testPane.setLayout(new BorderLayout());
                        testPane.add(infos, BorderLayout.SOUTH);

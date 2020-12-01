@@ -38,6 +38,8 @@ public class GameEngineGraphical {
 	private GraphicalInterface gui;
 	//public static Clip clip;
 
+	private int bestScore ;
+
 
 	/**
 	 * launcher
@@ -59,6 +61,7 @@ public class GameEngineGraphical {
 		this.game = game;
 		this.gamePainter = gamePainter;
 		this.gameController = gameController;
+		bestScore = 0 ;
 
 	}
 
@@ -101,6 +104,8 @@ public class GameEngineGraphical {
 					}
 
 				}
+		bestScore = game.getBestScore();
+		menu.setScore(bestScore);
 		System.exit(0);
 
 
