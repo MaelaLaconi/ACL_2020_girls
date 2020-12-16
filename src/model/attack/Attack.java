@@ -27,6 +27,12 @@ public abstract class Attack {
     private boolean destryo;
     private int step=1;
 
+    /**
+     * constructor
+     * @param point
+     * @param width
+     * @param height
+     */
     public Attack(Point point, int width, int height){
         this.positions = point;
         this.width = width;

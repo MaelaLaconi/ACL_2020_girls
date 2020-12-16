@@ -47,6 +47,10 @@ public class Labyrinthe {
     public static final int WIDTH = 50;
     public static final int HEIGHT = 50;
 
+    /**
+     * constructor
+     * @throws IOException
+     */
     public Labyrinthe() throws IOException {
         difficulty=new Difficulty();
         listMonsters = difficulty.getListMonsters();

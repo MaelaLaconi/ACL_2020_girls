@@ -10,6 +10,13 @@ public class TeleportStep extends Floor {
     private int x;
     private  int y ;
 
+    /**
+     * Constructor
+     * @param p point
+     * @param w largeur
+     * @param h hauteur
+     * @throws IOException
+     */
     public TeleportStep(Point p, int w, int h) throws IOException {
         super(p, w, h);
         x= (int) p.getX();

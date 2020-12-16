@@ -12,17 +12,31 @@ public class Node {
     private boolean isBlock;
     private Node parent;
 
+    /**
+     * Constructeur
+     * @param row ligne
+     * @param col colonne
+     */
     public Node(int row, int col) {
         super();
         this.row = row;
         this.col = col;
     }
 
+    /**
+     * calcule l'heuristique
+     * @param finalNode
+     */
     public void calculateHeuristic(Node finalNode) {
        // this.h = Math.abs(finalNode.getRow() - getRow()) + Math.abs(finalNode.getCol() - getCol());
         this.h = Math.abs(finalNode.getRow() - getRow() +finalNode.getCol() - getCol());
     }
 
+    /**
+     *
+     * @param currentNode
+     * @param cost
+     */
     public void setNodeData(Node currentNode, int cost) {
         int gCost = currentNode.getG() + cost;
         setParent(currentNode);
@@ -30,6 +44,12 @@ public class Node {
         calculateFinalCost();
     }
 
+    /**
+     * verifie si c'est le meilleur chemin
+     * @param currentNode
+     * @param cost
+     * @return
+     */
     public boolean checkBetterPath(Node currentNode, int cost) {
         int gCost = currentNode.getG() + cost;
         if (gCost < getG()) {
@@ -39,6 +59,9 @@ public class Node {
         return false;
     }
 
+    /**
+     * calcule le cost final
+     */
     private void calculateFinalCost() {
         int finalCost = getG() + getH();
         setF(finalCost);

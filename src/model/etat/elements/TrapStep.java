@@ -11,9 +11,9 @@ public class TrapStep extends Floor {
     /**
      * Constructeur Floor
      *
-     * @param p
-     * @param w
-     * @param h
+     * @param p point
+     * @param w largeur
+     * @param h hauteur
      */
     public TrapStep(Point p, int w, int h) {
         super(p, w, h);

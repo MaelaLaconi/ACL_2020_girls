@@ -10,6 +10,13 @@ import java.io.IOException;
 public class Safe extends Floor {
     private boolean isCollected;
 
+    /**
+     * Constructor
+     * @param p point
+     * @param w largeur
+     * @param h hauteur
+     * @throws IOException
+     */
     public Safe(Point p, int w, int h) throws IOException {
         super(p, w, h);
         bufferedImage = ImageIO.read(getClass().getResourceAsStream("/images/tresor.png"));

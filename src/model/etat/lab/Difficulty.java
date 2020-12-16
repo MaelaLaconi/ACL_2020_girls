@@ -12,6 +12,10 @@ import java.util.Collection;
 public class Difficulty {
     public static String level="1";
     private Collection<Monster> listMonsters;
+
+    /**
+     * Constructor
+     */
     public Difficulty(){
         listMonsters=new ArrayList<>();
     }
