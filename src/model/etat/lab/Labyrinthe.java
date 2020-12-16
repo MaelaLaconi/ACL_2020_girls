@@ -47,6 +47,10 @@ public class Labyrinthe {
     public static final int WIDTH = 50;
     public static final int HEIGHT = 50;
 
+    /**
+     * constructor
+     * @throws IOException
+     */
     public Labyrinthe() throws IOException {
         difficulty=new Difficulty();
         listMonsters = difficulty.getListMonsters();
@@ -330,10 +334,10 @@ public class Labyrinthe {
     public Monster getMonster(int x, int y) {
         int x1, y1 ;
         for (Monster monster : listMonsters) {
-            x1 = monster.getPosition().x ;
-            y1 = monster.getPosition().y ;
+            x1 = monster.getPosition().x - (monster.getWidth()/2) ;
+            y1 = monster.getPosition().y - (monster.getHeight()/2);
             Rectangle m = new Rectangle(x1,y1, monster.getWidth(), monster.getHeight()) ;
-            Rectangle h = new Rectangle(x,y,Hero.width,Hero.height) ;
+            Rectangle h = new Rectangle(x - (Hero.width/2),y - (Hero.height/2),Hero.width,Hero.height) ;
             if (m.intersects(h)){
                 return monster;
             }

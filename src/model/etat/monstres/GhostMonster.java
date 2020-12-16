@@ -8,6 +8,13 @@ import java.io.IOException;
 import java.util.Random;
 
 public class GhostMonster extends Monster {
+    /**
+     * Constructor
+     * @param point
+     * @param width
+     * @param height
+     * @throws IOException
+     */
     public GhostMonster(Point point, int width, int height) throws IOException {
         super(point, width, height);
         nbFrame=1;

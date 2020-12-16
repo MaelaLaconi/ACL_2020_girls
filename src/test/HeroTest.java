@@ -45,16 +45,25 @@ class HeroTest {
     }
 
     @Test
-    void move() {
-        assert (h.getPosition().equals(new Point(0,0)));
+    void movePositionInit() {
+        assert (h.getPosition().equals(new Point(0, 0)));
+    }
 
-        h.move(0,1);
-        assert (h.getPosition().equals(new Point(0,1)));
+    @Test
+    void moveUp() {
+        h.move(0, 1);
+        assert (h.getPosition().equals(new Point(0, 1)));
+    }
 
-        h.move(3,2);
-        assert (h.getPosition().equals(new Point(3,3)));
+    @Test
+    void moveRightAndUp() {
+        h.move(3, 2);
+        assert (h.getPosition().equals(new Point(3, 2)));
+    }
 
+    @Test
+    void moveLeftAndDown() {
         h.move(-1,-1);
-        assert (h.getPosition().equals(new Point(2,2)));
+        assert (h.getPosition().equals(new Point(-1,-1)));
     }
 }

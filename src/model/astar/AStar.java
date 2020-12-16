@@ -13,6 +13,15 @@ public class AStar {
     private Node initialNode;
     private Node finalNode;
 
+    /**
+     * Constructor
+     * @param rows
+     * @param cols
+     * @param initialNode
+     * @param finalNode
+     * @param hvCost
+     * @param diagonalCost
+     */
     public AStar(int rows, int cols, Node initialNode, Node finalNode, int hvCost, int diagonalCost) {
         this.hvCost = hvCost;
         this.diagonalCost = diagonalCost;
@@ -29,10 +38,20 @@ public class AStar {
         this.closedSet = new HashSet<>();
     }
 
+    /**
+     * Constructor
+     * @param rows
+     * @param cols
+     * @param initialNode
+     * @param finalNode
+     */
     public AStar(int rows, int cols, Node initialNode, Node finalNode) {
         this(rows, cols, initialNode, finalNode, DEFAULT_HV_COST, DEFAULT_DIAGONAL_COST);
     }
 
+    /**
+     * fixe les nodes
+     */
     private void setNodes() {
         for (int i = 0; i < searchArea.length; i++) {
             for (int j = 0; j < searchArea[0].length; j++) {
@@ -51,6 +70,10 @@ public class AStar {
         }
     }
 
+    /**
+     * cherche le chemin
+     * @return la liste des nodes du chemin
+     */
     public List<Node> findPath() {
         openList.add(initialNode);
         while (!isEmpty(openList)) {
@@ -65,6 +88,11 @@ public class AStar {
         return new ArrayList<Node>();
     }
 
+    /**
+     *
+     * @param currentNode
+     * @return le chemin a partir de currentNode
+     */
     private List<Node> getPath(Node currentNode) {
         List<Node> path = new ArrayList<Node>();
         path.add(currentNode);
@@ -76,12 +104,20 @@ public class AStar {
         return path;
     }
 
+    /**
+     *
+     * @param currentNode
+     */
     private void addAdjacentNodes(Node currentNode) {
         addAdjacentUpperRow(currentNode);
         addAdjacentMiddleRow(currentNode);
         addAdjacentLowerRow(currentNode);
     }
 
+    /**
+     *
+     * @param currentNode
+     */
     private void addAdjacentLowerRow(Node currentNode) {
         int row = currentNode.getRow();
         int col = currentNode.getCol();
@@ -97,6 +133,10 @@ public class AStar {
         }
     }
 
+    /**
+     *
+     * @param currentNode
+     */
     private void addAdjacentMiddleRow(Node currentNode) {
         int row = currentNode.getRow();
         int col = currentNode.getCol();
@@ -109,6 +149,10 @@ public class AStar {
         }
     }
 
+    /**
+     *
+     * @param currentNode
+     */
     private void addAdjacentUpperRow(Node currentNode) {
         int row = currentNode.getRow();
         int col = currentNode.getCol();
@@ -124,6 +168,13 @@ public class AStar {
         }
     }
 
+    /**
+     *
+     * @param currentNode
+     * @param col
+     * @param row
+     * @param cost
+     */
     private void checkNode(Node currentNode, int col, int row, int cost) {
         Node adjacentNode = getSearchArea()[row][col];
         if (!adjacentNode.isBlock() && !getClosedSet().contains(adjacentNode)) {

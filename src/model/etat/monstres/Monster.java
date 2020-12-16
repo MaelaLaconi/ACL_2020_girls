@@ -274,6 +274,11 @@ public abstract class Monster {
         this.step = step;
     }
 
+    /**
+     *
+     * @param attack
+     * @return true si il y a collision
+     */
     public boolean checkCollision(Attack attack){
         this.attack=attack;
         boolean bottom = this.positions.y + this.height/2  < this.attack.getPositions().y - this.attack.getHeight()/2  ;

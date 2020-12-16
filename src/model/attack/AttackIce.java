@@ -6,7 +6,13 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 
 public class AttackIce extends Attack {
-
+    /**
+     * constructor
+     * @param point
+     * @param width
+     * @param height
+     * @throws IOException
+     */
     public AttackIce(Point point, int width, int height) throws IOException {
         super(point, width, height);
         nbFrame=1;

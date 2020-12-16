@@ -6,7 +6,13 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 
 public class NormalMonster extends Monster {
-
+    /**
+     * Constructor
+     * @param point
+     * @param width
+     * @param height
+     * @throws IOException
+     */
     public NormalMonster(Point point, int width, int height) throws IOException{
         super(point, width, height);
         nbFrame=1;

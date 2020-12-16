@@ -8,6 +8,14 @@ import java.io.IOException;
 
 public class GuardianMonster  extends Monster {
     private int indexImG=0,indexIm=0;
+
+    /**
+     * Constructor
+     * @param point
+     * @param width
+     * @param height
+     * @throws IOException
+     */
     public GuardianMonster(Point point, int width, int height) throws IOException {
         super(point, width, height);
         speed = 4;

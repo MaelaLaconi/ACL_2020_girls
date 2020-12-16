@@ -1,14 +1,10 @@
 package model.etat.hero;
 
 import model.PacmanPainter;
-import model.etat.lab.Labyrinthe;
-
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
-import java.util.Iterator;
-import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -60,7 +56,10 @@ public class Hero {
         init();
     }
 
-
+    /**
+     * initialse le tableau des frames
+     * @throws IOException
+     */
     public void init() throws IOException {
         switch (character) {
             case "Belle":
@@ -132,6 +131,11 @@ public class Hero {
         );
     }
 
+    /**
+     * fait avancer le hero a la position (x,y)
+     * @param x
+     * @param y
+     */
     public void move(int x, int y){
         position.x += x;
         position.y += y;
@@ -161,10 +165,16 @@ public class Hero {
         this.time = time;
     }
 
+    /**
+     * ajoute 30s au temps existant
+     */
     public void addTime(){
         time += 30 ;
     }
 
+    /**
+     * soustrait 30s du temps existant
+     */
     public void subTime(){
         time -= 30 ;
     }
@@ -204,6 +214,9 @@ public class Hero {
         }
     }
 
+    /**
+     * le hero est imunisé pour une période 1000;
+     */
     public void isImunise(){
         TimerTask task = new TimerTask() {
             public void run() {
@@ -222,6 +235,10 @@ public class Hero {
         return imunise;
     }
 
+    /**
+     * change la frame de l'image du hero
+     * @param direction permet de savoir quelle direction pour avoir la bonne frame
+     */
     public void nextFrame(int direction){
         this.direction=direction;
         switch (character) {
@@ -307,7 +324,11 @@ public class Hero {
         return health;
     }
 
-
+    /**
+     * traverser les murs
+     * @param step
+     * @param speed
+     */
     public void moveNoCollision(int step, int speed){
         if(step == RIGHT) {
             if ( position.x== PacmanPainter.WIDTH) {

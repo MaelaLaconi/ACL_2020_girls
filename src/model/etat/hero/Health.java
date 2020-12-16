@@ -5,6 +5,11 @@ public class Health {
     private int health;
     private Hero hero;
 
+    /**
+     * constructor
+     * @param health
+     * @param hero
+     */
     public Health(int health,Hero hero){
         this.health=health;
         this.hp=health;
@@ -18,6 +23,10 @@ public class Health {
         }
     }
 
+    /**
+     * soustrait damage de hp
+     * @param damage
+     */
     public void damage (int damage){
         if(hp - damage >= 0) {
             hp -= damage;
