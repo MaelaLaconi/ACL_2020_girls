@@ -144,7 +144,6 @@ public class Menu  {
                                 submit.addActionListener(new ActionListener() {
                                     public void actionPerformed(ActionEvent arg0) {
                                         Difficulty.level= (String) niveau.getSelectedItem();
-                                        System.out.println(niveau.getSelectedItem());
                                         option.dispose();
 
                                     }

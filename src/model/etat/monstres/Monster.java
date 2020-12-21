@@ -288,6 +288,10 @@ public abstract class Monster {
         return !top && !right && !left && !bottom;
     }
 
+    public Point getPositions() {
+        return positions;
+    }
+
     public boolean isAlive() {
         return alive;
     }
