@@ -26,8 +26,6 @@ public class Difficulty {
 
         for(int i = 0 ; i < nbMonstre ; i++) {
             listMonsters.add(new NormalMonster(new Point(100+(i*10), 100+(i*10)), 35, 35));
-            listMonsters.add(new GhostMonster(new Point(400+(i*10), 400+(i*10)), 35, 35));
-            listMonsters.add(new GhostMonster(new Point(500+(i*10), 500+(i*10)), 35, 35));
             listMonsters.add(new GhostMonster(new Point(500+(i*10), 600+(i*10)), 35, 35));
             if(nbMonstre>1) {
                 listMonsters.add(new GuardianMonster(new Point(200 + (i * 90), 260 + (i * 90)), 35, 35));

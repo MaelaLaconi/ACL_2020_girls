@@ -19,7 +19,6 @@ import model.etat.hero.Hero;
 import model.etat.hero.Power;
 import model.etat.lab.Difficulty;
 import model.etat.lab.Labyrinthe;
-import model.etat.lab.Pause;
 import model.etat.monstres.Monster;
 
 import javax.sound.sampled.LineUnavailableException;
@@ -53,7 +52,7 @@ import static model.Menu.launcher;
  *
  */
 public class PacmanGame implements Game {
-	private boolean running = true;
+	private boolean running;
 	private Hero hero;
 	private Labyrinthe lab;
 	private int speed = 5;
@@ -159,7 +158,9 @@ public class PacmanGame implements Game {
 				test = true;
 				break;
 
+
 			case PAUSE:
+				running=true;
 				int interval=1000;
 				if(running) {
 					JFrame frame = new JFrame();
@@ -203,7 +204,7 @@ public class PacmanGame implements Game {
 						}
 					}
 				}
-			else{
+					else{
 						break;
 					}
 
@@ -318,10 +319,10 @@ public class PacmanGame implements Game {
 				hero.setTime(hero.getTime() + 20);// on lui rajoute 20sec à chaque nouvel map
 				hero.setNoWalls(false);  //on ne peut plus passer a travers les murs
 				speed = 5 ; //on reinitialise la vitesse du hero
-
 				BufferedReader helpReader;
 				InputStream inputStream = getClass().getResourceAsStream("/lab/lab" + numeroLab + ".txt");
 				this.lab = new Labyrinthe();
+				this.lab.getDifficulty().level= String.valueOf((Integer.parseInt(this.lab.getDifficulty().level)+1));
 				try {
 					helpReader = new BufferedReader(new InputStreamReader(inputStream));
 					String ligne;
@@ -331,6 +332,7 @@ public class PacmanGame implements Game {
 					helpReader.close();
 				} catch (IOException e) {
 				}
+
 			}
 
 			//if we are on a magical step

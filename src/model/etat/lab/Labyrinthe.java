@@ -459,4 +459,8 @@ public class Labyrinthe {
     public Collection<Attack> getListAttack() {
         return listAttack;
     }
+
+    public Difficulty getDifficulty() {
+        return difficulty;
+    }
 }

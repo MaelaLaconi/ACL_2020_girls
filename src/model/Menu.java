@@ -134,7 +134,7 @@ public class Menu  {
                                     }
                                 });
                                 JLabel difficulty = new JLabel("Choose difficulty : ");
-                                Object[] elements = new Object[]{"1", "2", "3", "4", "5"};
+                                Object[] elements = new Object[]{"1", "2", "3", "4", "5","6","7","8"};
                                 niveau = new JComboBox(elements);
                                 JButton submit = new JButton("Ok");
                                 choices.add(character);
